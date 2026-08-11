@@ -1,0 +1,131 @@
+---
+name: basilisp-blender
+description: >-
+  Basilisp inside Blender via basilisp-blender: nREPL from Blender's main loop,
+  bpy interop patterns, project directory setup, scene-safe REPL workflows. Use
+  when working with Blender, bpy, basilisp-blender, .lpy scripts that touch the
+  scene, or an nREPL server running inside Blender.
+---
+
+# basilisp-blender
+
+[basilisp-blender](https://github.com/ikappaki/basilisp-blender) runs Basilisp in Blender and serves nREPL so your editor (Calva/CIDER) can drive `bpy` live.
+
+Requires the **`basilisp`** skill for dialect/interop fundamentals.
+
+## When to use
+
+- Blender scene automation or modeling from Basilisp
+- nREPL connected to Blender (Output properties → nREPL panel)
+- Reading/writing `.lpy` that `(:import bpy …)`
+
+## Critical runtime constraint
+
+Blender’s scripting API is **not thread-safe**. The nREPL server listens on a background thread, but client evaluations are **queued and drained on a `bpy` timer** on the main loop.
+
+```
+λ blender_nrepl.
+  evals ≡ main_loop_timer_queue
+  | ¬assume(immediate_parallel_bpy)
+  | interval_sec controls drain cadence (default ~0.2s)
+```
+
+Slow evals block the UI; tiny iterative REPL steps feel better than giant scripts.
+
+## Project directory
+
+When the nREPL server starts with a **Basilisp Project Directory** set, that directory becomes cwd, is added to `sys.path`, and (if missing) gets:
+
+- `basilisp.edn` — editor project marker
+- `scratch.lpy` — playground
+- `.nrepl-port` — port file for Calva/CIDER (overwritten each start)
+
+Connect: Calva → *Connect to a Running REPL Server* → **basilisp**.
+
+## Yardcraft session bootstrap
+
+Yardcraft connect (this repo):
+
+- Calva connect sequence: **`basilisp-blender`** (not generic basilisp alone); session key `basilisp-blender`
+- After connect: ensure `user.lpy` / `(user/init!)` ran (Calva `basilisp-blender` sequence does this) so `src/` is on `sys.path` before requiring `yardcraft.*`
+- Sources are `.cljc` under `src/yardcraft/`; snake_case files → kebab-case namespaces
+- Host-side asset work: Babashka session `bb`; Blender/`bpy` stays on `basilisp-blender`
+
+Light-table / sketch overlay: load **`yardcraft-light-table`**.
+
+## Agent workflow
+
+```
+λ blender_agent.
+  query_scene → small_fn → eval → ask_human(Blender_viewport) → promote_files_when_happy
+  | clear/delete/overwrite → human_confirm
+  | prefer(named_fns ∧ comment_blocks ∧ session_Vars) > edit_source_first
+  | REPL_return ≠ viewport_looks_good
+```
+
+1. **Orient:** `(import bpy)` then list relevant objects/collections/materials.
+2. **Make it happen in the REPL:** small helpers / `(comment …)` / existing `ensure-*!` paths so the change is visible in Blender — prefer that over editing source first.
+3. **Ask for feedback:** stop and ask the human to check the Blender viewport. Do not assume the viewport looks good from REPL return values alone.
+4. **Promote to files only when the human is happy** — durable facts/builders/specs into source; until then keep the experiment in the REPL / session.
+5. **Units & coordinates:** Blender units; don’t invent real-world patio measurements — ask.
+
+## bpy interop cheatsheet
+
+Prefer **property access** (`(.-object (.-ops bpy))`) in this workspace — lint-clean under clj-kondo. Slash forms like `bpy.ops/object` and `bpy.context/object` work at runtime in Basilisp (Python attribute path) but clj-kondo flags them as unresolved namespaces; that is a tooling mismatch, not a Basilisp bug. `bpy.context` is a Context object, not an importable module (`(import bpy.context)` fails).
+
+```clojure
+(ns scratch
+  (:import bpy math))
+
+;; operators take keyword args after ** (Basilisp compiler syntax; excluded in .clj-kondo/config.edn)
+(.select-all (.-object (.-ops bpy)) ** :action "DESELECT")
+(.primitive-cube-add (.-mesh (.-ops bpy)) **
+                     :size 2
+                     :location [0 0 1])
+
+;; data & context
+(.-object (.-context bpy))
+(.-objects (.-data bpy))
+(.-location (.-object (.-context bpy)))
+(set! (.-use-nodes mat) true)
+```
+
+`bpy.ops` often needs correct mode/context; if an ops call fails, inspect mode and active object before retrying.
+
+## Safety defaults for this workspace
+
+- No mass `delete` / “clear all meshes” unless the human asks
+- No overwriting `.blend` files unless asked
+- Exploratory geometry: name objects clearly (`patio-…`, `parking-…`) so variants stay distinguishable
+
+## Verified quirks
+
+Same env as **basilisp** skill: Blender ≥ 5.2.0 LTS, Calva `basilisp-blender`, Python 3.13. File-def reset on `:reload` is the dialect reason session registries need a process-global home.
+
+- **`bpy` module attrs survive Basilisp ns `:reload`:** `(setattr bpy "_yardcraft_…" v)` / `getattr` / `hasattr`. Yardcraft uses `_yardcraft_session_suggestions` and `_yardcraft_active_suggestion` in `site_suggestions.cljc`. Put reload-durable session registries here — not in file-level `def` atoms alone.
+- **`scene.yardcraft` PropertyGroup Python identity changes** across `(ui/register!)` / unregister cycles — **re-fetch** after UI rebuild; do not stash the props object.
+- **EnumProperty items bake at PropertyGroup build time.** After changing the suggestion registry that feeds enums, call `(ui/register!)`. Keyword ids → underscore enum ids (`:quirk-enum-probe` → `"quirk_enum_probe"`).
+
+### Yardcraft UI notes (code-backed)
+
+- Show ops: on failure `.report` ERROR + `#py #{"CANCELLED"}` (silent `FINISHED` hides errors) — see `yardcraft.site-ui` show suggestion op.
+- Draw sync must not force Base when active id is nil (wipes staged enum selection) — `sync-suggestion-enum-from-active!`.
+- Prefer promoting helpers to files + `:reload` over large REPL-only `in-ns` / `defn-` private helpers when the session gets flaky.
+
+Depth + explicit non-claims (`:reload-all` RecursionError not invariant): [references/verified-quirks.md](references/verified-quirks.md).
+
+## Progressive disclosure
+
+| Reference | Load when |
+|---|---|
+| [references/nrepl-and-setup.md](references/nrepl-and-setup.md) | Install, panel, manual `server_start`, logging |
+| [references/upgrade-basilisp.md](references/upgrade-basilisp.md) | Basilisp below 0.5 / Calva load-file alias bugs (#1302) / after fresh extension install |
+| [references/bpy-patterns.md](references/bpy-patterns.md) | Materials, ops, scene query recipes, torus example notes |
+| [references/api.md](references/api.md) | `nrepl-server-start`, `class-make*` |
+| [references/verified-quirks.md](references/verified-quirks.md) | bpy session attrs, scene.yardcraft identity, EnumProperty bake |
+
+## Upstream
+
+- Repo: https://github.com/ikappaki/basilisp-blender
+- API: https://github.com/ikappaki/basilisp-blender/blob/main/API.md
+- Blender Python API: https://docs.blender.org/api/current/
