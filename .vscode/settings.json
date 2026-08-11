@@ -1,0 +1,19 @@
+{
+  "calva.replConnectSequences": [
+    {
+      "name": "basilisp-blender",
+      "projectType": "basilisp",
+      "replSessionFilePatterns": {
+        "primary": [
+          "*.lpy",
+          "*.cljc",
+          "*.edn"
+        ]
+      },
+      "replSessionNames": {
+        "primary": "basilisp-blender"
+      },
+      "afterPrimaryReplConnectedCode": "(load-file  \"user.lpy\") (user/init!)"
+    }
+  ]
+}

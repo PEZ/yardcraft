@@ -1,0 +1,11 @@
+(ns user
+  (:import bpy sys))
+
+(defn init! []
+  (let [src "src"]
+    (when-not (some #{src} (.-path sys))
+      (.insert (.-path sys) 0 src))))
+
+(comment
+  (init!)
+  :rcf)

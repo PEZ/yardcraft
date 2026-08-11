@@ -1,0 +1,14 @@
+.nrepl-port
+**/mcp-server/port
+__pycache__/
+.cache/
+_tmp*
+blends/
+out/
+.DS_Store
+.venv*
+*.blend1
+assets/**/*.glb
+assets/**/*.gltf
+assets/**/*.bin
+assets/**/textures/
