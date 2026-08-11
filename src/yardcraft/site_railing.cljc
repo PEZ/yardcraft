@@ -15,9 +15,10 @@
    :inset (:railing/inset-m s 0.04)})
 
 (defn railing-z-deck
-  "Top of terrace slab (post bases)."
+  "Top of terrace slab (post bases). Uses 0 when floor/slab keys are nil."
   [s]
-  (+ (:house/floor-z s) (:terrace/slab-thickness-m s)))
+  (+ (or (:house/floor-z s) 0.0)
+     (or (:terrace/slab-thickness-m s) 0.0)))
 
 (defn- add-post!
   [n {:keys [x y z0 height size]}]
