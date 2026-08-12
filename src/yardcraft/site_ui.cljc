@@ -262,7 +262,9 @@
                 ^{:default "Lot north"} bl_label
                 ^{:default "Top orthographic view framing the lot with ~6% margin (world north up)."} bl_description]
                (execute [_context]
-                        (viewport/frame-lot-top! site)
+                        (if (demo/demo-active?)
+                          (demo/frame-demo!)
+                          (viewport/frame-lot-top! site))
                         finished)))
 
 (defn- make-frame-lot-house-op
@@ -273,7 +275,9 @@
                 ^{:default "House north"} bl_label
                 ^{:default "Top ortho framing the lot; house west left / road up (site-root axes)."} bl_description]
                (execute [_context]
-                        (viewport/frame-lot-top-house! site)
+                        (if (demo/demo-active?)
+                          (demo/frame-demo!)
+                          (viewport/frame-lot-top-house! site))
                         finished)))
 
 (defn- make-frame-house-south-op
@@ -284,7 +288,9 @@
                 ^{:default "House south"} bl_label
                 ^{:default "Ortho looking straight at the house south facade."} bl_description]
                (execute [_context]
-                        (viewport/frame-house-south! site)
+                        (if (demo/demo-active?)
+                          (demo/frame-demo!)
+                          (viewport/frame-house-south! site))
                         finished)))
 
 (defn- make-frame-house-east-op
@@ -295,7 +301,9 @@
                 ^{:default "House east"} bl_label
                 ^{:default "Ortho looking straight at the house east facade."} bl_description]
                (execute [_context]
-                        (viewport/frame-house-east! site)
+                        (if (demo/demo-active?)
+                          (demo/frame-demo!)
+                          (viewport/frame-house-east! site))
                         finished)))
 
 (defn- make-view-fly-camera-op

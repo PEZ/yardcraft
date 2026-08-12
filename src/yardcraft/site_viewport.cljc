@@ -67,28 +67,29 @@
      :camera (some-> (.-camera (.-scene (.-context bpy))) .-name)}))
 
 (defn- lot-world-aabb
-  "Axis-aligned world bounds of :lot/polygon-xy under current site-root."
+  "Axis-aligned world bounds of :lot/polygon-xy under current site-root.
+  Returns nil when polygon is missing/empty."
   [s]
-  (let [poly (lot/lot-polygon-xy s)
-        [cx cy] (house/house-center-xy s)
-        root (mesh/object-by-name "site-root")
-        rw (if root (.-matrix_world root) (.Identity (.-Matrix mathutils) 4))
-        mpi (.Translation (.-Matrix mathutils) #py [(double (- cx)) (double (- cy)) 0.0])
-        world-xy (mapv (fn [[x y]]
-                         (let [lv (mathutils/Vector #py [(double x) (double y) 0.0])
-                               wv (.__matmul__ rw (.__matmul__ mpi lv))]
-                           [(aget wv 0) (aget wv 1)]))
-                       poly)
-        xs (map first world-xy)
-        ys (map second world-xy)
-        min-x (apply min xs)
-        max-x (apply max xs)
-        min-y (apply min ys)
-        max-y (apply max ys)]
-    {:mid-x (/ (+ min-x max-x) 2.0)
-     :mid-y (/ (+ min-y max-y) 2.0)
-     :span (max (- max-x min-x) (- max-y min-y))
-     :min-x min-x :max-x max-x :min-y min-y :max-y max-y}))
+  (when-let [poly (seq (lot/lot-polygon-xy s))]
+    (let [[cx cy] (house/house-center-xy s)
+          root (mesh/object-by-name "site-root")
+          rw (if root (.-matrix_world root) (.Identity (.-Matrix mathutils) 4))
+          mpi (.Translation (.-Matrix mathutils) #py [(double (- cx)) (double (- cy)) 0.0])
+          world-xy (mapv (fn [[x y]]
+                           (let [lv (mathutils/Vector #py [(double x) (double y) 0.0])
+                                 wv (.__matmul__ rw (.__matmul__ mpi lv))]
+                             [(aget wv 0) (aget wv 1)]))
+                         poly)
+          xs (map first world-xy)
+          ys (map second world-xy)
+          min-x (apply min xs)
+          max-x (apply max xs)
+          min-y (apply min ys)
+          max-y (apply max ys)]
+      {:mid-x (/ (+ min-x max-x) 2.0)
+       :mid-y (/ (+ min-y max-y) 2.0)
+       :span (max (- max-x min-x) (- max-y min-y))
+       :min-x min-x :max-x max-x :min-y min-y :max-y max-y})))
 
 (defn- vec3
   [[x y z]]
@@ -144,7 +145,19 @@
 (defn frame-lot-top!
   "Top orthographic view framing the lot with ~6% margin (world north up)."
   [s]
-  (let [{:keys [mid-x mid-y span]} (lot-world-aabb s)
+  (if-let [{:keys [mid-x mid-y span]} (lot-world-aabb s)]
+    (let [dist (* span 1.06)
+          quat (mathutils/Quaternion #py [1.0 0.0 0.0 0.0])
+          r (frame-all-view3d! [mid-x mid-y 0.0] dist quat)]
+      (merge r {:mid-x mid-x :mid-y mid-y :span span :view-distance dist}))
+    {:status :no-lot}))
+
+(defn frame-world-rect-top!
+  "Top orthographic view framing an axis-aligned world XY rect with ~6% margin (north up)."
+  [{:keys [min-x max-x min-y max-y]}]
+  (let [mid-x (/ (+ min-x max-x) 2.0)
+        mid-y (/ (+ min-y max-y) 2.0)
+        span (max (- max-x min-x) (- max-y min-y) 1.0)
         dist (* span 1.06)
         quat (mathutils/Quaternion #py [1.0 0.0 0.0 0.0])
         r (frame-all-view3d! [mid-x mid-y 0.0] dist quat)]
@@ -153,29 +166,34 @@
 (defn frame-lot-top-house!
   "Top ortho framing the lot; house west left / road up (site-root axes)."
   [s]
-  (let [{:keys [mid-x mid-y span]} (lot-world-aabb s)
-        dist (* span 1.06)
-        {:keys [y]} (site-root-axes-world)
-        quat (view-quat-looking [0.0 0.0 -1.0] y)
-        r (frame-all-view3d! [mid-x mid-y 0.0] dist quat)]
-    (merge r {:mid-x mid-x :mid-y mid-y :span span :view-distance dist})))
+  (if-let [{:keys [mid-x mid-y span]} (lot-world-aabb s)]
+    (let [dist (* span 1.06)
+          {:keys [y]} (site-root-axes-world)
+          quat (view-quat-looking [0.0 0.0 -1.0] y)
+          r (frame-all-view3d! [mid-x mid-y 0.0] dist quat)]
+      (merge r {:mid-x mid-x :mid-y mid-y :span span :view-distance dist}))
+    {:status :no-lot}))
 
 (defn frame-house-south!
   "Ortho looking straight at the house south facade."
   [s]
-  (let [{:keys [mid-x mid-y mid-z width height]} (house-view-focus s)
-        dist (* (max width height) 1.15)
-        {:keys [y]} (site-root-axes-world)
-        quat (view-quat-looking y [0.0 0.0 1.0])
-        r (frame-all-view3d! [mid-x mid-y mid-z] dist quat)]
-    (merge r {:mid-x mid-x :mid-y mid-y :mid-z mid-z :view-distance dist})))
+  (if (and (:house/size-m s) (:house/schematic-height-m s) (:house/floor-z s))
+    (let [{:keys [mid-x mid-y mid-z width height]} (house-view-focus s)
+          dist (* (max width height) 1.15)
+          {:keys [y]} (site-root-axes-world)
+          quat (view-quat-looking y [0.0 0.0 1.0])
+          r (frame-all-view3d! [mid-x mid-y mid-z] dist quat)]
+      (merge r {:mid-x mid-x :mid-y mid-y :mid-z mid-z :view-distance dist}))
+    {:status :no-house}))
 
 (defn frame-house-east!
   "Ortho looking straight at the house east facade."
   [s]
-  (let [{:keys [mid-x mid-y mid-z depth height]} (house-view-focus s)
-        dist (* (max depth height) 1.15)
-        {:keys [x]} (site-root-axes-world)
-        quat (view-quat-looking (mapv - x) [0.0 0.0 1.0])
-        r (frame-all-view3d! [mid-x mid-y mid-z] dist quat)]
-    (merge r {:mid-x mid-x :mid-y mid-y :mid-z mid-z :view-distance dist})))
+  (if (and (:house/size-m s) (:house/schematic-height-m s) (:house/floor-z s))
+    (let [{:keys [mid-x mid-y mid-z depth height]} (house-view-focus s)
+          dist (* (max depth height) 1.15)
+          {:keys [x]} (site-root-axes-world)
+          quat (view-quat-looking (mapv - x) [0.0 0.0 1.0])
+          r (frame-all-view3d! [mid-x mid-y mid-z] dist quat)]
+      (merge r {:mid-x mid-x :mid-y mid-y :mid-z mid-z :view-distance dist}))
+    {:status :no-house}))
