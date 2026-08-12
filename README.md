@@ -38,13 +38,13 @@ The agent will help you get everything else in place. (If you don't have Git, th
 
 **Human:** 2
 
-**Agent:** Perfect. I can **do** the setup or only **give you instructions**. Which do you prefer?
+**Agent:** Perfect. For some parts of the setup I can **do** it or only **give you instructions**. Which do you prefer?
 
 **Human:** Do.
 
-**Agent:** Editor tooling is in place. Next, install [latest Blender](https://www.blender.org/download/) and tell me when it's done.
+**Agent:** *...installs Calva and Calva Backseat Driver extensions...* Editor tooling is in place. Next we need to install latest Blender. Please install it from https://www.blender.org/download/ and tell me when it's done.
 
-**Human:** Blender's installed.
+**Human:** Blender installed!
 
 **Agent:** I've downloaded the Basilisp Blender extension to ~/Downloads/basilisp-blender.zip. In Blender: **Edit → Preferences → Get Extensions → Install From Disk…**, pick the zip, enable it if asked. Let me know when you're done, or if you need help.
 
@@ -68,8 +68,6 @@ What do you see now?
 
 **Human:** I see **YARDCRAFT** in perspective, with some furniture on. And... I think a sundial ... And it's like I am flying around it in a circle, with the design always centered in the view. I also see a **Yardcraft** UI panel with some widgets.
 
-> **Image (placeholder):** GIF: Blender viewport — The scene described above.
-
 **Agent:** Sweet. The UI should have a time-of-day slider you can use to see the change in how the shadows fall (and thus the sundial showing the time). You can then click the **Set time** button to align the lounger chairs to face the sun.
 
 **Human:** Yeah, totally works!
@@ -81,10 +79,6 @@ What do you see now?
 **Agent:** Now I will need to ask you for information and material so that we can get the base structure of your yard up to replace the demo design. Material such as maps and sketch over photos, and we will try to find information from the web and any open APIs to make the manual labor less. You can look at the [`EXAMPLE-COOKING.md`](EXAMPLE-COOKING.md) document to get an idea for what the process may look like. Or just jump straight in at the deep end, let me know when you are ready for the next step.
 
 **Human:** Let's get cranking!
-
-
-
-
 
 ## Recipe content
 

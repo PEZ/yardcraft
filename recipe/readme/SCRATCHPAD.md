@@ -6,7 +6,7 @@ Working notes for crafting visitor-facing onboarding. **Not** for GitHub visitor
 
 - PEZ owns story voice and beats in `README.md` / `EXAMPLE-COOKING.md`.
 - Agent: **understand** PEZ-written parts; only apply **spelling and grammar** there.
-- If something looks wrong, intentional, or unclear → **ask**, don’t rewrite.
+- If something looks wrong, unintentional, or unclear → **ask**, don’t rewrite.
 - Agent-authored drafts may be rewritten more freely until PEZ takes the pen on that passage.
 - Design the experience in the example docs first; then update `AGENTS.md` / skills so a real agent can deliver it.
 
@@ -18,6 +18,16 @@ Working notes for crafting visitor-facing onboarding. **Not** for GitHub visitor
 - LSP / `clojure` on `PATH`: at clone-time check; enable Calva LSP if CLI present; otherwise leave `"never"`; offer richer editor nav **after base design** — Java/Clojure not part of Yardcraft setup. Keep this out of the example chat unless a short user-facing offer fits later.
 - basilisp-blender: agent downloads the extension zip; install via Blender UI (Install From Disk) or `blender --command extension install-file … -e` if `blender` is on `PATH`.
 - Setup progress in `AGENTS.md` useful for reload / new-chat resume (not the main clone handoff anymore).
+
+### Editor extensions (Cursor CLI)
+
+- **Not Joyride:** Prefer shell/`cursor` for check+install. Do **not** pull Joyride into the visitor story or agent setup narrative — users may get overwhelmed wondering where it fits.
+- Verified on this machine: `cursor --install-extension mechatroner.rainbow-csv` succeeded (v3.24.1); confirm with `cursor --list-extensions`.
+- Useful commands:
+  - `cursor --list-extensions`
+  - `cursor --install-extension <publisher.name>`
+  - (also `--uninstall-extension`, `--update-extensions` exist)
+- Target extensions for Yardcraft agent setup: **Calva** (`betterthantomorrow.calva`) and **Calva Backseat Driver** (`betterthantomorrow.calva-backseat-driver`).
 
 ## Tone & level of detail (from current story)
 
@@ -40,6 +50,7 @@ Working notes for crafting visitor-facing onboarding. **Not** for GitHub visitor
 
 ## Todos
 
+- [ ] Write instructions in `AGENTS.md` and/or a skill: check whether Calva + Calva Backseat Driver are installed; install via `cursor --install-extension` if missing (commands above). Keep Joyride out of that path.
 - [ ] Align `AGENTS.md` Setup with the example story (demo scene first, Calva connect UX, Blender “latest” vs ≥ 5.2 LTS, basilisp-blender download/install, LSP rules, progress block, don’t-ask-what-you-know).
 - [ ] Align / refresh skills so demo scene + N-panel + fly-cam buttons are deliverable as written.
 - [ ] **Pending:** Align `EXAMPLE-COOKING.md` intro with post-demo state (demo still up / about to replace — not “empty site”). Wait a bit before editing.

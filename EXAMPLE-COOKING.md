@@ -2,13 +2,13 @@
 
 Pretend chat after [Getting started](README.md#getting-started). **Example lot** — a Swedish suburban house — using the sample overlays in [`recipe/example-source-images/`](recipe/example-source-images/).
 
-You're already connected; empty site on screen.
+You're already connected; demo site on screen.
 
 ---
 
-## Example lot — maps and light table
+## The lot — maps and light table
 
-**Human:** Let's cook Example lot.
+**Human:** Let's cook my lot.
 
 **Agent:** I've put a first lot outline into Blender at real scale from the map. Orbit from above — does the shape match your sense of the property?
 
