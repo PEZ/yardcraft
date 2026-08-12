@@ -56,9 +56,35 @@ The agent will help you get everything else in place. (If you don't have Git, th
 
 **Human:** Server running.
 
-**Agent:** Connected. You should see an empty site in Blender — just the stage, no house or lot yet. From here we can pull in maps, sketch over photos, try design ideas, fly-throughs, and a dimensioned plan for a contractor. Want to walk through a full pretend cook on **Example lot**? ([`EXAMPLE-COOKING.md`](EXAMPLE-COOKING.md))
+**Agent:** Next step is to connect me to the Blender nREPL server. In Cursor issue the command: **Calva: Connect to a running REPL server in the project**. Then select **basilisp-blender** in the **Project Type** menu.
 
-> **Image (placeholder):** Blender viewport — empty site / stage, nothing built yet.
+**Human:** Done, I see a green **basilisp-render** indicator in the status bar.
+
+**Agent:** ⚡️ That means we are connected. Let me test the REPL. You should see an empty site in Blender — just the stage, no house or lot yet. I'll put something more fun there. Watch in Blender or here...
+
+... The agent hammers on the REPL ...
+
+What do you see now?
+
+**Human:** I see **YARDCRAFT** in perspective, with some furniture on. And... I think a sundial ... And it's like I am flying around it in a circle, with the design always centered in the view. I also see a **Yardcraft** UI panel with some widgets.
+
+> **Image (placeholder):** GIF: Blender viewport — The scene described above.
+
+**Agent:** Sweet. The UI should have a time-of-day slider you can use to see the changee in how the shadows fall (and this the sundial showing the time). You can then click the **Set time** button to align the lounger chairs to face the sun.
+
+**Human:** Yeah, totally works!
+
+**Agent**: You can exit the fly-cam mode by zooming or panning in Blender. To enable it again, click the **Fly Cam** button.
+
+**Human:** Great. Now what?
+
+**Agent:** Now I will need to ask you for information and material so that we can get the base structure of your yard up to replace the demo design. Material such as maps and sketch over photos, and we will try to find information from the web and any open API:s to make the manual labor less. You can look at the ([`EXAMPLE-COOKING.md`](EXAMPLE-COOKING.md) document to get an idea for what the process may look like. Or just jump straight in at the deep end, let me know when you are ready for the next step.
+
+**Human:** Let's get cranking!
+
+
+
+
 
 ## Recipe content
 
