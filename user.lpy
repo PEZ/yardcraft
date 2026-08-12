@@ -1,8 +1,10 @@
 (ns user
-  (:import bpy sys))
+  (:import bpy sys os))
 
 (defn init! []
-  (let [src "src"]
+  (let [src (.join (.-path os) (os/getcwd) "src")]
+    (when (some #{"src"} (.-path sys))
+      (.remove (.-path sys) "src"))
     (when-not (some #{src} (.-path sys))
       (.insert (.-path sys) 0 src))))
 

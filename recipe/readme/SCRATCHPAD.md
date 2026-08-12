@@ -42,11 +42,15 @@ Working notes for crafting visitor-facing onboarding. **Not** for GitHub visitor
 
 - [ ] Align `AGENTS.md` Setup with the example story (demo scene first, Calva connect UX, Blender “latest” vs ≥ 5.2 LTS, basilisp-blender download/install, LSP rules, progress block, don’t-ask-what-you-know).
 - [ ] Align / refresh skills so demo scene + N-panel + fly-cam buttons are deliverable as written.
-- [ ] Align `EXAMPLE-COOKING.md` intro with post-demo state (not “empty site” if Getting Started ends on the demo).
+- [ ] **Pending:** Align `EXAMPLE-COOKING.md` intro with post-demo state (demo still up / about to replace — not “empty site”). Wait a bit before editing.
 - [ ] GIF/screenshot for demo viewport placeholder.
+- [ ] Pre-cooked demo scene + UI (YARDCRAFT, furniture, sundial, fly-cam, time slider / Set time / Fly Cam) so Hello→connected is fast. *(blocked briefly by site↔site-ui cycle; compile fixed; scene cleared — resume demo cook)*
+- Blender nREPL UI terms (from screenshot): **Output Properties** tab (printer icon) → **Basilisp nREPL server** panel → project path + **START SERVER**.
+- Fixed: `site.cljc` must **not** `:require` `site-ui` (cycle → `clear-site!` unresolved). RCF requires UI locally.
+- Tip: if `sys.modules` has a `nil` tombstone for `yardcraft`, pop it; prefer absolute `src` on `sys.path` via `user/init!`.
 - [ ] Voice pass: PEZ continues story; agent only spelling/grammar + asks.
 - [ ] Wire recipe machinery after the story feels right.
 
 ## Open questions (ask PEZ)
 
-See chat — e.g. status-bar label `basilisp-render` vs `basilisp-blender`.
+_(none right now)_

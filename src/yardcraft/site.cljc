@@ -28,8 +28,7 @@
             [yardcraft.site-plan :as plan]
             [yardcraft.site-props :as props]
             [yardcraft.site-sketch :as sketch]
-            [yardcraft.site-fly :as fly]
-            [yardcraft.site-ui :as ui]))
+            [yardcraft.site-fly :as fly]))
 
 (defn facts-sufficient?
   "True when core geometry facts exist for a full site rebuild.
@@ -271,6 +270,7 @@
     (viewport/show-rendered!)
     (ensure-site! site))
 
+  (require '[yardcraft.site-ui :as ui])
   (ui/register!)
   #_(ui/unregister!)
   #_(ui/reload!)

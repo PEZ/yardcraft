@@ -50,7 +50,7 @@ The agent will help you get everything else in place. (If you don't have Git, th
 
 **Human:** Extension installed
 
-**Agent:** Now we need to start the nREPL server so that I can drive Blender. Open the Output settings tab and find the nREPL panel, and set the Basilisp Project Directory to this project folder. Then click **START SERVER**. Tell me when it's running.
+**Agent:** Now we need to start the nREPL server so that I can drive Blender. Open the **Output Properties** tab (printer icon) and find the **Basilisp nREPL server** panel. Set the project path to this project folder, then click **START SERVER**. Tell me when it's running.
 
 ![Blender Output Settings nREPL](recipe/readme/images/basilisp-blender-nrepl-panel.png)
 
@@ -58,7 +58,7 @@ The agent will help you get everything else in place. (If you don't have Git, th
 
 **Agent:** Next step is to connect me to the Blender nREPL server. In Cursor issue the command: **Calva: Connect to a running REPL server in the project**. Then select **basilisp-blender** in the **Project Type** menu.
 
-**Human:** Done, I see a green **basilisp-render** indicator in the status bar.
+**Human:** Done, I see a green **basilisp-blender** indicator in the status bar.
 
 **Agent:** ⚡️ That means we are connected. Let me test the REPL. You should see an empty site in Blender — just the stage, no house or lot yet. I'll put something more fun there. Watch in Blender or here...
 
