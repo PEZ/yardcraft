@@ -264,10 +264,17 @@
         (viewport/hide-relationship-lines!)
         (assoc built :status :full)))))
 
+(defn ensure-demo!
+  "Welcome onboarding scene: YARDCRAFT patio letters, furniture, sundial, orbit fly, UI."
+  []
+  (require 'yardcraft.site-demo)
+  ((ns-resolve 'yardcraft.site-demo 'ensure-demo!)))
+
 (comment
   ;; N-panel UI (View3D sidebar tab Yardcraft) — once per Blender session
   (do
     (viewport/show-rendered!)
+    #_(ensure-demo!)
     (ensure-site! site))
 
   (require '[yardcraft.site-ui :as ui])

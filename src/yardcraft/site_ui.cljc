@@ -5,6 +5,7 @@
             [basilisp-blender.utils :refer [class-make*]]
             [yardcraft.site-data :refer [site]]
             [yardcraft.site :as site]
+            [yardcraft.site-demo :as demo]
             [yardcraft.site-fly :as fly]
             [yardcraft.site-mesh :as mesh]
             [yardcraft.site-terrace :as terrace]
@@ -199,11 +200,14 @@
   (class-make* "YARDCRAFT_OT_apply_time"
                [(.-Operator (.-types (bpy-mod)))]
                [^{:default "yardcraft.apply_time"} bl_idname
-                ^{:default "Apply time"} bl_label
-                ^{:default "Commit staged time of day (loungers + persist)"} bl_description]
+                ^{:default "Set time"} bl_label
+                ^{:default "Commit time of day (aim sun; re-orient loungers)"} bl_description]
                (execute [context]
-                        (let [props (.-yardcraft (.-scene context))]
-                          (site/set-time-of-day! site (seconds->hhmm (.-sun_time_of_day props)))
+                        (let [props (.-yardcraft (.-scene context))
+                              time-str (seconds->hhmm (.-sun_time_of_day props))]
+                          (if (demo/demo-active?)
+                            (demo/set-demo-time! time-str)
+                            (site/set-time-of-day! site time-str))
                           finished))))
 
 (defn- make-show-suggestion-op
@@ -302,7 +306,9 @@
                 ^{:default "Fly cam"} bl_label
                 ^{:default "Build/refresh fly tour, make site-fly-camera active, enter camera view."} bl_description]
                (execute [_context]
-                        (fly/ensure-fly-tour! site)
+                        (if (demo/demo-active?)
+                          (demo/ensure-orbit-fly!)
+                          (fly/ensure-fly-tour! site))
                         finished)))
 
 (defn- sync-suggestion-enum-from-active!
@@ -337,7 +343,7 @@
                          (.prop layout props "sun_time_of_day"
                                 ** :text (seconds->hhmm (.-sun_time_of_day props))
                                 :slider true)
-                         (.operator layout "yardcraft.apply_time" ** :text "Apply time")
+                         (.operator layout "yardcraft.apply_time" ** :text "Set time")
                          (.separator layout)
                          (.prop layout props "canopy_visible" ** :text "Canopy covering")
                          (.separator layout)

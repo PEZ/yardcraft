@@ -44,10 +44,11 @@ Working notes for crafting visitor-facing onboarding. **Not** for GitHub visitor
 - [ ] Align / refresh skills so demo scene + N-panel + fly-cam buttons are deliverable as written.
 - [ ] **Pending:** Align `EXAMPLE-COOKING.md` intro with post-demo state (demo still up / about to replace — not “empty site”). Wait a bit before editing.
 - [ ] GIF/screenshot for demo viewport placeholder.
-- [ ] Pre-cooked demo scene + UI (YARDCRAFT, furniture, sundial, fly-cam, time slider / Set time / Fly Cam) so Hello→connected is fast. *(blocked briefly by site↔site-ui cycle; compile fixed; scene cleared — resume demo cook)*
+- [x] Pre-cooked demo scene + UI — `(yardcraft.site/ensure-demo!)` / `yardcraft.site-demo`: YARDCRAFT patio letters, furniture, sundial, orbit fly, N-panel **Set time** + **Fly cam** (demo-aware).
 - Blender nREPL UI terms (from screenshot): **Output Properties** tab (printer icon) → **Basilisp nREPL server** panel → project path + **START SERVER**.
 - Fixed: `site.cljc` must **not** `:require` `site-ui` (cycle → `clear-site!` unresolved). RCF requires UI locally.
 - Tip: if `sys.modules` has a `nil` tombstone for `yardcraft`, pop it; prefer absolute `src` on `sys.path` via `user/init!`.
+- Agent story beat after connect: call `(ensure-demo!)` (from `yardcraft.site`) so the visitor sees the fun scene quickly.
 - [ ] Voice pass: PEZ continues story; agent only spelling/grammar + asks.
 - [ ] Wire recipe machinery after the story feels right.
 
