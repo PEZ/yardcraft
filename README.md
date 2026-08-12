@@ -5,11 +5,11 @@
 
 A recipe for letting your AI Agent of choice help you design your yard, patio, parking, etcetera in [Blender](https://www.blender.org/). 
 
+![Yardcraft Demo GIF](recipe/readme/images/demo-scene.gif)
+
 Your ideas can be rendered and iterated on solely in memory (in the REPL as we Clojurians say) without updating any files. When you're happy, the design is persisted as data and code (but I am repeating myself) in the project. You can also create custom UI in Blender in the REPL and iterate on it before persisting to files in the project.
 
-[![YardCraft: Redesigning my terrace w/ Calva + Blender + Basilisp + Grok](https://img.youtube.com/vi/_JDSeMP8RhE/maxresdefault.jpg)](https://www.youtube.com/watch?v=_JDSeMP8RhE)
-
-[YardCraft: Redesigning my terrace w/ Calva + Blender + Basilisp + Grok](https://www.youtube.com/watch?v=_JDSeMP8RhE)
+YouTube: [Yardcraft: Redesigning my terrace w/ Calva + Blender + Basilisp + Grok](https://www.youtube.com/watch?v=_JDSeMP8RhE)
 
 ## How it works
 
