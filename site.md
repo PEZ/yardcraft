@@ -23,7 +23,7 @@ No Blender compass — use `site-north` + the axis gizmo when present.
 
 ## Sources
 
-List maps, surveys, hand sketches, and photos here as you collect them. Example overlays for learning the light-table workflow may live under `example-source-images/` — they are not survey truth for your lot.
+List maps, surveys, hand sketches, and photos here as you collect them. Example overlays for learning the light-table workflow may live under `recipe/example-source-images/` — they are not survey truth for your lot.
 
 ## Locked facts
 

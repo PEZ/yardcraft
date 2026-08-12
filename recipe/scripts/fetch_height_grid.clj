@@ -2,7 +2,7 @@
 (ns fetch-height-grid
   "Example höjd grid fetch for Lantmäteriet Min Karta style APIs.
   Pass --lot-id <objektidentitet> — never hardcode a private lot id in the template.
-  See skills/references/sweden-lantmateriet/ for CRS (SWEREF99) + RH00."
+  See recipe/skills/references/sweden-lantmateriet/ for CRS (SWEREF99) + RH00."
   (:require [babashka.cli :as cli]
             [babashka.http-client :as http]
             [babashka.fs :as fs]
@@ -30,7 +30,7 @@
           ;; Minimal stub: write metadata only — extend sampling using the Sweden reference skill
           edn {:lot-id lot-id
                :source base
-               :note "Extend this script using skills/references/sweden-lantmateriet/ — sample höjd inside the parcel ring."
+               :note "Extend this script using recipe/skills/references/sweden-lantmateriet/ — sample höjd inside the parcel ring."
                :geometry-keys (keys geom)}]
       (fs/create-dirs (fs/parent out))
       (spit out (pr-str edn))

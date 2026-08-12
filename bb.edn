@@ -1,5 +1,5 @@
-{:paths ["scripts"]
+{:paths ["recipe/scripts"]
  :tasks
  {assets:help
-  {:doc "See skills/yardcraft-assets for downloading optional GLB props"
-   :task (println "Use the yardcraft-assets skill (bb HTTP) — see skills/yardcraft-assets/SKILL.md")}}}
+  {:doc "See recipe/skills/yardcraft-assets for downloading optional GLB props"
+   :task (println "Use the yardcraft-assets skill (bb HTTP) — see recipe/skills/yardcraft-assets/SKILL.md")}}}

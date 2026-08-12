@@ -6,7 +6,7 @@ Demo: [YardCraft: Redesigning my terrace w/ Calva + Blender + Basilisp + Grok](h
 
 - Site reading notes (human): [`site.md`](site.md)
 - Agent orientation / Setup: [`AGENTS.md`](AGENTS.md)
-- Packaged skills: [`skills/`](skills/)
+- Recipe package (skills, example images, helper scripts): [`recipe/`](recipe/)
 
 ## Session bootstrap (short)
 

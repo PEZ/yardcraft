@@ -5,14 +5,14 @@ description: >-
   driveway edges over fitted hand sketches in the Yardcraft Blender site model.
   Use when the user mentions light table, sketch overlay, draft contours,
   elevation lines, site-sketch, capture-draft-contour, tracing over a
-  photographed sketch, or example-source-images.
+  photographed sketch, or `recipe/example-source-images/`.
 ---
 
 # Yardcraft light table (sketch → facts)
 
 Trace real-world lines (elevation contours, driveway edges) over a photographed hand sketch fitted to the lot — a light table in the viewport.
 
-Example overlays (when present) live under `example-source-images/` (e.g. elevation sketch, lot/road photo). Wire them via `:sketch/specs` in `yardcraft.site-data`; do not invent lot geometry from the examples alone.
+Example overlays (when present) live under `recipe/example-source-images/` (e.g. elevation sketch, lot/road photo). Wire them via `:sketch/specs` in `yardcraft.site-data`; do not invent lot geometry from the examples alone.
 
 ## Prerequisites
 
@@ -39,7 +39,7 @@ Tooling: `src/yardcraft/site_sketch.cljc` (`yardcraft.site-sketch`, aliased `ske
 
 ## Hand-window light table (no photo yet)
 
-When you only have a paper sketch or a map on screen: place the physical sketch (or a tablet/window showing the map) behind/beside the monitor, or use a translucent overlay photo under `example-source-images/`. Fit once with `:sketch/specs` (`:corner-px` ↔ known lot corners), then trace as below. Prefer a fitted overlay over freehand world-space drawing.
+When you only have a paper sketch or a map on screen: place the physical sketch (or a tablet/window showing the map) behind/beside the monitor, or use a translucent overlay photo under `recipe/example-source-images/`. Fit once with `:sketch/specs` (`:corner-px` ↔ known lot corners), then trace as below. Prefer a fitted overlay over freehand world-space drawing.
 
 ## Stage → Trace → Capture
 

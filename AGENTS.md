@@ -12,10 +12,10 @@ Exploratory Blender workspace driven by **Basilisp** (Clojure-compatible Lisp on
    - Connect sequence: **`basilisp-blender`** (session key `basilisp-blender`) — not the generic basilisp picker alone.
    - After connect, `afterPrimaryReplConnectedCode` loads `user.lpy` and runs `(user/init!)`.
 3. **Other harnesses** — if you are not on Cursor+Calva+Backseat Driver, **web-search** how that harness installs agent skills and connects an nREPL client to Blender; adapt the same goals (skills on disk, nREPL to basilisp-blender, `src` on `sys.path`).
-4. **Install packaged skills** — **copy** (install) everything under this repo’s `skills/` into the harness skill location (for Cursor: typically `.cursor/skills/`). Keep `skills/` in the repo as the canonical package; do not empty it.
+4. **Install packaged skills** — **copy** (install) everything under this repo’s `recipe/skills/` into the harness skill location (for Cursor: typically `.cursor/skills/`). Keep `recipe/skills/` in the repo as the canonical package; do not empty it.
 5. **Tooling floors**
    - **Blender ≥ 5.2.0 LTS**
-   - **basilisp-blender** extension + Basilisp **≥ 0.5** overlay (see `skills/basilisp-blender/references/upgrade-basilisp.md`)
+   - **basilisp-blender** extension + Basilisp **≥ 0.5** overlay (see `recipe/skills/basilisp-blender/references/upgrade-basilisp.md`)
    - **Babashka** (`bb`) for host-side HTTP/fs
    - **Epupp** for live browser map UI exploration when ingesting national maps
 6. **Shared dialect skills** — detect whether `clojure`, `babashka`, and `epupp` skills are already available in the harness; if missing, install from their upstream skill packages (Awesome Backseat Driver / Epupp docs) before Yardcraft site work.
@@ -63,7 +63,7 @@ When working in this repo, load:
 10. **`yardcraft-fly-tour-edit`** — when retiming, retargeting gaze, or tweaking an existing fly tour DSL
 11. **`yardcraft-quote-plan`** — when writing contractor quote-plan SVG via `write-quote-plan!`
 12. **`yardcraft-assets`** — when downloading optional GLBs from `assets/*/ATTRIBUTION.md`
-13. **`sweden-lantmateriet-min-karta`** (under `skills/references/sweden-lantmateriet/`) — Swedish Min Karta / LM höjd; declare CRS SWEREF99 + RH00
+13. **`sweden-lantmateriet-min-karta`** (under `recipe/skills/references/sweden-lantmateriet/`) — Swedish Min Karta / LM höjd; declare CRS SWEREF99 + RH00
 
 ## Agent operating model
 
@@ -103,8 +103,8 @@ Throwaway exploration stays in the REPL or [`src/yardcraft/scratch.cljc`](src/ya
 Freestyle path from empty defaults to a lived-in model:
 
 1. **National maps** — Sweden: [Min Karta](https://minkarta.lantmateriet.se/); Norway: [Norgeskart](https://norgeskart.no/). Use Epupp in the browser to discover APIs and sample geometry/heights.
-2. **Country skills** — when a nation’s map stack stabilizes, author a skill under `skills/references/<country>-…/` that declares **CRS + vertical datum** up front (Sweden example: SWEREF99 TM + RH00 — `sweden-lantmateriet-min-karta`).
-3. **Hand light table** — photograph or window-align sketches; fit via `:sketch/specs`; trace contours/edges (`yardcraft-light-table`). Example overlays may live under `example-source-images/`.
+2. **Country skills** — when a nation’s map stack stabilizes, author a skill under `recipe/skills/references/<country>-…/` that declares **CRS + vertical datum** up front (Sweden example: SWEREF99 TM + RH00 — `sweden-lantmateriet-min-karta`).
+3. **Hand light table** — photograph or window-align sketches; fit via `:sketch/specs`; trace contours/edges (`yardcraft-light-table`). Example overlays may live under `recipe/example-source-images/`.
 4. **Promote confirmed facts** into `site_data` / `site.md` only after viewport checks.
 
 ## Base → suggestions → fly
@@ -136,7 +136,7 @@ Contractor dimensioned top-down SVG from site facts (not a Blender screenshot): 
 
 ## Session bootstrap
 
-After installing or updating the basilisp-blender extension, upgrade Basilisp to **≥ 0.5** into the extension `.local` site-packages (fixes [#1302](https://github.com/basilisp-lang/basilisp/issues/1302) Calva load-file / module aliases). Procedure: **`basilisp-blender`** skill → [references/upgrade-basilisp.md](skills/basilisp-blender/references/upgrade-basilisp.md).
+After installing or updating the basilisp-blender extension, upgrade Basilisp to **≥ 0.5** into the extension `.local` site-packages (fixes [#1302](https://github.com/basilisp-lang/basilisp/issues/1302) Calva load-file / module aliases). Procedure: **`basilisp-blender`** skill → [references/upgrade-basilisp.md](recipe/skills/basilisp-blender/references/upgrade-basilisp.md).
 
 1. Blender: Basilisp Project Directory = repo root; start nREPL (writes [`.nrepl-port`](.nrepl-port)).
 2. Calva: connect sequence **`basilisp-blender`** (session key `basilisp-blender`) — not the generic basilisp picker alone.

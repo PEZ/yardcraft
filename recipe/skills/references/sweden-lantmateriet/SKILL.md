@@ -93,7 +93,7 @@ Browser exploration with **Epupp** against Min Karta is fine for discovery; for 
 
 ### Dense grid fetch
 
-Prefer a parameterized bb script under `scripts/` that samples höjd on a SWEREF grid inside **your** lot polygon (writes e.g. `out/lm-height-grid.edn`). Promote/cache a model grid under `src/yardcraft/data/` only for the consumer project — house-NW `{:xy [x y] :rh00 …}` plus optional `:road-z-profile`. Re-fetch only when coverage or fit changes; prefer point samples for spot checks.
+Prefer a parameterized bb script under `recipe/scripts/` (see `fetch_height_grid.clj`) that samples höjd on a SWEREF grid inside **your** lot polygon (writes e.g. `out/lm-height-grid.edn`). Promote/cache a model grid under `src/yardcraft/data/` only for the consumer project — house-NW `{:xy [x y] :rh00 …}` plus optional `:road-z-profile`. Re-fetch only when coverage or fit changes; prefer point samples for spot checks.
 
 ## Coordinate frames
 
