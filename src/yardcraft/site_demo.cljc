@@ -201,7 +201,7 @@
     :site/timezone "Europe/Stockholm"
     :site/north-offset-deg 0.0
     :sun/date "2026-06-21"
-    :sun/time-of-day "13:00"
+    :sun/time-of-day "06:00"
     :house/floor-z 0.0
     :terrace/slab-thickness-m 0.0
     :terrace/roof-opacity 1.0
@@ -471,6 +471,23 @@
 
 (defn ensure-orbit-fly! []
   (demo-fly/ensure-orbit-fly!))
+
+(defn set-demo-date!
+  "Set demo :sun/date and re-aim sun; re-orient loungers."
+  [date-str]
+  (let [s (assoc (demo-facts) :sun/date date-str)
+        time (or (:sun/time-of-day s) "06:00")
+        {:keys [site] :as r} (sun/aim-sun-at-clock s time)
+        s' site]
+    (reset! demo-facts* s')
+    (furniture/orient-loungers-to-sun! s')
+    (paint-demo! s')
+    (dissoc r :site)))
+
+(defn preview-demo-time!
+  "Aim demo sun for HH:MM — no lounger rebuild."
+  [time-str]
+  (dissoc (sun/aim-sun-at-clock (demo-facts) time-str) :site))
 
 (defn set-demo-time! [time-str]
   (let [s (demo-facts)

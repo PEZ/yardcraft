@@ -1,24 +1,19 @@
 (ns yardcraft.site-ui
   "View3D N-panel Yardcraft controls — register! from the basilisp-blender REPL.
-  Complements RCFs: sun date/time, canopy covering, suggestion show/base."
+  Complements RCFs: sun date/time, suggestion show/base."
   (:require [basilisp.string :as string]
             [basilisp-blender.utils :refer [class-make*]]
             [yardcraft.site-data :refer [site]]
             [yardcraft.site :as site]
             [yardcraft.site-demo :as demo]
             [yardcraft.site-fly :as fly]
-            [yardcraft.site-mesh :as mesh]
-            [yardcraft.site-terrace :as terrace]
             [yardcraft.site-suggestions :as sug]
-            [yardcraft.site-sun :as sun]
-            [yardcraft.site-viewport :as viewport]))
+            [yardcraft.site-sun :as sun]))
 
 (defn- bpy-mod
   "Fresh bpy module (reload-safe; avoid stale (:import bpy) gensym)."
   []
   (python/__import__ "bpy"))
-
-(def ^:private covering-name "site-terrace-roof-covering")
 
 (def ^:private suppress-updates?* false)
 
@@ -69,15 +64,11 @@
   (let [[h mi] (sun/parse-hhmm time-str)]
     (+ (* h 60) mi)))
 
-(defn- clamp-minutes
-  [m]
-  (max 360 (min 1320 m)))
+(def ^:private tod-min-sec 0.0)
 
-(def ^:private tod-min-sec (* 6.0 3600.0))
+(def ^:private tod-max-sec (* 24.0 3600.0))
 
-(def ^:private tod-max-sec (* 22.0 3600.0))
-
-(def ^:private tod-default-sec (* 13.0 3600.0))
+(def ^:private tod-default-sec (* 6.0 3600.0))
 
 (defn- clamp-seconds
   [s]
@@ -85,7 +76,17 @@
 
 (defn- seconds->hhmm
   [s]
-  (minutes->hhmm (int (+ 0.5 (/ (clamp-seconds s) 60.0)))))
+  (let [clamped (clamp-seconds s)
+        total-min (min 1440 (int (+ 0.5 (/ clamped 60.0))))
+        h (quot total-min 60)
+        mi (mod total-min 60)
+        pad (fn [n] (str (when (< n 10) "0") n))]
+    (str (pad h) ":" (pad mi))))
+
+(defn- sun-time-str
+  "HH:MM for solar aim; 24:00 → 00:00."
+  [time-str]
+  (if (= time-str "24:00") "00:00" time-str))
 
 (defn- hhmm->seconds
   [time-str]
@@ -97,26 +98,22 @@
       (when (contains? date-id->iso iso-or-id) iso-or-id)
       "patio_season"))
 
-(defn- canopy-visible?
-  []
-  (if-let [obj (mesh/object-by-name covering-name)]
-    (not (.-hide_viewport obj))
-    true))
-
-(defn- on-canopy-update
-  [props _context]
-  (when-not (suppress-updates?)
-    (terrace/set-terrace-roof-covering-visible! (.-canopy_visible props))))
-
 (defn- on-date-update
   [props _context]
   (when-not (suppress-updates?)
-    (site/set-sun-date! site (get date-id->iso (.-sun_date props)))))
+    (let [iso (get date-id->iso (.-sun_date props))]
+      (when iso
+        (if (demo/demo-active?)
+          (demo/set-demo-date! iso)
+          (site/set-sun-date! site iso))))))
 
 (defn- on-time-update
   [props _context]
   (when-not (suppress-updates?)
-    (site/preview-time-of-day! site (seconds->hhmm (.-sun_time_of_day props)))))
+    (let [t (sun-time-str (seconds->hhmm (.-sun_time_of_day props)))]
+      (if (demo/demo-active?)
+        (demo/preview-demo-time! t)
+        (site/preview-time-of-day! site t)))))
 
 (defn- suggestion-enum-id
   [id]
@@ -166,12 +163,7 @@
 
 (defn- make-settings-class
   []
-  (let [canopy (.BoolProperty (.-props (bpy-mod))
-                              ** :name "Canopy covering"
-                              :description "Show terrace roof covering"
-                              :default true
-                              :update on-canopy-update)
-        sun-date (.EnumProperty (.-props (bpy-mod))
+  (let [sun-date (.EnumProperty (.-props (bpy-mod))
                                 ** :name "Sun date"
                                 :description "Named day for sun aim"
                                 :items (date-items)
@@ -183,14 +175,12 @@
                               :description "Design suggestion (Show/Base to apply)"
                               :items (suggestion-items nil nil)
                               :default "__base__")
-        ann (python/dict {"canopy_visible" canopy
-                          "sun_date" sun-date
+        ann (python/dict {"sun_date" sun-date
                           "sun_time_of_day" sun-tod
                           "suggestion_id" sug-id})]
     (python/type "YARDCRAFT_PG_settings"
                  (python/tuple [(.-PropertyGroup (.-types (bpy-mod)))])
-                 (python/dict {"canopy_visible" canopy
-                               "sun_date" sun-date
+                 (python/dict {"sun_date" sun-date
                                "sun_time_of_day" sun-tod
                                "suggestion_id" sug-id
                                "__annotations__" ann}))))
@@ -204,7 +194,7 @@
                 ^{:default "Commit time of day (aim sun; re-orient loungers)"} bl_description]
                (execute [context]
                         (let [props (.-yardcraft (.-scene context))
-                              time-str (seconds->hhmm (.-sun_time_of_day props))]
+                              time-str (sun-time-str (seconds->hhmm (.-sun_time_of_day props)))]
                           (if (demo/demo-active?)
                             (demo/set-demo-time! time-str)
                             (site/set-time-of-day! site time-str))
@@ -254,58 +244,6 @@
                             (set-suppress-updates! false)))
                         finished)))
 
-(defn- make-frame-lot-top-op
-  []
-  (class-make* "YARDCRAFT_OT_frame_lot_top"
-               [(.-Operator (.-types (bpy-mod)))]
-               [^{:default "yardcraft.frame_lot_top"} bl_idname
-                ^{:default "Lot north"} bl_label
-                ^{:default "Top orthographic view framing the lot with ~6% margin (world north up)."} bl_description]
-               (execute [_context]
-                        (if (demo/demo-active?)
-                          (demo/frame-demo!)
-                          (viewport/frame-lot-top! site))
-                        finished)))
-
-(defn- make-frame-lot-house-op
-  []
-  (class-make* "YARDCRAFT_OT_frame_lot_house"
-               [(.-Operator (.-types (bpy-mod)))]
-               [^{:default "yardcraft.frame_lot_house"} bl_idname
-                ^{:default "House north"} bl_label
-                ^{:default "Top ortho framing the lot; house west left / road up (site-root axes)."} bl_description]
-               (execute [_context]
-                        (if (demo/demo-active?)
-                          (demo/frame-demo!)
-                          (viewport/frame-lot-top-house! site))
-                        finished)))
-
-(defn- make-frame-house-south-op
-  []
-  (class-make* "YARDCRAFT_OT_frame_house_south"
-               [(.-Operator (.-types (bpy-mod)))]
-               [^{:default "yardcraft.frame_house_south"} bl_idname
-                ^{:default "House south"} bl_label
-                ^{:default "Ortho looking straight at the house south facade."} bl_description]
-               (execute [_context]
-                        (if (demo/demo-active?)
-                          (demo/frame-demo!)
-                          (viewport/frame-house-south! site))
-                        finished)))
-
-(defn- make-frame-house-east-op
-  []
-  (class-make* "YARDCRAFT_OT_frame_house_east"
-               [(.-Operator (.-types (bpy-mod)))]
-               [^{:default "yardcraft.frame_house_east"} bl_idname
-                ^{:default "House east"} bl_label
-                ^{:default "Ortho looking straight at the house east facade."} bl_description]
-               (execute [_context]
-                        (if (demo/demo-active?)
-                          (demo/frame-demo!)
-                          (viewport/frame-house-east! site))
-                        finished)))
-
 (defn- make-view-fly-camera-op
   []
   (class-make* "YARDCRAFT_OT_view_fly_camera"
@@ -353,20 +291,11 @@
                                 :slider true)
                          (.operator layout "yardcraft.apply_time" ** :text "Set time")
                          (.separator layout)
-                         (.prop layout props "canopy_visible" ** :text "Canopy covering")
-                         (.separator layout)
                          (.prop layout props "suggestion_id" ** :text "Suggestion")
                          (let [row (.row layout)]
                            (.operator row "yardcraft.show_suggestion" ** :text "Show")
                            (.operator row "yardcraft.show_base" ** :text "Base"))
                          (.separator layout)
-                         (.label layout ** :text "View")
-                         (let [row (.row layout)]
-                           (.operator row "yardcraft.frame_lot_top" ** :text "Lot north")
-                           (.operator row "yardcraft.frame_lot_house" ** :text "House north"))
-                         (let [row (.row layout)]
-                           (.operator row "yardcraft.frame_house_south" ** :text "House south")
-                           (.operator row "yardcraft.frame_house_east" ** :text "House east"))
                          (let [row (.row layout)]
                            (.operator row "yardcraft.view_fly_camera" ** :text "Fly cam")))))))
 
@@ -374,12 +303,12 @@
   [props]
   (set-suppress-updates! true)
   (try
-    (let [date-id (coerce-date-id (or (:sun/date site) "2026-08-02"))
-          time (or (:sun/time-of-day site) "13:00")
+    (let [facts (if (demo/demo-active?) (demo/demo-facts) site)
+          date-id (coerce-date-id (or (:sun/date facts) "2026-06-21"))
+          time (or (:sun/time-of-day facts) "06:00")
           active (sug/active-id)]
       (set! (.-sun_date props) date-id)
       (set! (.-sun_time_of_day props) (clamp-seconds (hhmm->seconds time)))
-      (set! (.-canopy_visible props) (canopy-visible?))
       (try
         (set! (.-suggestion_id props) (if active (suggestion-enum-id active) "__base__"))
         (catch python/Exception _
@@ -406,15 +335,9 @@
         ot-time (make-apply-time-op)
         ot-show (make-show-suggestion-op)
         ot-base (make-show-base-op)
-        ot-lot-top (make-frame-lot-top-op)
-        ot-lot-house (make-frame-lot-house-op)
-        ot-house-south (make-frame-house-south-op)
-        ot-house-east (make-frame-house-east-op)
         ot-fly-cam (make-view-fly-camera-op)
         panel (make-panel)
-        classes [pg ot-time ot-show ot-base
-                 ot-lot-top ot-lot-house ot-house-south ot-house-east
-                 ot-fly-cam panel]]
+        classes [pg ot-time ot-show ot-base ot-fly-cam panel]]
     (run! #(.register_class (.-utils (bpy-mod)) %) classes)
     (set! (.-yardcraft (.-Scene (.-types (bpy-mod))))
           (.PointerProperty (.-props (bpy-mod)) ** :type pg))

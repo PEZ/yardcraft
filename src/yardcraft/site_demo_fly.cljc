@@ -61,6 +61,22 @@
       (.keyframe-insert follow ** :data-path "offset_factor" :frame frame))
     cam))
 
+(defn- action-fcurves [action]
+  (or (try (seq (.-fcurves action))
+           (catch python/Exception _ nil))
+      (try (let [layer (aget (.-layers action) 0)
+                 strip (aget (.-strips layer) 0)
+                 bag (aget (.-channelbags strip) 0)]
+             (seq (.-fcurves bag)))
+           (catch python/Exception _ nil))))
+
+(defn- linearize-object-fcurves! [obj]
+  (when-let [fcs (some-> obj .-animation-data .-action action-fcurves)]
+    (doseq [fc fcs
+            kp (.-keyframe-points fc)]
+      (set! (.-interpolation kp) "LINEAR")))
+  obj)
+
 (defn- tidy-fly-view! []
   (.select-all (.-object (.-ops bpy)) ** :action "DESELECT")
   (doseq [n fly-names
@@ -93,11 +109,11 @@
         path-pts (mapv (fn [i]
                          (let [θ (+ θ0 (* 2.0 math/pi (/ (double i) (double n-pts))))]
                            [(* r (math/cos θ)) (* r (math/sin θ)) h]))
-                       (range (inc n-pts)))
+                       (range n-pts))
         offset-keys [[1 0.0] [end-frame 1.0]]
         path (add-fly-path! path-pts)
         look (add-fly-lookat! [0.0 0.0 1.0])
-        cam (add-fly-camera! path look offset-keys)
+        cam (linearize-object-fcurves! (add-fly-camera! path look offset-keys))
         scene (.-scene (.-context bpy))]
     (set! (.-camera scene) cam)
     (set! (.-frame-start scene) 1)
