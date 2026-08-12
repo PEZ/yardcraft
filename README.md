@@ -3,7 +3,7 @@
 > [!NOTE]
 > **WIP**! Come back tomorrow and this may be ready to take for a spin.
 
-A recipe for lettting your AI Agent of choice help you design your yard, patio, parking, etcetera in [Blender](https://www.blender.org/). 
+A recipe for letting your AI Agent of choice help you design your yard, patio, parking, etcetera in [Blender](https://www.blender.org/). 
 
 Your ideas can be rendered and iterated on solely in memory (in the REPL as we Clojurians say) without updating any files. When you're happy, the design is persisted as data and code (but I am repeating myself) in the project. You can also create custom UI in Blender in the REPL and iterate on it before persisting to files in the project.
 
@@ -15,7 +15,7 @@ Your ideas can be rendered and iterated on solely in memory (in the REPL as we C
 
 Blender is driven live by you and the AI agent using [Basilisp](https://github.com/basilisp-lang/basilisp) (Clojure on Python) over nREPL using [basilisp-blender](https://github.com/ikappaki/basilisp-blender). 
 
-This recipe is provided to you as this project, and you then use yor AI Agent as your guide and doer to set things up. Once you have things set up, you enter genie mode and can throw your ideas at the agent which carries them out and maintains the project for you. True vibe designing.
+This recipe is provided to you as this project, and you then use your AI Agent as your guide and doer to set things up. Once you have things set up, you enter genie mode and can throw your ideas at the agent which carries them out and maintains the project for you. True vibe designing.
 
 ## Prerequisites
 
@@ -50,7 +50,7 @@ The agent will help you get everything else in place. (If you don't have Git, th
 
 **Human:** Extension installed
 
-**Agent:** Now we need to start the nREPL server so that I can drive Blender. Open the Output settings tab and fidn the nREPL panel, and set the Basilisp Project Directory to this project folder. Then click **START SERVER**. Tell me when it's running.
+**Agent:** Now we need to start the nREPL server so that I can drive Blender. Open the Output settings tab and find the nREPL panel, and set the Basilisp Project Directory to this project folder. Then click **START SERVER**. Tell me when it's running.
 
 ![Blender Output Settings nREPL](recipe/readme/images/basilisp-blender-nrepl-panel.png)
 
@@ -70,7 +70,7 @@ What do you see now?
 
 > **Image (placeholder):** GIF: Blender viewport — The scene described above.
 
-**Agent:** Sweet. The UI should have a time-of-day slider you can use to see the changee in how the shadows fall (and this the sundial showing the time). You can then click the **Set time** button to align the lounger chairs to face the sun.
+**Agent:** Sweet. The UI should have a time-of-day slider you can use to see the change in how the shadows fall (and thus the sundial showing the time). You can then click the **Set time** button to align the lounger chairs to face the sun.
 
 **Human:** Yeah, totally works!
 
@@ -78,7 +78,7 @@ What do you see now?
 
 **Human:** Great. Now what?
 
-**Agent:** Now I will need to ask you for information and material so that we can get the base structure of your yard up to replace the demo design. Material such as maps and sketch over photos, and we will try to find information from the web and any open API:s to make the manual labor less. You can look at the ([`EXAMPLE-COOKING.md`](EXAMPLE-COOKING.md) document to get an idea for what the process may look like. Or just jump straight in at the deep end, let me know when you are ready for the next step.
+**Agent:** Now I will need to ask you for information and material so that we can get the base structure of your yard up to replace the demo design. Material such as maps and sketch over photos, and we will try to find information from the web and any open APIs to make the manual labor less. You can look at the [`EXAMPLE-COOKING.md`](EXAMPLE-COOKING.md) document to get an idea for what the process may look like. Or just jump straight in at the deep end, let me know when you are ready for the next step.
 
 **Human:** Let's get cranking!
 
