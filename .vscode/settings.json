@@ -15,5 +15,6 @@
       },
       "afterPrimaryReplConnectedCode": "(load-file  \"user.lpy\") (user/init!)"
     }
-  ]
+  ],
+  "calva.enableClojureLspOnStart": "never"
 }
