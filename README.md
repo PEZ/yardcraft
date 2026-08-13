@@ -130,7 +130,7 @@ As should be obvious, this is totally open ended. A first thing some people may 
 
 Wherever you take this, I hope you will consider writing about it and also send PRs to this template project.
 
-As more people use this recipe we should be able to improve the skills and instructions to get quicker and more efficient help from the AI for less tokens. Please h
+As more people use this recipe we should be able to improve the skills and instructions to get quicker and more efficient help from the AI for less tokens. Please help other users of the recipe by PR:ing such improvements.
 
 ## Recipe content
 

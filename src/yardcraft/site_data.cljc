@@ -117,17 +117,17 @@
   "Light-table sketch overlay specs. Point :image-path at your source-images/ or
   recipe/example-source-images/ while learning the workflow."
   {:sketch/specs {:elevation-lines {:object-name "draft-elevation-sketch"
-                                    :image-path "recipe/example-source-images/elevation-lines.png"
+                                    :image-path "recipe/example-source-images/elevation-lines.jpg"
                                     :px-size nil
                                     :corner-px nil
                                     :note "Example overlay — replace with your traced elevation sketch + measured corner-px."}
                   :lot-road {:object-name "draft-lot-road"
-                             :image-path "recipe/example-source-images/lot-road.png"
+                             :image-path "recipe/example-source-images/lot-road.jpg"
                              :px-size nil
                              :corner-px nil
                              :note "Example lot/road sketch."}
                   :house-bod-terrace {:object-name "draft-house-bod-terrace"
-                                      :image-path "recipe/example-source-images/house-bod-terrace.png"
+                                      :image-path "recipe/example-source-images/house-shed-terrace.jpg"
                                       :px-size nil
                                       :corner-px nil
                                       :note "Example house/bod/terrace sketch."}}})
