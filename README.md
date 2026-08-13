@@ -3,7 +3,7 @@
 > [!NOTE]
 > **WIP**! Come back tomorrow and this may be ready to take for a spin.
 
-A recipe for letting your AI Agent of choice help you design your yard, patio, parking, etcetera in [Blender](https://www.blender.org/). 
+A recipe for letting your AI Agent of choice help you design your yard, patio, parking, swimming pool, etcetera in [Blender](https://www.blender.org/). 
 
 ![Yardcraft Demo GIF](recipe/readme/images/demo-scene.gif)
 
