@@ -38,6 +38,6 @@ The construction map was too busy and outdated for the AI to be able to use it e
 
 Handing this to the AI. It created its light-table in Blender with the elevation drawing and some lines on top, labeled after the elevation lines they should match. Then the agent taught me how to edit bezier lines in Blender and I traced each bezier to the elevation lines on my drawing. Then, BOOM, it updated the terrain mesh, and ...
 
-... Bob's my uncle.
+... Bob's your uncle.
 
 This was the story about how I created my base design. I hope to learn many stories about different, and better, ways to do it. I challenge you to have more fun than I had, though!
