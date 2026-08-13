@@ -3,7 +3,7 @@
 > [!NOTE]
 > **WIP**! Come back tomorrow and this may be ready to take for a spin.
 
-A recipe for letting your AI Agent of choice help you design your yard, patio, parking, swimming pool, etcetera in [Blender](https://www.blender.org/). 
+A recipe for letting your AI Agent of choice help you design your yard, patio, parking, swimmingpool, etcetera in [Blender](https://www.blender.org/). 
 
 ![Yardcraft Demo GIF](recipe/readme/images/demo-scene.gif)
 
@@ -79,6 +79,58 @@ What do you see now?
 **Agent:** Now I will need to ask you for information and material so that we can get the base structure of your yard up to replace the demo design. Material such as maps and sketch over photos, and we will try to find information from the web and any open APIs to make the manual labor less. You can look at the [`EXAMPLE-COOKING.md`](EXAMPLE-COOKING.md) document to get an idea for what the process may look like. Or just jump straight in at the deep end, let me know when you are ready for the next step.
 
 **Human:** Let's get cranking!
+
+## Your base design
+
+The setup chat above will look differently depending on a lot of things. You may be using something else than Cursor (I've heard such stories!), Blender could be installed. Maybe you rather do the setup steps yourself and just have the agent as a guide. And so on. But the differences up to here are nothing compared to what's ahead. So I will leave off here, you will figure it out and the LLMs of today are super handy when it comes to knowing abbout and finding out about different options.
+
+You can read a bit on what process I found with my terrace redesign here: [`EXAMPLE-COOKING.md`](EXAMPLE-COOKING.md). And also you may want to have a watch: YouTube: [Yardcraft: Redesigning my terrace w/ Calva + Blender + Basilisp + Grok](https://www.youtube.com/watch?v=_JDSeMP8RhE) (Which doesn't cover base setup a ton, but there is at least a mention.)
+
+
+## Custom UI
+
+A super powerful feature of Blender is that it supports creating custom UI via scripting. You should leverage this, I think. This project comes with a small starter pack of widgets for the **Yardcraft** tab. (Press N with the design area active to open the design side bar, there you will find **Yardcraft**.)
+
+![Custom Yardcraft UI](recipe/readme/images/custom-ui.png)
+
+This UI was vibe coded using interactive programming in the REPL, just like the design. That means that I asked the AI to create some UI for some thing and it used the REPL connection to Blender to make the UI appear, without editing any files in the project. There we could iterate on the UI, and when I was happy enough I told the AI so and it wired the updates into the files on disk.
+
+A note here is that “happy enough” may mean I let some issues slip, because I could easier fix them myself in the data declaring the UI in the files. The REPL is not just for the AI. Striking the balance here can be tricky, but at least know that there is a balance to strike.
+
+## Alternative designs
+
+This recipe has preparations for a process of making a base design and then from there creating suggestions. And then the custom UI has a selector for the suggestions so that it is easy to switch between them. It works, but there are probably better approaches, because it is a bit brittle with when suggestions deviate from the base. (Then again, perhaps the AI can be convinced to maintain this with discipline.)
+
+The prepared process is like so:
+
+1. Ask the agent for a suggestion. E.g. "Give the swimmingpool an arch at the southeast end, with fullwidth stairs descending towards to bottom”.
+2. The agent creates the suggestion in the REPL as well as adding it to the selector in the UI.
+3. You verify what's done using the UI selector, and ask for changes until you are happy.
+4. The agent persists the suggestion and the UI by updating the files in the project.
+
+## Fly cam
+
+In the [Yardcraft: Redesigning my terrace w/ Calva + Blender + Basilisp + Grok](https://www.youtube.com/watch?v=_JDSeMP8RhE) video on YouTube you can see an example of a fly tour. It took a surprisingly long time to create. I think I may have gone about it the wrong way, or it is just a limitation of the current top AI models that they have a hard time visualizing a 3D tour like that, making the communication lossy. Anyway, like with the suggestions, realizing when it is better to let the AI write the files and then edit them will save you time. The fly tour is very data driven, so you can tweak the tour design pretty easily.
+
+## Quote plan
+
+In theory you should be able to generate a “quote plan” from any design and suggestion at will by evaluating something like:
+
+```clojure
+(plan/write-quote-plan! (sug/effective-site site))
+```
+
+at the REPL (from [site.cljc](src/yardcraft/site.cljc)). In practice this is a bit quirky, but the AI can handle it so if you have some patience ask it to generate the plan for you instead.
+
+The quote plan is a top-down view of the design, with lengths, areas, and angles are included, and materials hinted at. It's meant so that you can ask a contractor for a quote. If you're planning to do the work yourself, you can use it to source quotes and such. Probably you can ask the AI to create a calculator, even.
+
+## Where to take it?
+
+As should be obvious, this is totally open ended. A first thing some people may want to extend with is some way to juggle different properties in the same project. Others may want to use the general process to design complete other things, like PCBs, or whatever.
+
+Wherever you take this, I hope you will consider writing about it and also send PRs to this template project.
+
+As more people use this recipe we should be able to improve the skills and instructions to get quicker and more efficient help from the AI for less tokens. Please h
 
 ## Recipe content
 
