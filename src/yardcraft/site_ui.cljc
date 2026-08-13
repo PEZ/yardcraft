@@ -254,7 +254,11 @@
                (execute [_context]
                         (if (demo/demo-active?)
                           (demo/ensure-orbit-fly!)
-                          (fly/ensure-fly-tour! site))
+                          (let [bpy (bpy-mod)
+                                cam (.get (.-objects (.-data bpy)) "site-fly-camera")]
+                            (if cam
+                              (fly/view-fly-camera!)
+                              (fly/ensure-fly-tour! site))))
                         finished)))
 
 (defn- sync-suggestion-enum-from-active!

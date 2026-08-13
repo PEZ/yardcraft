@@ -168,14 +168,28 @@
   [cum i]
   (/ (double (nth cum i)) (double (peek cum))))
 
+(defn- tour-offset-end-frame
+  "Last tour frame when offset keys are auto-derived from path alone."
+  []
+  (if (seq tour-look-spec)
+    (first (peek tour-look-spec))
+    250))
+
 (defn- tour-offset-keys
   "Frame → Follow Path offset_factor keys.
-  Empty until a tour is authored. After path exists, e.g.:
+  Empty when path is empty/degenerate. With ≥2 points and positive chord length:
     (let [cum (path-chord-cum path-local)]
       [[1 (offset-at cum 0)]
        [end (offset-at cum (dec (count path-local)))]])"
-  [_path-local]
-  [])
+  [path-local]
+  (if (< (count path-local) 2)
+    []
+    (let [cum (path-chord-cum path-local)]
+      (if (zero? (peek cum))
+        []
+        (let [end (tour-offset-end-frame)]
+          [[1 (offset-at cum 0)]
+           [end (offset-at cum (dec (count path-local)))]])))))
 
 (defn remove-fly-proof!
   "Removes site-fly-* tour objects if present."
@@ -320,28 +334,35 @@
 (defn ensure-fly-tour!
   "Build narrative road→driveway→terrace→west-exit→orbit-home fly.
   Overlays LM road Z profile (same as ensure-site!) so path eye height tracks the road mesh.
-  Takes site facts `s`. Returns summary map."
+  Takes site facts `s`. Returns summary map, or `{:fly :no-tour :reason …}` when no tour is authored."
   [s]
-  (remove-fly-proof!)
-  (let [s (lm/with-lm-road s)
+  (let [existing-cam (.get (.-objects (.-data bpy)) "site-fly-camera")
+        s (lm/with-lm-road s)
         path-local (tour-path-local s)
-        offset-keys (tour-offset-keys path-local)
-        path-pts (mapv #(house-nw->world s %) path-local)
-        look-keys (mapv (fn [[frame p]] [frame (house-nw->world s p)]) (tour-look-local s))
-        end-frame (first (last offset-keys))
-        start-look (second (first look-keys))
-        path (add-fly-path! path-pts)
-        look (add-fly-lookat! start-look)
-        _ (keyframe-lookat! look look-keys)
-        cam (add-fly-camera! path look offset-keys)]
-    (ease-object-fcurves! look)
-    (ease-object-fcurves! cam)
-    (configure-scene-camera! cam end-frame)
-    (view-fly-camera!)
-    {:path "site-fly-path"
-     :lookat "site-fly-lookat"
-     :camera "site-fly-camera"
-     :frames [1 end-frame]}))
+        offset-keys (tour-offset-keys path-local)]
+    (if (or (empty? tour-path-spec) (empty? offset-keys))
+      (do
+        (when existing-cam (view-fly-camera!))
+        {:fly :no-tour
+         :reason (if (empty? tour-path-spec) :empty-path-spec :degenerate-path)})
+      (do
+        (remove-fly-proof!)
+        (let [path-pts (mapv #(house-nw->world s %) path-local)
+              look-keys (mapv (fn [[frame p]] [frame (house-nw->world s p)]) (tour-look-local s))
+              end-frame (first (last offset-keys))
+              start-look (second (first look-keys))
+              path (add-fly-path! path-pts)
+              look (add-fly-lookat! start-look)
+              _ (keyframe-lookat! look look-keys)
+              cam (add-fly-camera! path look offset-keys)]
+          (ease-object-fcurves! look)
+          (ease-object-fcurves! cam)
+          (configure-scene-camera! cam end-frame)
+          (view-fly-camera!)
+          {:path "site-fly-path"
+           :lookat "site-fly-lookat"
+           :camera "site-fly-camera"
+           :frames [1 end-frame]})))))
 
 (defn ensure-fly-proof!
   "Alias for ensure-fly-tour! (RCF compat)."
