@@ -133,6 +133,8 @@ Bad cooking analogy, useful knob: the recipe has **three layers**, each with a d
 - [x] Pre-cooked demo scene + UI — `(yardcraft.site/ensure-demo!)` / `yardcraft.site-demo`: YARDCRAFT patio letters, furniture, sundial, orbit fly, N-panel **Set time** + **Fly cam** (demo-aware).
 - Blender nREPL UI terms (from screenshot): **Output Properties** tab (printer icon) → **Basilisp nREPL server** panel → project path + **START SERVER**.
 - Fixed: `site.cljc` must **not** `:require` `site-ui` (cycle → `clear-site!` unresolved). RCF requires UI locally.
+- Fixed: README quote-plan needs `sug` in `site.cljc`; `site-suggestions` must not hard-require `site` (cycle) — use `ns-resolve` for `clear-site!` / `ensure-site!`. Verify reload on `basilisp-blender`.
+- [ ] **Code sanity pass:** sweep `src/yardcraft` (+ story-claimed APIs) for silly bugs / footguns like require cycles, README/REPL snippets that don’t resolve, stubbed paths the UI still calls, “one shape” leftovers. Prefer REPL load/resolve checks over eyeballing alone.
 - Tip: if `sys.modules` has a `nil` tombstone for `yardcraft`, pop it; `sys.path` needs repo `src/` before `yardcraft.*` — normally from Calva connect, not a manual `(user/init!)` every time.
 - `(user/init!)` runs in Calva **basilisp-blender** connect sequence (`afterPrimaryReplConnectedCode`). Agents: skip re-run after normal connect; still useful after Blender restart (before reconnect) or if `sys.path` got blown.
 - Agent story beat after connect: call `(ensure-demo!)` (from `yardcraft.site`) so the visitor sees the fun scene quickly.
