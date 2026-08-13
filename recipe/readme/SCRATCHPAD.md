@@ -147,7 +147,6 @@ Bad cooking analogy, useful knob: the recipe has **three layers**, each with a d
 - [x] README basilisp-blender install beat — close Blender → agent CLI install → reopen + nREPL panel (PEZ voice pass done).
 - [ ] Voice pass: PEZ continues story; agent only spelling/grammar + asks.
 - [x] Wire recipe machinery for inventory backlog (AGENTS + phase skills + skill refresh + fly/UI guards).
-- [ ] Voice pass: PEZ continues story; agent only spelling/grammar + asks.
 - [ ] Periodic code sanity re-pass after further story/code churn.
 
 ## Open questions (ask PEZ)
