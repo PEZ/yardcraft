@@ -46,11 +46,11 @@ The agent will help you get everything else in place. (If you don't have Git, th
 
 **Human:** Blender installed!
 
-**Agent:** I've downloaded the Basilisp Blender extension to ~/Downloads/basilisp-blender.zip. In Blender: **Edit → Preferences → Get Extensions → Install From Disk…**, pick the zip, enable it if asked. Let me know when you're done, or if you need help.
+**Agent:** We need to install basilisp-blender, an extension that both makes Blender scriptable via interactive programming (a super dynamic kind of programming) and gives us (you and me) a connection to the Blender runtime environment. I will install the right version, but I see that Blender is still running after you tested that it starts. Please close it.
 
-**Human:** Extension installed
+**Human:** Blender closed!
 
-**Agent:** Now we need to start the nREPL server so that I can drive Blender. Open the **Output Properties** tab (printer icon) and find the **Basilisp nREPL server** panel. Set the project path to this project folder, then click **START SERVER**. Tell me when it's running.
+**Agent:** *...installs the basilisp-blender extension in Blender...* Extension installed, now we need to start its nREPL server so that I can drive Blender. Please start Blender again and open the **Output Properties** tab (printer icon) and find the **Basilisp nREPL server** panel. Set the project path to this project folder, then click **START SERVER**. Tell me when it's running.
 
 ![Blender Output Settings nREPL](recipe/readme/images/basilisp-blender-nrepl-panel.png)
 

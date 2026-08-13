@@ -1,55 +1,51 @@
-# Upgrade Basilisp past the bundled wheel
+# Extension zip / Basilisp version
 
-basilisp-blender ships an older Basilisp wheel (observed **0.4.0**). Yardcraft needs **≥ 0.5.0** (verified **0.5.1** on Blender ≥ 5.2.0 LTS / Python 3.13) so Calva **load-file** and module aliases work.
+Yardcraft installs a **pre-upstream basilisp-blender zip** that already bundles **Basilisp 0.5.1** (not the stock release with an older wheel).
+
+- Release: [PEZ v0.5.0-basilisp-0.5.1](https://github.com/PEZ/basilisp-blender/releases/tag/v0.5.0-basilisp-0.5.1)
+- Asset: [basilisp_blender_extension-0.5.0.zip](https://github.com/PEZ/basilisp-blender/releases/download/v0.5.0-basilisp-0.5.1/basilisp_blender_extension-0.5.0.zip)
+
+## Install (agents / do-mode — CLI first)
+
+1. Download the PEZ asset (Babashka `bb` / `babashka.http-client`, or any HTTP tool).
+2. Install and enable via Blender's extension CLI (`-r user_default` = user extensions repo; `-e` = enable after install):
+
+```bash
+blender --command extension install-file /path/to/basilisp_blender_extension-0.5.0.zip -r user_default -e
+```
+
+Upstream docs: [ikappaki/basilisp-blender](https://github.com/ikappaki/basilisp-blender).
+
+### Finding `blender`
+
+- Prefer `command -v blender` / `which blender` when Blender is on `PATH` (Linux packages, some macOS installs).
+- **macOS app bundle fallback** when `blender` is not on `PATH`:
+
+```bash
+/Applications/Blender.app/Contents/MacOS/Blender --command extension install-file /path/to/basilisp_blender_extension-0.5.0.zip -r user_default -e
+```
+
+Adjust the `.app` path if Blender lives elsewhere.
+
+### Fallback: Install From Disk
+
+If the CLI is missing, points at the wrong Blender build, or `install-file` fails: **Edit → Preferences → Get Extensions → Install From Disk…**, select the zip, then enable **Basilisp Blender Extension**. See [nrepl-and-setup.md](nrepl-and-setup.md) for panel and connect steps.
 
 ## Why
 
-[Basilisp #1302](https://github.com/basilisp-lang/basilisp/issues/1302) breaks Calva load-file / host ns aliases (`basilisp_core` and similar missing). Symptoms in Yardcraft: flaky UI / sun / fly after load-file, or missing aliases when requiring modules.
+[Basilisp #1302](https://github.com/basilisp-lang/basilisp/issues/1302) breaks Calva load-file and module aliases when Basilisp is below 0.5. The bundled zip avoids a separate pip overlay.
 
-This is an **install overlay** into the extension’s `.local` site-packages — not a source patch of [ikappaki/basilisp-blender](https://github.com/ikappaki/basilisp-blender). The extension still bundles the old wheel; pip into `.local` overlays it (takes precedence for that Blender Python).
+## Temporary
 
-## When
+Upstream fix tracked in [ikappaki/basilisp-blender#14](https://github.com/ikappaki/basilisp-blender/pull/14). After that merges and releases, switch to upstream zips and this note can shrink or go away.
 
-- Fresh basilisp-blender extension install or update
-- `(importlib.metadata/version "basilisp")` reports `< 0.5.0`
-- Calva load-file / require alias bugs consistent with #1302
-
-## Procedure
-
-Paths depend on Blender version + embedded Python. Example for **Blender ≥ 5.2.0 LTS** / **Python 3.13** on macOS:
-
-```bash
-TARGET="/Users/<you>/Library/Application Support/Blender/5.2/extensions/.local/lib/python3.13/site-packages"
-PY="/Applications/Blender.app/Contents/Resources/5.2/python/bin/python3.13"
-
-# 1) Upgrade into the extension .local site-packages (not Homebrew / system Python)
-"$PY" -m pip install --upgrade "basilisp>=0.5.0" --target "$TARGET"
-
-# 2) Optional: remove stale dist-info for the old bundled version
-# rm -rf "$TARGET/basilisp-0.4.0.dist-info"
-
-# 3) Clear stale Basilisp bytecode — REQUIRED (else nREPL panel may fail to register: Var_31/Var_32)
-find "$TARGET" -type f -name '*.lpyc' -delete
-# also project caches if any:
-# find /path/to/yardcraft -type f -name '*.lpyc' -delete
-
-# 4) Fully quit + restart Blender, start nREPL (Properties → Output → Basilisp nREPL), reconnect Calva
-```
-
-## Verify (REPL after restart)
+## Verify (optional, REPL after install)
 
 ```clojure
 (import importlib.metadata)
-(importlib.metadata/version "basilisp")  ; expect >= 0.5.0
+(importlib.metadata/version "basilisp")  ; expect >= 0.5.1
 ```
 
-## Pitfalls
+## Historical / emergency only
 
-| Pitfall | Effect |
-|---|---|
-| pip via Homebrew / wrong Python | Wrong env; Blender still runs the old wheel |
-| Skip `*.lpyc` clear | nREPL panel may disappear / fail to register |
-| Skip full Blender restart after pip | Stale runtime still loaded |
-| Patching the extension repo instead of `.local` | Unnecessary; overlay is enough |
-
-Re-run this overlay after a fresh extension install if the bundled Basilisp is still `< 0.5`.
+If you must use stock upstream and Basilisp is still `< 0.5`, pip into the extension `.local` site-packages was the old overlay path — see git history of this file. Default remains: install the PEZ zip above.

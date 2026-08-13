@@ -4,19 +4,22 @@ Upstream README: https://github.com/ikappaki/basilisp-blender
 
 ## Extension install (Blender ≥ 5.2.0 LTS)
 
-1. Download `basilisp_blender_extension-<version>.zip` from releases
-2. `Edit → Preferences → Get Extensions → Install From Disk…`
-3. Enable **Basilisp Blender Extension** under Add-ons
+**Agents / do-mode (CLI first):**
 
-CLI variant:
+1. Download `basilisp_blender_extension-<version>.zip` from releases
+2. Install and enable from the shell:
 
 ```bash
-blender --command extension install-file basilisp_blender_extension-<version>.zip -r user_default -e
+blender --command extension install-file /path/to/basilisp_blender_extension-<version>.zip -r user_default -e
 ```
+
+Find `blender` on `PATH`, or on macOS use `/Applications/Blender.app/Contents/MacOS/Blender` when the binary is not on `PATH`. Full steps and PEZ asset URL: [upgrade-basilisp.md](upgrade-basilisp.md).
+
+**Fallback (human UI):** `Edit → Preferences → Get Extensions → Install From Disk…`, then enable **Basilisp Blender Extension** under Add-ons — only when the CLI is missing or `install-file` fails.
 
 Older Blender: manual `pip install basilisp-blender` into Blender’s Python (see upstream “Manual Installation”).
 
-After install/update: overlay Basilisp **≥ 0.5** into the extension `.local` site-packages (bundled wheel may be older). See [upgrade-basilisp.md](upgrade-basilisp.md).
+**Yardcraft default:** install the [PEZ zip bundling Basilisp 0.5.1](https://github.com/PEZ/basilisp-blender/releases/tag/v0.5.0-basilisp-0.5.1) instead of stock upstream (temporary until [ikappaki/basilisp-blender#14](https://github.com/ikappaki/basilisp-blender/pull/14)). See [upgrade-basilisp.md](upgrade-basilisp.md) for download, CLI install, and version note.
 
 ## Control panel
 

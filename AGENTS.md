@@ -15,7 +15,7 @@ Exploratory Blender workspace driven by **Basilisp** (Clojure-compatible Lisp on
 4. **Install packaged skills** — **copy** (install) everything under this repo’s `recipe/skills/` into the harness skill location (for Cursor: typically `.cursor/skills/`). Keep `recipe/skills/` in the repo as the canonical package; do not empty it.
 5. **Tooling floors**
    - **Blender ≥ 5.2.0 LTS**
-   - **basilisp-blender** extension + Basilisp **≥ 0.5** overlay (see `recipe/skills/basilisp-blender/references/upgrade-basilisp.md`)
+   - **basilisp-blender** — download and install the [PEZ zip](https://github.com/PEZ/basilisp-blender/releases/tag/v0.5.0-basilisp-0.5.1) via `blender --command extension install-file <zip> -r user_default -e` (temporary until [upstream PR #14](https://github.com/ikappaki/basilisp-blender/pull/14); Install From Disk only if CLI fails — see `recipe/skills/basilisp-blender/references/upgrade-basilisp.md`)
    - **Babashka** (`bb`) for host-side HTTP/fs
    - **Epupp** for live browser map UI exploration when ingesting national maps
 6. **Shared dialect skills** — detect whether `clojure`, `babashka`, and `epupp` skills are already available in the harness; if missing, install from their upstream skill packages (Awesome Backseat Driver / Epupp docs) before Yardcraft site work.
@@ -136,7 +136,7 @@ Contractor dimensioned top-down SVG from site facts (not a Blender screenshot): 
 
 ## Session bootstrap
 
-After installing or updating the basilisp-blender extension, upgrade Basilisp to **≥ 0.5** into the extension `.local` site-packages (fixes [#1302](https://github.com/basilisp-lang/basilisp/issues/1302) Calva load-file / module aliases). Procedure: **`basilisp-blender`** skill → [references/upgrade-basilisp.md](recipe/skills/basilisp-blender/references/upgrade-basilisp.md).
+Install the recommended [PEZ basilisp-blender zip](https://github.com/PEZ/basilisp-blender/releases/tag/v0.5.0-basilisp-0.5.1) via `blender --command extension install-file <zip> -r user_default -e` — it already includes Basilisp **≥ 0.5.1** (fixes [#1302](https://github.com/basilisp-lang/basilisp/issues/1302) Calva load-file / module aliases). When doing setup for the human, prefer this CLI path; don't ask them to Install From Disk unless the CLI is missing or fails. Details: **`basilisp-blender`** skill → [references/upgrade-basilisp.md](recipe/skills/basilisp-blender/references/upgrade-basilisp.md).
 
 1. Blender: Basilisp Project Directory = repo root; start nREPL (writes [`.nrepl-port`](.nrepl-port)).
 2. Calva: connect sequence **`basilisp-blender`** (session key `basilisp-blender`) — not the generic basilisp picker alone.

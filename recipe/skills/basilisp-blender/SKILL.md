@@ -44,6 +44,8 @@ Connect: Calva → *Connect to a Running REPL Server* → **basilisp**.
 
 ## Yardcraft session bootstrap
 
+**Do-mode install:** download the PEZ zip, then `blender --command extension install-file <zip> -r user_default -e` (not Install From Disk unless CLI fails) — [references/upgrade-basilisp.md](references/upgrade-basilisp.md).
+
 Yardcraft connect (this repo):
 
 - Calva connect sequence: **`basilisp-blender`** (not generic basilisp alone); session key `basilisp-blender`
@@ -119,7 +121,7 @@ Depth + explicit non-claims (`:reload-all` RecursionError not invariant): [refer
 | Reference | Load when |
 |---|---|
 | [references/nrepl-and-setup.md](references/nrepl-and-setup.md) | Install, panel, manual `server_start`, logging |
-| [references/upgrade-basilisp.md](references/upgrade-basilisp.md) | Basilisp below 0.5 / Calva load-file alias bugs (#1302) / after fresh extension install |
+| [references/upgrade-basilisp.md](references/upgrade-basilisp.md) | Extension zip / Basilisp version — PEZ pre-upstream zip bundles ≥ 0.5.1 (#1302) |
 | [references/bpy-patterns.md](references/bpy-patterns.md) | Materials, ops, scene query recipes, torus example notes |
 | [references/api.md](references/api.md) | `nrepl-server-start`, `class-make*` |
 | [references/verified-quirks.md](references/verified-quirks.md) | bpy session attrs, scene.yardcraft identity, EnumProperty bake |
@@ -129,3 +131,5 @@ Depth + explicit non-claims (`:reload-all` RecursionError not invariant): [refer
 - Repo: https://github.com/ikappaki/basilisp-blender
 - API: https://github.com/ikappaki/basilisp-blender/blob/main/API.md
 - Blender Python API: https://docs.blender.org/api/current/
+
+Until [ikappaki/basilisp-blender#14](https://github.com/ikappaki/basilisp-blender/pull/14) lands, Yardcraft uses the [PEZ release](https://github.com/PEZ/basilisp-blender/releases/tag/v0.5.0-basilisp-0.5.1) that bundles Basilisp 0.5.1 — see [references/upgrade-basilisp.md](references/upgrade-basilisp.md).

@@ -16,8 +16,21 @@ Working notes for crafting visitor-facing onboarding. **Not** for GitHub visitor
 - Don’t ask the user for facts the agent knows or can check (harness, `PATH`, repo contents).
 - Visitor-facing text = **need-to-know**: outcomes and next moves, not tooling meta (no LSP settings essays, no Setup-progress lectures).
 - LSP / `clojure` on `PATH`: at clone-time check; enable Calva LSP if CLI present; otherwise leave `"never"`; offer richer editor nav **after base design** — Java/Clojure not part of Yardcraft setup. Keep this out of the example chat unless a short user-facing offer fits later.
-- basilisp-blender: agent downloads the extension zip; install via Blender UI (Install From Disk) or `blender --command extension install-file … -e` if `blender` is on `PATH`.
+- basilisp-blender (see `### basilisp-blender zip (temporary)` below):
+  - **Do mode** (default when human chose Do): agent downloads the **Yardcraft-recommended PEZ zip**, then installs+enables via CLI ([ikappaki/basilisp-blender](https://github.com/ikappaki/basilisp-blender) README):
+    ```shell
+    blender --command extension install-file <path-to-zip> -r user_default -e
+    ```
+    Resolve `blender` on `PATH` (macOS: `/Applications/Blender.app/Contents/MacOS/Blender` if bare `blender` missing). Fall back to human **Install From Disk** only if CLI unavailable/fails — download still helps.
+  - **Instructions-only mode:** give human the zip path + Install From Disk (or the CLI command if they want).
 - Setup progress in `AGENTS.md` useful for reload / new-chat resume (not the main clone handoff anymore).
+
+### basilisp-blender zip (temporary)
+
+- Release: [PEZ v0.5.0-basilisp-0.5.1](https://github.com/PEZ/basilisp-blender/releases/tag/v0.5.0-basilisp-0.5.1)
+- Asset: `https://github.com/PEZ/basilisp-blender/releases/download/v0.5.0-basilisp-0.5.1/basilisp_blender_extension-0.5.0.zip` — save e.g. `~/Downloads/basilisp-blender.zip`
+- Bundles **Basilisp ≥ 0.5.1** — fixes [basilisp#1302](https://github.com/basilisp-lang/basilisp/issues/1302) (Calva load-file / module aliases) **without** old pip-into-`.local` overlay
+- Pre-upstream: [PR #14](https://github.com/ikappaki/basilisp-blender/pull/14) to ikappaki — once merged+released upstream, prefer upstream again and drop special-version callout
 
 ### Editor extensions (Cursor CLI)
 
@@ -47,19 +60,25 @@ Working notes for crafting visitor-facing onboarding. **Not** for GitHub visitor
 | Harness in example | Cursor + Calva + Backseat Driver |
 | Blender download | Link [blender.org/download](https://www.blender.org/download/) (story currently says “latest”) |
 | Template flow | Use this template → clone → open → Hello |
+| basilisp-blender zip | PEZ `v0.5.0-basilisp-0.5.1` until upstream ships Basilisp 0.5.1 (PR #14) |
+| basilisp-blender install | Do mode → CLI `extension install-file … -e`; UI Install From Disk = fallback / instructions-only |
 
 ## Todos
 
 - [ ] Write instructions in `AGENTS.md` and/or a skill: check whether Calva + Calva Backseat Driver are installed; install via `cursor --install-extension` if missing (commands above). Keep Joyride out of that path.
-- [ ] Align `AGENTS.md` Setup with the example story (demo scene first, Calva connect UX, Blender “latest” vs ≥ 5.2 LTS, basilisp-blender download/install, LSP rules, progress block, don’t-ask-what-you-know).
+- [ ] Align `AGENTS.md` Setup with the example story (demo scene first, Calva connect UX, Blender “latest” vs ≥ 5.2 LTS, PEZ basilisp-blender zip download/install, LSP rules, progress block, don’t-ask-what-you-know).
+- [x] Retire `recipe/skills/basilisp-blender/references/upgrade-basilisp.md` overlay procedure from the skill (point at bundled zip / PR instead).
+- [x] Update `AGENTS.md` Setup / Session bootstrap: special PEZ zip for now; no ≥0.5 overlay step; note temporary until upstream PR merges.
 - [ ] Align / refresh skills so demo scene + N-panel + fly-cam buttons are deliverable as written.
 - [ ] **Pending:** Align `EXAMPLE-COOKING.md` intro with post-demo state (demo still up / about to replace — not “empty site”). Wait a bit before editing.
 - [ ] GIF/screenshot for demo viewport placeholder.
 - [x] Pre-cooked demo scene + UI — `(yardcraft.site/ensure-demo!)` / `yardcraft.site-demo`: YARDCRAFT patio letters, furniture, sundial, orbit fly, N-panel **Set time** + **Fly cam** (demo-aware).
 - Blender nREPL UI terms (from screenshot): **Output Properties** tab (printer icon) → **Basilisp nREPL server** panel → project path + **START SERVER**.
 - Fixed: `site.cljc` must **not** `:require` `site-ui` (cycle → `clear-site!` unresolved). RCF requires UI locally.
-- Tip: if `sys.modules` has a `nil` tombstone for `yardcraft`, pop it; prefer absolute `src` on `sys.path` via `user/init!`.
+- Tip: if `sys.modules` has a `nil` tombstone for `yardcraft`, pop it; `sys.path` needs repo `src/` before `yardcraft.*` — normally from Calva connect, not a manual `(user/init!)` every time.
+- `(user/init!)` runs in Calva **basilisp-blender** connect sequence (`afterPrimaryReplConnectedCode`). Agents: skip re-run after normal connect; still useful after Blender restart (before reconnect) or if `sys.path` got blown.
 - Agent story beat after connect: call `(ensure-demo!)` (from `yardcraft.site`) so the visitor sees the fun scene quickly.
+- [ ] **README story gap:** Getting Started still has agent download + human Install From Disk after “Do.” — **PEZ voice pass** should flip that beat to agent CLI install (agent announces done, next is nREPL panel). Agent must not rewrite that dialogue without PEZ.
 - [ ] Voice pass: PEZ continues story; agent only spelling/grammar + asks.
 - [ ] Wire recipe machinery after the story feels right.
 
