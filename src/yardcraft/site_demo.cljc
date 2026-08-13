@@ -7,7 +7,9 @@
   (:require [basilisp.string :as string]
             [yardcraft.site :as site]
             [yardcraft.site-demo-fly :as demo-fly]
+            [yardcraft.site-demo-hierarchy :as demo-hier]
             [yardcraft.site-furniture :as furniture]
+            [yardcraft.site-hierarchy :as hierarchy]
             [yardcraft.site-mesh :as mesh]
             [yardcraft.site-railing :as railing]
             [yardcraft.site-sun :as sun]
@@ -482,6 +484,7 @@
     (reset! demo-facts* s')
     (furniture/orient-loungers-to-sun! s')
     (paint-demo! s')
+    (demo-hier/sync-demo-hierarchy! s')
     (dissoc r :site)))
 
 (defn preview-demo-time!
@@ -496,6 +499,7 @@
     (reset! demo-facts* s')
     (furniture/orient-loungers-to-sun! s')
     (paint-demo! s')
+    (demo-hier/sync-demo-hierarchy! s')
     (dissoc r :site)))
 
 (defn- register-ui! []
@@ -507,6 +511,7 @@
   (reset-demo-facts!)
   (railing/clear-railings!)
   (let [s (demo-facts)
+        _ (hierarchy/ensure-site-root! s)
         terrain (build-terrain!)
         yard (build-yard-patios!)
         brick (build-brick!)
@@ -521,6 +526,7 @@
         _ (reset! demo-facts* s')
         sun-r (sun/ensure-sun! s')
         painted (paint-demo! s')
+        hierarchy (demo-hier/sync-demo-hierarchy! s')
         fly (demo-fly/ensure-orbit-fly!)]
     (viewport/hide-relationship-lines!)
     (viewport/show-rendered!)
@@ -537,5 +543,6 @@
        :world world-r
        :aim (dissoc aimed :site)
        :paint painted
+       :hierarchy hierarchy
        :fly fly
        :ui ui-r})))

@@ -170,11 +170,16 @@
   (when-let [root (mesh/object-by-name "site-root")]
     (parent-names-under-root! root (house-center-parent-inverse s) top)))
 
-(defn organize-site-hierarchy!
-  "Nest site meshes under hidden site-grp-* empties for Outliner navigation.
+(defn organize-hierarchy!
+  "Nest site meshes under hidden site-grp-* empties per `hierarchy` tree.
   Top groups parent under site-root with the house-center pivot when root exists.
-  Idempotent; safe to call after place-cars!/place-trees!."
-  [s]
-  (let [top (mapv apply-hierarchy-node! site-hierarchy)]
+  Idempotent."
+  [s hierarchy]
+  (let [top (mapv apply-hierarchy-node! hierarchy)]
     (parent-top-groups-under-root! s top)
     {:groups top}))
+
+(defn organize-site-hierarchy!
+  "Nest site meshes under the default site Outliner tree; parent under site-root."
+  [s]
+  (organize-hierarchy! s site-hierarchy))
