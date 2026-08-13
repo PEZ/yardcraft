@@ -76,7 +76,7 @@ What do you see now?
 
 **Human:** Great. Now what?
 
-**Agent:** Now I will need to ask you for information and material so that we can get the base structure of your yard up to replace the demo design. Material such as maps and sketch over photos, and we will try to find information from the web and any open APIs to make the manual labor less. You can look at the [`EXAMPLE-COOKING.md`](EXAMPLE-COOKING.md) document to get an idea for what the process may look like. Or just jump straight in at the deep end, let me know when you are ready for the next step.
+**Agent:** Now I will need to ask you for information and material so that we can get the base structure of your yard up to replace the demo design. Material such as maps and sketch over photos, and we will try to find information from the web and any open APIs to make the manual labor less. You can look at the [`MY-BASE-DESIGN-PROCESS.md`](MY-BASE-DESIGN-PROCESS.md) document to get an idea for what the process may look like. Or just jump straight in at the deep end, let me know when you are ready for the next step.
 
 **Human:** Let's get cranking!
 
@@ -84,7 +84,7 @@ What do you see now?
 
 The setup chat above will look differently depending on a lot of things. You may be using something else than Cursor (I've heard such stories!), Blender could be installed. Maybe you rather do the setup steps yourself and just have the agent as a guide. And so on. But the differences up to here are nothing compared to what's ahead. So I will leave off here, you will figure it out and the LLMs of today are super handy when it comes to knowing about and finding out about different options.
 
-You can read a bit on what process I found with my terrace redesign here: [`EXAMPLE-COOKING.md`](EXAMPLE-COOKING.md). And also you may want to have a watch: YouTube: [Yardcraft: Redesigning my terrace w/ Calva + Blender + Basilisp + Grok](https://www.youtube.com/watch?v=_JDSeMP8RhE) (Which doesn't cover base setup a ton, but there is at least a mention.)
+You can read a bit on what process I found with my terrace redesign here: [`MY-BASE-DESIGN-PROCESS.md`](MY-BASE-DESIGN-PROCESS.md). And also you may want to have a watch: YouTube: [Yardcraft: Redesigning my terrace w/ Calva + Blender + Basilisp + Grok](https://www.youtube.com/watch?v=_JDSeMP8RhE) (Which doesn't cover base setup a ton, but there is at least a mention.)
 
 
 ## Custom UI
@@ -134,7 +134,7 @@ As more people use this recipe we should be able to improve the skills and instr
 
 ## Recipe content
 
-- Example cook (how I created my base design): [`EXAMPLE-COOKING.md`](EXAMPLE-COOKING.md)
+- Base design process (how I created my base design): [`MY-BASE-DESIGN-PROCESS.md`](MY-BASE-DESIGN-PROCESS.md)
 - Site reading notes (human): [`site.md`](site.md)
 - Agent orientation / Setup: [`AGENTS.md`](AGENTS.md)
 - Recipe package (skills, example images, helper scripts): [`recipe/`](recipe/)

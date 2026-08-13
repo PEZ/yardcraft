@@ -4,7 +4,7 @@ Working notes for crafting visitor-facing onboarding. **Not** for GitHub visitor
 
 ## Collaboration workflow
 
-- PEZ owns story voice and beats in `README.md` / `EXAMPLE-COOKING.md`.
+- PEZ owns story voice and beats in `README.md` / `MY-BASE-DESIGN-PROCESS.md`.
 - Agent: **understand** PEZ-written parts; only apply **spelling and grammar** there.
 - If something looks wrong, unintentional, or unclear → **ask**, don’t rewrite.
 - Agent-authored drafts may be rewritten more freely until PEZ takes the pen on that passage.
@@ -49,14 +49,14 @@ Working notes for crafting visitor-facing onboarding. **Not** for GitHub visitor
 - Early win: **demo scene** (YARDCRAFT letters, furniture, sundial, fly-cam, Yardcraft panel) before real-lot work — delight before survey grind.
 - Calibrate Blender skill (1–5) and do-vs-instructions early.
 - Human-only Blender UI steps spelled out with clicks; screenshot where it helps (`recipe/readme/images/`).
-- Point to `EXAMPLE-COOKING.md` as optional process preview (memoir of maps + paper light-table + Epupp/Babashka); still allow jumping straight in.
+- Point to `MY-BASE-DESIGN-PROCESS.md` as optional process preview (memoir of maps + paper light-table + Epupp/Babashka); still allow jumping straight in.
 - Intentional PEZ phrasings in the cooking doc (“more better”, “flat juice with flat juice”) — do not “fix”.
 
 ## Locked decisions
 
 | Topic | Decision |
 |---|---|
-| Doc split | Short Getting Started + product tour in README; **personal base-design memoir** in `EXAMPLE-COOKING.md` (not a second example chat / not a pretend cook). Deviates from README example-chat shape by design. |
+| Doc split | Short Getting Started + product tour in README; **personal base-design memoir** in `MY-BASE-DESIGN-PROCESS.md` (not a second example chat / not a pretend cook). Deviates from README example-chat shape by design. |
 | Example site / images | Real PEZ terrace/driveway story; images under `recipe/example-source-images/` (`.jpg`: lot-road, house-shed-terrace, elevation-lines) — illustrative of one cook, not “swap for yours” beat |
 | Harness in example | Cursor + Calva + Backseat Driver |
 | Blender download | Link [blender.org/download](https://www.blender.org/download/) (story currently says “latest”) |
@@ -71,7 +71,7 @@ Working notes for crafting visitor-facing onboarding. **Not** for GitHub visitor
 - [x] Retire `recipe/skills/basilisp-blender/references/upgrade-basilisp.md` overlay procedure from the skill (point at bundled zip / PR instead).
 - [x] Update `AGENTS.md` Setup / Session bootstrap: special PEZ zip for now; no ≥0.5 overlay step; note temporary until upstream PR merges.
 - [ ] Align / refresh skills so demo scene + N-panel + fly-cam buttons are deliverable as written.
-- ~~[ ] Align `EXAMPLE-COOKING.md` intro with post-demo state~~ — **obsolete:** cooking doc is a standalone memoir ending at base terrain, not continuing the example chat.
+- ~~[ ] Align `MY-BASE-DESIGN-PROCESS.md` intro with post-demo state~~ — **obsolete:** cooking doc is a standalone memoir ending at base terrain, not continuing the example chat.
 - [x] Demo viewport GIF (`recipe/readme/images/demo-scene.gif`).
 - [x] Pre-cooked demo scene + UI — `(yardcraft.site/ensure-demo!)` / `yardcraft.site-demo`: YARDCRAFT patio letters, furniture, sundial, orbit fly, N-panel **Set time** + **Fly cam** (demo-aware).
 - Blender nREPL UI terms (from screenshot): **Output Properties** tab (printer icon) → **Basilisp nREPL server** panel → project path + **START SERVER**.
