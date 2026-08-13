@@ -13,7 +13,7 @@ YouTube: [Yardcraft: Redesigning my terrace w/ Calva + Blender + Basilisp + Grok
 
 ## How it works
 
-Blender is driven live by you and the AI agent using [Basilisp](https://github.com/basilisp-lang/basilisp) (Clojure on Python) over nREPL using [basilisp-blender](https://github.com/ikappaki/basilisp-blender). 
+Blender is driven live by you and the AI agent using [Basilisp](https://github.com/basilisp-lang/basilisp) (Clojure on Python) over [nREPL](https://nrepl.org) using [basilisp-blender](https://github.com/ikappaki/basilisp-blender). 
 
 This recipe is provided to you as this project, and you then use your AI Agent as your guide and doer to set things up. Once you have things set up, you enter genie mode and can throw your ideas at the agent which carries them out and maintains the project for you. True vibe designing.
 
