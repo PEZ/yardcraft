@@ -7,6 +7,8 @@ Yardcraft installs a **pre-upstream basilisp-blender zip** that already bundles 
 
 ## Install (agents / do-mode — CLI first)
 
+**Quit Blender completely before running `extension install-file`.**
+
 1. Download the PEZ asset (Babashka `bb` / `babashka.http-client`, or any HTTP tool).
 2. Install and enable via Blender's extension CLI (`-r user_default` = user extensions repo; `-e` = enable after install):
 
@@ -33,7 +35,7 @@ If the CLI is missing, points at the wrong Blender build, or `install-file` fail
 
 ## Why
 
-[Basilisp #1302](https://github.com/basilisp-lang/basilisp/issues/1302) breaks Calva load-file and module aliases when Basilisp is below 0.5. The bundled zip avoids a separate pip overlay.
+The PEZ zip bundles **Basilisp ≥ 0.5.1**, fixing [Basilisp #1302](https://github.com/basilisp-lang/basilisp/issues/1302) (Calva load-file and module aliases break when Basilisp is below 0.5).
 
 ## Temporary
 
@@ -45,7 +47,3 @@ Upstream fix tracked in [ikappaki/basilisp-blender#14](https://github.com/ikappa
 (import importlib.metadata)
 (importlib.metadata/version "basilisp")  ; expect >= 0.5.1
 ```
-
-## Historical / emergency only
-
-If you must use stock upstream and Basilisp is still `< 0.5`, pip into the extension `.local` site-packages was the old overlay path — see git history of this file. Default remains: install the PEZ zip above.

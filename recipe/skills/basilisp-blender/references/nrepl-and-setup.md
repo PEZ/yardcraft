@@ -6,6 +6,8 @@ Upstream README: https://github.com/ikappaki/basilisp-blender
 
 **Agents / do-mode (CLI first):**
 
+**Quit Blender completely before running `extension install-file`.**
+
 1. Download `basilisp_blender_extension-<version>.zip` from releases
 2. Install and enable from the shell:
 
@@ -23,18 +25,20 @@ Older Blender: manual `pip install basilisp-blender` into Blender’s Python (se
 
 ## Control panel
 
-Properties editor → **Output** (printer icon) → nREPL panel:
+Properties editor → **Output Properties** tab (printer icon) → **Basilisp nREPL server** panel:
 
-- Start / stop server
-- Bind host + port
-- Set **Basilisp Project Directory** (this repo root for Yardcraft)
+- Set **Basilisp Project Directory** to this repo root (Yardcraft)
+- Click **START SERVER** (stop when needed)
+- Bind host + port as needed
 
 Serving state writes/updates `.nrepl-port` in that directory.
+
+![Blender Output Properties nREPL panel](../../../readme/images/basilisp-blender-nrepl-panel.png) — screenshot at `recipe/readme/images/basilisp-blender-nrepl-panel.png`.
 
 ## Editor connect
 
 - **Calva (generic):** Command Palette → *Calva: Connect to a Running REPL Server, in your project* → `basilisp`
-- **Yardcraft:** use the **`basilisp-blender`** connect sequence (session key `basilisp-blender`), then confirm `user/init!` (loads via connect sequence) before requiring `yardcraft.*`
+- **Yardcraft:** use the **`basilisp-blender`** connect sequence (session key `basilisp-blender`); the sequence runs `user/init!` — re-run after Blender restart or if `src/` is missing from `sys.path` before requiring `yardcraft.*`
 - **CIDER:** `cider-connect-clj` → localhost → project:port
 
 Open `basilisp.edn` so Clojure features activate even though the runtime is Basilisp.

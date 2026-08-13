@@ -69,6 +69,25 @@ Top ortho over the sketch; curves are 2D and z-locked. **E** extrude, **G** grab
 (sketch/hide-drafts!)                   ; tuck the light table away
 ```
 
+## Lot / road polygon capture (improv)
+
+Elevation **contours** are first-class (`capture-draft-contour!` → `:terrain/contours`). Lot boundary and road inner edge use the same draft-curve tracing workflow, but you persist keys manually — there is no dedicated capture op yet.
+
+```clojure
+(sketch/seed-draft-contour! "draft-lot")          ; blank 2D BEZIER over the sketch
+(sketch/seed-draft-contour! "draft-road-inner")   ; road strip inner edge (name is arbitrary)
+;; human traces in Edit Mode (top ortho) …
+(sketch/draft-bezier-xy site "draft-lot")         ; preview [[x y] …] house-NW, cm-rounded
+(sketch/draft-bezier-xy site "draft-road-inner")
+(require '[yardcraft.site-data :as data])
+(data/persist-site! (assoc site
+                           :lot/polygon-xy lot-xy
+                           :road/inner-edge-xy road-xy))
+(ensure-site! site)                               ; rebuild on captured geometry
+```
+
+Use `draft-contour-xy` instead of `draft-bezier-xy` when control points alone are enough (same as RH00 contours). Promote into `src/yardcraft/site_data.cljc` only after the human confirms the viewport fit.
+
 ## Invariants
 
 - **Fit is computed, not eyeballed.** `sketch-fit` best-fits rotation + uniform scale + translation from a spec's `:corner-px` ↔ `:lot/polygon-xy` (`:sketch/specs` in `yardcraft.site-data`) and reports per-corner residuals — treat large residuals as a bad fit, not as truth.

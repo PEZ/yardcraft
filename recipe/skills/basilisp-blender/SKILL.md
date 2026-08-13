@@ -40,16 +40,16 @@ When the nREPL server starts with a **Basilisp Project Directory** set, that dir
 - `scratch.lpy` — playground
 - `.nrepl-port` — port file for Calva/CIDER (overwritten each start)
 
-Connect: Calva → *Connect to a Running REPL Server* → **basilisp**.
+Connect: Calva connect sequence **`basilisp-blender`** (named sequence in `.vscode/settings.json`). Use generic **basilisp** only when no Yardcraft sequence is available.
 
 ## Yardcraft session bootstrap
 
-**Do-mode install:** download the PEZ zip, then `blender --command extension install-file <zip> -r user_default -e` (not Install From Disk unless CLI fails) — [references/upgrade-basilisp.md](references/upgrade-basilisp.md).
+**Do-mode install:** quit Blender completely, download the PEZ zip, then `blender --command extension install-file <zip> -r user_default -e` (not Install From Disk unless CLI fails) — [references/upgrade-basilisp.md](references/upgrade-basilisp.md).
 
 Yardcraft connect (this repo):
 
 - Calva connect sequence: **`basilisp-blender`** (not generic basilisp alone); session key `basilisp-blender`
-- After connect: ensure `user.lpy` / `(user/init!)` ran (Calva `basilisp-blender` sequence does this) so `src/` is on `sys.path` before requiring `yardcraft.*`
+- The `basilisp-blender` connect sequence runs `user.lpy` / `(user/init!)` so `src/` is on `sys.path`; re-run `(user/init!)` after a Blender restart or if `sys.path` lost `src/` before requiring `yardcraft.*`
 - Sources are `.cljc` under `src/yardcraft/`; snake_case files → kebab-case namespaces
 - Host-side asset work: Babashka session `bb`; Blender/`bpy` stays on `basilisp-blender`
 

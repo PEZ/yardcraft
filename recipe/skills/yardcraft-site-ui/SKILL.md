@@ -4,8 +4,8 @@ description: >-
   Create, extend, reload, and maintain the Yardcraft Blender View3D N-panel UI
   (yardcraft.site-ui / site_ui.cljc). Use when the user mentions N-panel, site-ui,
   register!, unregister!, reload!, Yardcraft tab, Blender UI panel, View3D sidebar
-  controls, sun date/time scrub, canopy checkbox, suggestion Show/Base buttons,
-  or framing view operators in the Yardcraft panel.
+  controls, sun date, time-of-day slider (0–24h), Set time, suggestion Show/Base,
+  Fly cam, or demo-aware panel handlers after ensure-demo!.
 ---
 
 # Yardcraft site UI (N-panel ↔ orchestration)
@@ -20,7 +20,7 @@ Load before using this skill:
 2. **`basilisp-blender`** — nREPL-in-Blender, `bpy`, Yardcraft session bootstrap
 3. **`clojure`** — shared Clojure conventions (structural edits, REPL-first)
 
-After connect: confirm `user/init!` added `src/` to `sys.path` before requiring `yardcraft.*`. Session key: **`basilisp-blender`**. If Calva load-file alias bugs appear, Basilisp may be <0.5 — see basilisp-blender [upgrade-basilisp.md](../basilisp-blender/references/upgrade-basilisp.md).
+After connect: the `basilisp-blender` connect sequence runs `user/init!`; re-run if `src/` is missing from `sys.path` before requiring `yardcraft.*`. Session key: **`basilisp-blender`**. If Calva load-file alias bugs appear, Basilisp may be <0.5 — see basilisp-blender [upgrade-basilisp.md](../basilisp-blender/references/upgrade-basilisp.md).
 
 Tooling: `src/yardcraft/site_ui.cljc` (`yardcraft.site-ui`, alias `ui`).
 
@@ -59,13 +59,22 @@ Confirm against the live file before extending. As of skill authoring:
 
 | Control | Path |
 |---|---|
-| Sun date enum | `site/set-sun-date!` |
-| Time scrub (`FloatProperty` `TIME_ABSOLUTE` seconds) | preview → `site/preview-time-of-day!`; **Apply** → `site/set-time-of-day!` (loungers + persist) |
-| Slider `:text` | live HH:MM; keep Apply for commit |
-| Canopy checkbox | `terrace/set-terrace-roof-covering-visible!` |
+| Sun date enum | `site/set-sun-date!` (demo: `demo/set-demo-date!`) |
+| Time slider 0–24h (`FloatProperty` `TIME_ABSOLUTE` seconds) | preview on scrub → `site/preview-time-of-day!` (demo: `demo/preview-demo-time!`) |
+| Slider `:text` | live HH:MM |
+| **Set time** | `site/set-time-of-day!` (demo: `demo/set-demo-time!`) — commits sun aim + lounger re-orient |
 | Suggestion enum (staged) + Show / Base | `sug/show!` / `sug/show-base!` — no promote / `set-base!` in panel |
-| View | `viewport/frame-lot-top!`, `frame-lot-top-house!`, `frame-house-south!`, `frame-house-east!` |
-| Fly cam | `fly/view-fly-camera!` |
+| **Fly cam** | demo → `demo/ensure-orbit-fly!`; non-demo → `fly/ensure-fly-tour!` (narrative tour may be empty until authored — guard or no-op when `tour-path-spec` is empty) |
+
+### Demo-aware handlers
+
+When `(demo/demo-active?)` (demo objects present, e.g. after `(demo/ensure-demo!)`):
+
+- Sun date, time scrub, and **Set time** route to `demo/set-demo-date!`, `demo/preview-demo-time!`, `demo/set-demo-time!` instead of `site/*`.
+- **Fly cam** calls `demo/ensure-orbit-fly!` (orbit tour) instead of narrative `fly/ensure-fly-tour!`.
+- `(demo/ensure-demo!)` registers the panel via `(ui/register!)` at the end of the demo build — no separate register step needed for onboarding.
+
+Non-demo: sun/time use `site` facts; **Fly cam** builds the narrative tour from `yardcraft.site-fly` (`ensure-fly-tour!`). Until a site-specific `tour-path-spec` / `tour-look-spec` is authored, the tour may be empty — panel code should guard before calling `ensure-fly-tour!`.
 
 ## RCF / reload contract
 
@@ -82,7 +91,7 @@ Also: `(ui/unregister!)`, `(ui/reload!)` (unregister → reload ns → register)
 ## Adding a control
 
 1. Prefer an operator button calling an existing named fn with `site`.
-2. For props: update callback stays thin; heavy work behind **Apply** or a discrete enum change.
+2. For props: update callback stays thin; heavy work behind **Set time** or a discrete enum change.
 3. Register new classes in `register!` `classes` vector; unregister reverse order.
 4. Seed under `suppress-updates?*`.
 5. REPL-verify: register twice (idempotent) + exercise the control in the panel.
