@@ -34,6 +34,8 @@ The agent will help you get everything else in place. (If you don't have Git, th
 
 **Human:** Hello
 
+<details><summary>Click to open/close rest of chat session</summary>
+
 **Agent:** Hello! Yardcraft is designing your yard (patio, parking, lawn, trees — whatever) in Blender with me as your AI pair. I build in Blender, you check the viewport in Blender, we save into this project when you're happy. Don't worry if you don't know Blender — I can guide you. How would you rate your Blender knowledge? **1** never used it → **5** expert.
 
 **Human:** 2
@@ -83,6 +85,8 @@ What do you see now?
 **Agent:** Now I will need to ask you for information and material so that we can get the base structure of your yard up to replace the demo design. Material such as maps and sketch over photos, and we will try to find information from the web and any open APIs to make the manual labor less. You can look at the [`MY-BASE-DESIGN-PROCESS.md`](MY-BASE-DESIGN-PROCESS.md) document to get an idea for what the process may look like. Or just jump straight in at the deep end, let me know when you are ready for the next step.
 
 **Human:** Let's get cranking!
+
+</details>
 
 ## Your base design
 
