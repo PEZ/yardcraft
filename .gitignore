@@ -8,6 +8,8 @@ out/
 .DS_Store
 .venv*
 *.blend1
+# Harness-local skill install (canonical package stays under recipe/skills/)
+.cursor/
 assets/**/*.glb
 assets/**/*.gltf
 assets/**/*.bin

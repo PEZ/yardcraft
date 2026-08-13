@@ -489,7 +489,7 @@
 (comment
   (require '[yardcraft.site-data :refer [site]])
   (require '[yardcraft.site-suggestions :as sug])
-  (write-quote-plan! (sug/effective-site site :terrace-east-low-pad))
+  (write-quote-plan! (sug/effective-site site))
   (write-quote-plan! (sug/effective-site site) "out/quote-plan.svg")
   (write-quote-plan! (sug/effective-site site) "out/quote-plan.svg" {:show-angles? true})
   (:areas (plan-model (sug/effective-site site)))

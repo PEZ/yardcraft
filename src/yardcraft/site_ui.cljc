@@ -98,6 +98,12 @@
       (when (contains? date-id->iso iso-or-id) iso-or-id)
       "patio_season"))
 
+(defn- geo-ready?
+  "Site facts have lat/lon for solar aim."
+  [s]
+  (and (number? (:site/lat-deg s))
+       (number? (:site/lon-deg s))))
+
 (defn- on-date-update
   [props _context]
   (when-not (suppress-updates?)
@@ -105,7 +111,8 @@
       (when iso
         (if (demo/demo-active?)
           (demo/set-demo-date! iso)
-          (site/set-sun-date! site iso))))))
+          (when (geo-ready? site)
+            (site/set-sun-date! site iso)))))))
 
 (defn- on-time-update
   [props _context]
@@ -113,7 +120,8 @@
     (let [t (sun-time-str (seconds->hhmm (.-sun_time_of_day props)))]
       (if (demo/demo-active?)
         (demo/preview-demo-time! t)
-        (site/preview-time-of-day! site t)))))
+        (when (geo-ready? site)
+          (site/preview-time-of-day! site t))))))
 
 (defn- suggestion-enum-id
   [id]
@@ -197,7 +205,8 @@
                               time-str (sun-time-str (seconds->hhmm (.-sun_time_of_day props)))]
                           (if (demo/demo-active?)
                             (demo/set-demo-time! time-str)
-                            (site/set-time-of-day! site time-str))
+                            (when (geo-ready? site)
+                              (site/set-time-of-day! site time-str)))
                           finished))))
 
 (defn- make-show-suggestion-op

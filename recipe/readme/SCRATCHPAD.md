@@ -2,6 +2,12 @@
 
 Working notes for crafting visitor-facing onboarding. **Not** for GitHub visitors.
 
+## Guiding principles
+
+- **One shape ever** — The working tree (README, `AGENTS.md`, skills, code comments agents read) should read as if the recipe **always** had its current shape. No “formerly / retired / don’t use the old path / see git history for…”. Past lives belong in **git history only**. When changing a design, rewrite the present — don’t leave archaeology beside it. (Scrub pass: todos / inventory #23.)
+- **Story is the example / press release** — README chat shows the *kind* of experience; not a script to replay. `AGENTS.md` + skills make that experience deliverable via situational awareness.
+- **Human ⊗ AI ⊗ REPLs** + **OODA** — observe system, REPLs, project, and human before acting; depth in skills; λ for hard rules, prose when freer description fits (see below).
+
 ## Collaboration workflow
 
 - PEZ owns story voice and beats in `README.md` / `MY-BASE-DESIGN-PROCESS.md`.
@@ -37,7 +43,6 @@ Working notes for crafting visitor-facing onboarding. **Not** for GitHub visitor
 
 ## Crafting rules (author → agent behavior in examples)
 
-- **One shape ever:** the working tree should read as if the recipe always was this way. No “formerly / retired / don’t use the old path / see git history for overlay” in visitor- or agent-facing docs. Past lives belong in git history only (inventory #23 is one instance of this general rule).
 - Human clones / “Use this template” **before** Hello — agent needs the repo (`AGENTS.md`, recipe).
 - Don’t ask the user for facts the agent knows or can check (harness, `PATH`, repo contents).
 - Visitor-facing text = **need-to-know**: outcomes and next moves, not tooling meta (no LSP settings essays, no Setup-progress lectures).
@@ -88,7 +93,7 @@ Bad cooking analogy, useful knob: the recipe has **three layers**, each with a d
 
 **`AGENTS.md` role:** engage(nucleus) + thin **phase gate** + brief infra; depth in skills. Not a second README script. Agent updates phase/progress so the next Observe sees layer 1 / 2 / 3. Leaving a layer → strip that layer’s playbook noise.
 
-**Shapes still open:** mutate AGENTS per phase vs phase skills + gate only vs hybrid; where mid-phase checkboxes live.
+**Shape (lean locked):** hybrid — thin Phase gate + checkboxes in `AGENTS.md` + **`yardcraft-setup`** / **`yardcraft-base-design`** orchestrators; composable skills stay separate.
 
 ## Tone & level of detail (from current story)
 
@@ -112,38 +117,40 @@ Bad cooking analogy, useful knob: the recipe has **three layers**, each with a d
 | basilisp-blender zip | PEZ `v0.5.0-basilisp-0.5.1` until upstream ships Basilisp 0.5.1 (PR #14) |
 | basilisp-blender install | Do mode → close Blender → agent CLI `extension install-file … -e` → reopen + nREPL panel; UI Install From Disk = fallback / instructions-only |
 | Babashka in Hello | Install `bb` + jack-in Babashka REPL (status **bb**) **before** Blender; host REPL from the start |
-| One shape ever | Working tree reads as if the recipe always had the current shape; no retired-path archaeology in docs/skills/AGENTS (git history only) |
+| One shape ever | Guiding principle (top) — working tree presents only the current shape; archaeology in git only |
 | Story vs AGENTS | README chat = **example**; AGENTS = **engage(nucleus)** — OODA + **Human ⊗ AI ⊗ REPLs**; λ-notation for hard rules/invariants/trade-offs, prose when freer description fits |
 | Common vs situational ingredients | Always-ish: Babashka, Blender, basilisp-blender (+ Calva/Backseat path). Rest depends on Observe (harness, OS, what’s already there, country/maps, …) |
 | Three recipe layers | (1) toolchain/setup → (2) base design → (3) redesign/explore; AGENTS phase-aware; composable skills not folded into phase skills (see Three layers) |
-| Post-setup `AGENTS.md` | By layer 3 (and arguably after layer 1), AGENTS should not retain a full setup narrative — yard-use oriented; shape not locked |
+| Post-setup `AGENTS.md` | Living Phase section; layer skills; update progress as layers advance (hybrid locked) |
+| Inventory AFK pass | 2026-08-13 — backlog cranked; see `recipe/readme/subagents/inventory-X-cross-review.md` |
 
 ## Todos
 
-- [ ] Write instructions in `AGENTS.md` and/or a skill: check whether Calva + Calva Backseat Driver are installed; install via `cursor --install-extension` if missing (commands above). Keep Joyride out of that path.
-- [ ] Encode Babashka base-setup beat in playbook/skill (install + jack-in `bb` before Blender; progress mark).
-- [ ] Decide living-AGENTS + phase skills: layer 1 setup skill, layer 2 base-design skill, layer 3 explore mode; mutate/strip vs gate-only vs hybrid (see Three layers).
-- [ ] Rewrite `AGENTS.md` around engage(nucleus) + phase gate (not a README script); Human ⊗ AI ⊗ REPLs (bb + basilisp-blender); common ingredients + Observe-for-the-rest; Hello→layer 1 when appropriate; demo when scene REPL ready; progress / strip-when-leaving-layer.
+- [x] Calva + Backseat via `cursor --install-extension` in **yardcraft-setup** / AGENTS (Joyride out).
+- [x] Babashka base-setup beat in playbook/skill.
+- [x] Living-AGENTS hybrid: Phase gate + yardcraft-setup + yardcraft-base-design.
+- [x] Rewrite `AGENTS.md` around engage(nucleus) + phase gate.
 - [x] Retire overlay *procedure* from `upgrade-basilisp.md` / AGENTS (PEZ zip path).
-- [ ] **One shape ever scrub:** remove retired-path / overlay archaeology from the working tree (skills, AGENTS, docs); present only the current shape.
-- [x] Update `AGENTS.md` Setup / Session bootstrap: special PEZ zip for now; note temporary until upstream PR merges.
-- [ ] Align / refresh skills so demo scene + N-panel + fly-cam buttons are deliverable as written.
+- [x] **One shape ever scrub** (overlay archaeology) — re-scrub if new leftovers appear.
+- [x] PEZ zip Session bootstrap / setup skill path.
+- [x] Align skills: demo + N-panel Set time / Fly cam + connect sequence.
 - ~~[ ] Align `MY-BASE-DESIGN-PROCESS.md` intro with post-demo state~~ — **obsolete:** cooking doc is a standalone memoir ending at base terrain, not continuing the example chat.
 - [x] Demo viewport GIF (`recipe/readme/images/demo-scene.gif`).
 - [x] Pre-cooked demo scene + UI — `(yardcraft.site/ensure-demo!)` / `yardcraft.site-demo`: YARDCRAFT patio letters, furniture, sundial, orbit fly, N-panel **Set time** + **Fly cam** (demo-aware).
 - Blender nREPL UI terms (from screenshot): **Output Properties** tab (printer icon) → **Basilisp nREPL server** panel → project path + **START SERVER**.
 - Fixed: `site.cljc` must **not** `:require` `site-ui` (cycle → `clear-site!` unresolved). RCF requires UI locally.
 - Fixed: README quote-plan needs `sug` in `site.cljc`; `site-suggestions` must not hard-require `site` (cycle) — use `ns-resolve` for `clear-site!` / `ensure-site!`. Verify reload on `basilisp-blender`.
-- [ ] **Code sanity pass:** sweep `src/yardcraft` (+ story-claimed APIs) for silly bugs / footguns like require cycles, README/REPL snippets that don’t resolve, stubbed paths the UI still calls, “one shape” leftovers. Prefer REPL load/resolve checks over eyeballing alone.
+- [x] **Code sanity pass** (initial): fly no-tour guard; sun/time geo-guard; quote-plan RCF; cycle soft-deps OK. **Re-run** periodically.
 - Tip: if `sys.modules` has a `nil` tombstone for `yardcraft`, pop it; `sys.path` needs repo `src/` before `yardcraft.*` — normally from Calva connect, not a manual `(user/init!)` every time.
 - `(user/init!)` runs in Calva **basilisp-blender** connect sequence (`afterPrimaryReplConnectedCode`). Agents: skip re-run after normal connect; still useful after Blender restart (before reconnect) or if `sys.path` got blown.
 - Agent story beat after connect: call `(ensure-demo!)` (from `yardcraft.site`) so the visitor sees the fun scene quickly.
 - [x] README basilisp-blender install beat — close Blender → agent CLI install → reopen + nREPL panel (PEZ voice pass done).
 - [ ] Voice pass: PEZ continues story; agent only spelling/grammar + asks.
-- [ ] Wire recipe machinery after the story feels right.
+- [x] Wire recipe machinery for inventory backlog (AGENTS + phase skills + skill refresh + fly/UI guards).
+- [ ] Voice pass: PEZ continues story; agent only spelling/grammar + asks.
+- [ ] Periodic code sanity re-pass after further story/code churn.
 
 ## Open questions (ask PEZ)
 
-- Exact phase boundaries: does layer 1 end at **demo shown**, or only when human is ready to gather base material? Does layer 2 end when base facts are “good enough,” or an explicit “base done” human call?
-- Living AGENTS mechanism: mutate/strip per layer vs phase skills + thin gate only vs hybrid?
-- Mid-phase resume: checkboxes in AGENTS, tiny status stub, or only inside the active phase skill?
+- Exact phase boundaries: layer 1 end = demo shown vs “ready for material”? Layer 2 end = facts good enough vs explicit “base done”?
+- (Mechanism locked hybrid; refine boundaries with real Hello runs.)
