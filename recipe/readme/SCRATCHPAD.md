@@ -49,19 +49,20 @@ Working notes for crafting visitor-facing onboarding. **Not** for GitHub visitor
 - Early win: **demo scene** (YARDCRAFT letters, furniture, sundial, fly-cam, Yardcraft panel) before real-lot work — delight before survey grind.
 - Calibrate Blender skill (1–5) and do-vs-instructions early.
 - Human-only Blender UI steps spelled out with clicks; screenshot where it helps (`recipe/readme/images/`).
-- Point to `EXAMPLE-COOKING.md` as optional process preview; allow jumping straight in.
+- Point to `EXAMPLE-COOKING.md` as optional process preview (memoir of maps + paper light-table + Epupp/Babashka); still allow jumping straight in.
+- Intentional PEZ phrasings in the cooking doc (“more better”, “flat juice with flat juice”) — do not “fix”.
 
 ## Locked decisions
 
 | Topic | Decision |
 |---|---|
-| Doc split | Short Getting Started in README; longer pretend cook in `EXAMPLE-COOKING.md` |
-| Example site | **Example lot**, sample images under `recipe/example-source-images/` — pretend only, no “swap for yours” beat |
+| Doc split | Short Getting Started + product tour in README; **personal base-design memoir** in `EXAMPLE-COOKING.md` (not a second example chat / not a pretend cook). Deviates from README example-chat shape by design. |
+| Example site / images | Real PEZ terrace/driveway story; images under `recipe/example-source-images/` (`.jpg`: lot-road, house-shed-terrace, elevation-lines) — illustrative of one cook, not “swap for yours” beat |
 | Harness in example | Cursor + Calva + Backseat Driver |
 | Blender download | Link [blender.org/download](https://www.blender.org/download/) (story currently says “latest”) |
 | Template flow | Use this template → clone → open → Hello |
 | basilisp-blender zip | PEZ `v0.5.0-basilisp-0.5.1` until upstream ships Basilisp 0.5.1 (PR #14) |
-| basilisp-blender install | Do mode → CLI `extension install-file … -e`; UI Install From Disk = fallback / instructions-only |
+| basilisp-blender install | Do mode → close Blender → agent CLI `extension install-file … -e` → reopen + nREPL panel; UI Install From Disk = fallback / instructions-only |
 
 ## Todos
 
@@ -70,15 +71,15 @@ Working notes for crafting visitor-facing onboarding. **Not** for GitHub visitor
 - [x] Retire `recipe/skills/basilisp-blender/references/upgrade-basilisp.md` overlay procedure from the skill (point at bundled zip / PR instead).
 - [x] Update `AGENTS.md` Setup / Session bootstrap: special PEZ zip for now; no ≥0.5 overlay step; note temporary until upstream PR merges.
 - [ ] Align / refresh skills so demo scene + N-panel + fly-cam buttons are deliverable as written.
-- [ ] **Pending:** Align `EXAMPLE-COOKING.md` intro with post-demo state (demo still up / about to replace — not “empty site”). Wait a bit before editing.
-- [ ] GIF/screenshot for demo viewport placeholder.
+- ~~[ ] Align `EXAMPLE-COOKING.md` intro with post-demo state~~ — **obsolete:** cooking doc is a standalone memoir ending at base terrain, not continuing the example chat.
+- [x] Demo viewport GIF (`recipe/readme/images/demo-scene.gif`).
 - [x] Pre-cooked demo scene + UI — `(yardcraft.site/ensure-demo!)` / `yardcraft.site-demo`: YARDCRAFT patio letters, furniture, sundial, orbit fly, N-panel **Set time** + **Fly cam** (demo-aware).
 - Blender nREPL UI terms (from screenshot): **Output Properties** tab (printer icon) → **Basilisp nREPL server** panel → project path + **START SERVER**.
 - Fixed: `site.cljc` must **not** `:require` `site-ui` (cycle → `clear-site!` unresolved). RCF requires UI locally.
 - Tip: if `sys.modules` has a `nil` tombstone for `yardcraft`, pop it; `sys.path` needs repo `src/` before `yardcraft.*` — normally from Calva connect, not a manual `(user/init!)` every time.
 - `(user/init!)` runs in Calva **basilisp-blender** connect sequence (`afterPrimaryReplConnectedCode`). Agents: skip re-run after normal connect; still useful after Blender restart (before reconnect) or if `sys.path` got blown.
 - Agent story beat after connect: call `(ensure-demo!)` (from `yardcraft.site`) so the visitor sees the fun scene quickly.
-- [ ] **README story gap:** Getting Started still has agent download + human Install From Disk after “Do.” — **PEZ voice pass** should flip that beat to agent CLI install (agent announces done, next is nREPL panel). Agent must not rewrite that dialogue without PEZ.
+- [x] README basilisp-blender install beat — close Blender → agent CLI install → reopen + nREPL panel (PEZ voice pass done).
 - [ ] Voice pass: PEZ continues story; agent only spelling/grammar + asks.
 - [ ] Wire recipe machinery after the story feels right.
 

@@ -3,7 +3,7 @@
 > [!NOTE]
 > **WIP**! Come back tomorrow and this may be ready to take for a spin.
 
-A recipe for letting your AI Agent of choice help you design your yard, patio, parking, swimmingpool, etcetera in [Blender](https://www.blender.org/). 
+A recipe for letting your AI Agent of choice help you design your yard, patio, parking, swimming pool, etcetera in [Blender](https://www.blender.org/). 
 
 ![Yardcraft Demo GIF](recipe/readme/images/demo-scene.gif)
 
@@ -72,7 +72,7 @@ What do you see now?
 
 **Human:** Yeah, totally works!
 
-**Agent**: You can exit the fly-cam mode by zooming or panning in Blender. To enable it again, click the **Fly Cam** button.
+**Agent:** You can exit the fly-cam mode by zooming or panning in Blender. To enable it again, click the **Fly Cam** button.
 
 **Human:** Great. Now what?
 
@@ -82,7 +82,7 @@ What do you see now?
 
 ## Your base design
 
-The setup chat above will look differently depending on a lot of things. You may be using something else than Cursor (I've heard such stories!), Blender could be installed. Maybe you rather do the setup steps yourself and just have the agent as a guide. And so on. But the differences up to here are nothing compared to what's ahead. So I will leave off here, you will figure it out and the LLMs of today are super handy when it comes to knowing abbout and finding out about different options.
+The setup chat above will look differently depending on a lot of things. You may be using something else than Cursor (I've heard such stories!), Blender could be installed. Maybe you rather do the setup steps yourself and just have the agent as a guide. And so on. But the differences up to here are nothing compared to what's ahead. So I will leave off here, you will figure it out and the LLMs of today are super handy when it comes to knowing about and finding out about different options.
 
 You can read a bit on what process I found with my terrace redesign here: [`EXAMPLE-COOKING.md`](EXAMPLE-COOKING.md). And also you may want to have a watch: YouTube: [Yardcraft: Redesigning my terrace w/ Calva + Blender + Basilisp + Grok](https://www.youtube.com/watch?v=_JDSeMP8RhE) (Which doesn't cover base setup a ton, but there is at least a mention.)
 
@@ -103,7 +103,7 @@ This recipe has preparations for a process of making a base design and then from
 
 The prepared process is like so:
 
-1. Ask the agent for a suggestion. E.g. "Give the swimmingpool an arch at the southeast end, with fullwidth stairs descending towards to bottom”.
+1. Ask the agent for a suggestion. E.g. "Give the swimming pool an arch at the southeast end, with fullwidth stairs descending towards the bottom”.
 2. The agent creates the suggestion in the REPL as well as adding it to the selector in the UI.
 3. You verify what's done using the UI selector, and ask for changes until you are happy.
 4. The agent persists the suggestion and the UI by updating the files in the project.
@@ -122,7 +122,7 @@ In theory you should be able to generate a “quote plan” from any design and 
 
 at the REPL (from [site.cljc](src/yardcraft/site.cljc)). In practice this is a bit quirky, but the AI can handle it so if you have some patience ask it to generate the plan for you instead.
 
-The quote plan is a top-down view of the design, with lengths, areas, and angles are included, and materials hinted at. It's meant so that you can ask a contractor for a quote. If you're planning to do the work yourself, you can use it to source quotes and such. Probably you can ask the AI to create a calculator, even.
+The quote plan is a top-down view of the design, with lengths, areas, and angles included, and materials hinted at. It's meant so that you can ask a contractor for a quote. If you're planning to do the work yourself, you can use it to source quotes and such. Probably you can ask the AI to create a calculator, even.
 
 ## Where to take it?
 
@@ -134,7 +134,7 @@ As more people use this recipe we should be able to improve the skills and instr
 
 ## Recipe content
 
-- Example cook (maps → quote plan): [`EXAMPLE-COOKING.md`](EXAMPLE-COOKING.md)
+- Example cook (how I created my base design): [`EXAMPLE-COOKING.md`](EXAMPLE-COOKING.md)
 - Site reading notes (human): [`site.md`](site.md)
 - Agent orientation / Setup: [`AGENTS.md`](AGENTS.md)
 - Recipe package (skills, example images, helper scripts): [`recipe/`](recipe/)
