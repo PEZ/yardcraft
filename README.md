@@ -42,9 +42,13 @@ The agent will help you get everything else in place. (If you don't have Git, th
 
 **Human:** Do.
 
-**Agent:** *...installs Calva and Calva Backseat Driver extensions...* Editor tooling is in place. Next we need to install latest Blender. Please install it from https://www.blender.org/download/ and tell me when it's done.
+**Agent:** *...installs Babashka, Calva and Calva Backseat Driver extensions...* Babashka (our automation engine and general scripting tool) and editor tooling is in place. Let's connect a Babashka REPL. Please issue the command: **Calva: Start a Project REPL and Connect (aka Jack-in)**, then choose **Babashka** in the Project Type menu. You should see the REPL indicator in the status bar turn ember colored and also there should appear a green indicator with **bb** (Short for Babashka) in the label. Let me know when you've done this (or if you need help/something doesn't work).
 
-**Human:** Blender installed!
+**Human:** Done. I see the status bar items you mentioned.
+
+**Agent:** Great. Remind me later to give you a crash course in Calva and Babashka, but for now let's focus on getting everything up and running. Next we need to install latest Blender. Please install it from https://www.blender.org/download/. If you already have Blender it is worth checking that you have the latest version and upgrade it if not. Tell me when it's done.
+
+**Human:** I didn't have Blender. Now installed!
 
 **Agent:** We need to install basilisp-blender, an extension that both makes Blender scriptable via interactive programming (a super dynamic kind of programming) and gives us (you and me) a connection to the Blender runtime environment. I will install the right version, but I see that Blender is still running after you tested that it starts. Please close it.
 
