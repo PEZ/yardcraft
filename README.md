@@ -121,10 +121,10 @@ In the [Yardcraft: Redesigning my terrace w/ Calva + Blender + Basilisp + Grok](
 In theory you should be able to generate a “quote plan” from any design and suggestion at will by evaluating something like:
 
 ```clojure
-(plan/write-quote-plan! (sug/effective-site site))
+(plan/write-quote-plan! (sug/effective-site data/site))
 ```
 
-at the REPL (from [site.cljc](src/yardcraft/site.cljc)). In practice this is a bit quirky, but the AI can handle it so if you have some patience ask it to generate the plan for you instead.
+at the REPL (from [site.cljc](src/yardcraft/site.cljc)). In practice this is a bit quirky, but the AI can handle it so if you have the patience ask it to generate the plan for you instead. (Or ask it to fix so that quote-plans can be generated more reliably from the active suggestion.)
 
 The quote plan is a top-down view of the design, with lengths, areas, and angles included, and materials hinted at. It's meant so that you can ask a contractor for a quote. If you're planning to do the work yourself, you can use it to source quotes and such. Probably you can ask the AI to create a calculator, even.
 

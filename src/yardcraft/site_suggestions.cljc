@@ -15,8 +15,7 @@
             [yardcraft.site-furniture :as furniture]
             [yardcraft.site-terrace :as terrace]
             [yardcraft.site-paint :as paint]
-            [yardcraft.site-hierarchy :as hierarchy]
-            [yardcraft.site :as site])
+            [yardcraft.site-hierarchy :as hierarchy])
   (:import os
            [os.path :as path]))
 
@@ -230,6 +229,14 @@
    [:prefix "site-terrace-roof-frame"]
    [:prefix "site-terrace-roof-pole"]])
 
+(defn- site-clear!
+  []
+  ((ns-resolve 'yardcraft.site 'clear-site!)))
+
+(defn- site-ensure!
+  [s]
+  ((ns-resolve 'yardcraft.site 'ensure-site!) s))
+
 (def ^:private domain-registry
   {:furniture {:teardown [[:prefix "site-furniture"]]}
    :terrace {:teardown terrace-teardown}
@@ -252,7 +259,7 @@
 (defn- teardown-domain!
   [domain-key]
   (if (= domain-key :full)
-    (site/clear-site!)
+    (site-clear!)
     (when-let [{:keys [teardown]} (get domain-registry domain-key)]
       (teardown-matchers! teardown))))
 
@@ -263,7 +270,7 @@
     (= domain-key :terrace)
     (do (terrace/ensure-terrace! s)
         (terrace/ensure-terrace-roof! s))
-    (= domain-key :full) (site/ensure-site! s)
+    (= domain-key :full) (site-ensure! s)
     :else (throw (ex-info "Unregistered domain" {:domain domain-key}))))
 
 (defn- rebuild-domains!

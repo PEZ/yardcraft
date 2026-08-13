@@ -26,6 +26,7 @@
             [yardcraft.site-driveway :as driveway]
             [yardcraft.site-fence :as fence]
             [yardcraft.site-plan :as plan]
+            [yardcraft.site-suggestions :as sug]
             [yardcraft.site-props :as props]
             [yardcraft.site-sketch :as sketch]
             [yardcraft.site-fly :as fly]))
