@@ -19,9 +19,7 @@ Find `blender` on `PATH`, or on macOS use `/Applications/Blender.app/Contents/Ma
 
 **Fallback (human UI):** `Edit → Preferences → Get Extensions → Install From Disk…`, then enable **Basilisp Blender Extension** under Add-ons — only when the CLI is missing or `install-file` fails.
 
-Older Blender: manual `pip install basilisp-blender` into Blender’s Python (see upstream “Manual Installation”).
-
-**Yardcraft default:** install the [PEZ zip bundling Basilisp 0.5.1](https://github.com/PEZ/basilisp-blender/releases/tag/v0.5.0-basilisp-0.5.1) instead of stock upstream (temporary until [ikappaki/basilisp-blender#14](https://github.com/ikappaki/basilisp-blender/pull/14)). See [upgrade-basilisp.md](upgrade-basilisp.md) for download, CLI install, and version note.
+**Yardcraft default:** install the [PEZ zip bundling Basilisp 0.5.1](https://github.com/PEZ/basilisp-blender/releases/tag/v0.5.0-basilisp-0.5.1) (temporary until [ikappaki/basilisp-blender#14](https://github.com/ikappaki/basilisp-blender/pull/14)). Quit Blender before CLI install. See [upgrade-basilisp.md](upgrade-basilisp.md).
 
 ## Control panel
 
