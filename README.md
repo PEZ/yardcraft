@@ -1,8 +1,5 @@
 # Yardcraft
 
-> [!NOTE]
-> **WIP**! Come back tomorrow and this may be ready to take for a spin.
-
 A recipe for letting your AI Agent of choice help you design your yard, patio, parking, swimming pool, etcetera in [Blender](https://www.blender.org/). 
 
 ![Yardcraft Demo GIF](recipe/readme/images/demo-scene.gif)
@@ -15,7 +12,7 @@ YouTube: [Yardcraft: Redesigning my terrace w/ Calva + Blender + Basilisp + Grok
 
 Blender is driven live by you and the AI agent using [Basilisp](https://github.com/basilisp-lang/basilisp) (Clojure on Python) over [nREPL](https://nrepl.org) using [basilisp-blender](https://github.com/ikappaki/basilisp-blender). 
 
-This recipe is provided to you as this project, and you then use your AI Agent as your guide and doer to set things up. Once you have things set up, you enter genie mode and can throw your ideas at the agent which carries them out and maintains the project for you. True vibe designing.
+This recipe is provided to you as this project, and you then use your AI Agent as your guide and doer to set things up. Once you have things set up, you enter genie mode and can throw your ideas at the agent which carries them out and maintains the project for you. True **vibe designing**.
 
 ## Prerequisites
 
