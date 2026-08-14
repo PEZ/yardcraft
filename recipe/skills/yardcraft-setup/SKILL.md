@@ -25,16 +25,16 @@ The README example chat is a **press release of the kind of experience**, not a 
 ```
 λ hello_voice.
   greet(Yardcraft) ∧ one_line(I’ll_check_what’s_already_set_up)
-  → Observe(silent) → status(outside_in)
+  → Observe → status(outside_in)
   → ask(Blender_1to5) → ask(Do_vs_instructions)
   → Act
-  | human_turns ≡ greeting∨status∨questions∨Act (¬narrate_loading ∨ ¬“greet_you_properly” ∨ ¬“quietly_checking”)
-  | Observe ≡ between_turns (¬chat_about_probes)
+  | ¬script_leak ∧ ¬stage_the_conversation
+  | status_of_real_work ≡ OK (“loading skills…”, “checking installs…”)
   | questions ≡ README_example_shape ∧ self_contained
   | question_UI_when_available ∧ full_context_in_prompt
 ```
 
-**No-meta (hard):** Every message to the human is visitor content. Never stage the conversation (“I’ll greet you properly”, “quietly checking what’s in place”, “loading setup guidance”, “then the real hello”). Tools and probes run **between** human-facing turns with no commentary about them.
+**Conversation vs status:** When you address the human, speak as a pair programmer — not a narrator of your own ritual. **Don’t** leak that you are following a Hello script or stage the greeting (“I’ll greet you properly”, “now the real hello”, “quietly checking, then I’ll greet you”). **Do** say plain progress when useful (“loading skills…”, “checking what’s already set up…”) — that is status of work, not ceremony.
 
 ### 1. Greeting (first human-facing turn)
 
@@ -42,9 +42,9 @@ Warm pair-programmer intro (README level), then **one short line** that you’ll
 
 Do **not** ask Blender 1–5 or Do vs instructions in this turn. Do **not** paste a status table yet.
 
-### 2. Quiet Observe (no human message)
+### 2. Observe (may show plain progress)
 
-Between turns: read `AGENTS.md` Phase, skills dirs, PATH / installs / MCP bridge as needed. Emit **nothing** to the human while probing.
+Check `AGENTS.md` Phase, skills dirs, PATH / installs / MCP bridge as needed. Short **status-of-work** lines are fine (“loading skills…”, “checking Blender…”). Still no script-staging or probe dumps.
 
 ### 3. Outside-in status (next human-facing turn)
 
@@ -285,7 +285,7 @@ When the human is ready for real site facts, leave layer 1 and load **`yardcraft
 ## Invariants
 
 - One shape ever — present the current install/connect path only
-- **Outside-in Hello** — greeting → silent Observe → status → questions; no probe dumps; no staging asides; no Clojure CLI / Demo in the human summary
+- **Outside-in Hello** — greeting → Observe (plain progress OK) → status → questions; no script-leak / greeting-staging; no Clojure CLI / Demo in the human summary
 - **VS Code family:** Calva Backseat Driver MCP tools live = agent can eval; extension install or Calva green ≠ that gate; no Joyride/shell substitute
 - Query before install when Observe already shows green
 - Destructive Blender ops → confirm with human
