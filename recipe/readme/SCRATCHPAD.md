@@ -101,7 +101,8 @@ Bad cooking analogy, useful knob: the recipe has **three layers**, each with a d
 
 - Warm, direct, lightly playful (“Sweet.”, “Let’s get cranking!”).
 - Agent speaks as the pair programmer, not a changelog.
-- Early win: **demo scene** (YARDCRAFT letters, furniture, sundial, fly-cam, Yardcraft panel) before real-lot work — delight before survey grind.
+- **Hello = outside-in:** intro → Blender 1–5 → Do vs instructions → short status of what you’ll do / what’s already ✓ (version). No probe dumps, no “skills copy target” menus, no Phase/OODA jargon to the visitor. See `yardcraft-setup` Hello conversation.
+- Early win: **demo scene** (YARDCRAFT letters, furniture, sundial, fly-cam, Yardcraft panel) before real-lot work — delight before survey grind (agent-internal; not a Hello summary row).
 - Calibrate Blender skill (1–5) and do-vs-instructions early.
 - Human-only Blender UI steps spelled out with clicks; screenshot where it helps (`recipe/readme/images/`).
 - Point to `MY-BASE-DESIGN-PROCESS.md` as optional process preview (memoir of maps + paper light-table + Epupp/Babashka); still allow jumping straight in.

@@ -12,13 +12,59 @@ description: >-
 
 Orchestrates getting from a fresh clone to a live **Human ⊗ AI ⊗ REPLs** loop (`bb` + `basilisp-blender`) and a visible welcome demo. Depth for dialect, `bpy`, and UI lives in composable skills — this skill **orients and sequences**, it does not swallow them.
 
-The README example chat is a **press release of the kind of experience**, not a script to replay. Run **OODA**: Observe the machine, harness, PATH, REPLs, and progress → Orient to layer 1 → Decide the next gap → Act → mark progress.
+The README example chat is a **press release of the kind of experience**, not a script to replay. Run **OODA** internally; speak **outside-in** to the human (see Hello conversation).
 
 ## When to use
 
 - Human says **Hello** (or equivalent) and Observe says layer 1 / setup incomplete
-- Missing harness skills, Babashka / `bb` REPL, Blender, basilisp-blender nREPL, an nREPL client the AI can use, or demo
+- Missing project skills, Babashka / `bb` REPL, Blender, basilisp-blender, an nREPL client the AI can use, or demo
 - Resuming mid-setup: read progress in `AGENTS.md`, close the next gap only
+
+## Hello conversation (visitor-facing)
+
+```
+λ hello_voice.
+  intro(Yardcraft) → ask(Blender_1to5) → ask(Do_vs_instructions)
+  → summary(outside_in) → Act
+  | Observe ≡ internal (¬leak_probe_jargon_to_human)
+  | questions ≡ README_example_shape ∧ self_contained
+  | question_UI_when_available ∧ full_context_in_prompt
+```
+
+### 1. Brief intro (README level)
+
+Warm pair-programmer tone. Something like: Yardcraft is designing their yard (patio, parking, lawn, trees — whatever) in Blender with you as AI pair; you build in Blender, they check the viewport, you save into the project when they’re happy; don’t worry if they don’t know Blender — you can guide them.
+
+### 2. Questions (before dumping a plan)
+
+Ask in **example-chat** order — not harness/skills jargon:
+
+1. **Blender comfort 1–5** (1 = never used → 5 = expert)
+2. **Do vs instructions-only** — for some setup steps you can **do** it or only **give instructions**; which do they prefer?
+
+Use the harness **question / choice UI** when available. Each question must be **self-contained** for a visitor who has not read `AGENTS.md` or this skill (no “skills copy target”, no “phase checkboxes”, no path menus unless they asked).
+
+### 3. Outside-in status (after quiet Observe)
+
+Show what **you will do for them** and what’s already fine. Do **not** paste probe output, Phase tables, or “layer 1 / OODA” meta.
+
+**Row shape**
+
+| User-facing line | How to fill |
+|---|---|
+| Install Yardcraft skills in the project | Action if missing; or ✓ if already in project skill dir |
+| Install general skills in the project (`babashka`, `clojure`, … as needed) | Separate line from Yardcraft skills; project-local install |
+| Babashka / connect Babashka REPL | ✓ (`version`) if on PATH; else install + connect. REPL connect is a next step even if binary exists |
+| Calva + Backseat (VS Code family) | ✓ if installed; else install |
+| Blender | ✓ (`version`) or “have `x`; will upgrade toward latest” / install latest |
+| basilisp-blender | If Blender present: Observe whether extension is installed **and which version**; ✓ (`version`) or install/upgrade PEZ zip |
+| Connect to Blender REPL | Always this wording — **not** “`.nrepl-port` present”. Port file ≠ connected; sort connect later with the human |
+
+**Omit from the human summary:** Clojure CLI / LSP unblock, Demo / `ensure-demo!`, internal Phase checkboxes, skill-path multiple-choice.
+
+Already-good tooling: prefer **`✓ (version)`**. Only mention upgrade when Observe says the floor isn’t met or “latest” policy wants a bump.
+
+Then one short line: next you’ll install skills / connect Babashka / get Blender + basilisp-blender + Blender REPL as needed — **then** proceed (Do mode) or spell steps (instructions-only).
 
 ## Prerequisites (load as beats unlock)
 
@@ -63,13 +109,14 @@ As each beat completes, **update `AGENTS.md` Phase / progress checkboxes** so th
 
 ## Workflow (observe gaps — skip what is already green)
 
-### 1. Harness → install packaged skills
+### 1. Install skills **in the project**
 
-1. Detect the AI/editor stack and where **this harness** loads agent skills.
-2. **Observe** settings, known skill dirs, and docs for that harness. **Ask the human** if unsure — do not guess a registry of paths.
-3. **Copy** everything under repo `recipe/skills/` into that location. Keep `recipe/skills/` as the **canonical package** — do not empty it.
-4. Ensure upstream **`babashka`** skill is available when doing host work. Install **`clojure`** skill when form-editing needs it — not required solely to finish Hello.
-5. Mark progress in `AGENTS.md`.
+Prefer the **project** harness skill location (Cursor: typically **`.cursor/skills/`** in the repo) so the clone carries what the agent needs.
+
+1. **Yardcraft skills:** copy everything under `recipe/skills/` into that project location. Keep `recipe/skills/` as the canonical package — do not empty it.
+2. **General skills** (separate beat / separate user-facing line): ensure **`babashka`** (and **`clojure`** when form-editing needs it) are installed **in the project** skill location too (copy/link from upstream harness packages if needed).
+3. Observe settings if the harness uses a different project skill root; **ask the human** only if still unsure — with visitor-plain wording.
+4. Mark progress in `AGENTS.md` (internal).
 
 ### 2. nREPL client the AI can use
 
@@ -123,11 +170,11 @@ Skip this beat off VS Code family.
 ### 5. Blender
 
 - **Human-facing:** install / upgrade **latest** from [blender.org/download](https://www.blender.org/download/).
-- **Agent-private floor:** ≥ **5.2.0 LTS** for Observe/compat checks — speak version numbers only when checking or troubleshooting.
-
-Calibrate Blender skill early (**1–5**) and **do vs instructions-only** — shapes how much you drive vs guide for UI-only steps.
+- **Agent-private floor:** ≥ **5.2.0 LTS** for Observe/compat — speak version numbers to humans as `✓ (version)` or “have X; will upgrade,” not as a lecture.
 
 ### 6. basilisp-blender (PEZ zip)
+
+When Blender is present, **Observe** whether the basilisp-blender extension is installed and **which version** (Blender extensions UI / CLI / addon list — wing the probe). Compare to the Yardcraft-recommended PEZ zip below.
 
 Release: [PEZ v0.5.0-basilisp-0.5.1](https://github.com/PEZ/basilisp-blender/releases/tag/v0.5.0-basilisp-0.5.1)  
 Asset: `basilisp_blender_extension-0.5.0.zip` from that tag.
@@ -154,7 +201,9 @@ Human reopens Blender, then:
 
 Writes/updates **`.nrepl-port`**. Screenshot: [`recipe/readme/images/basilisp-blender-nrepl-panel.png`](../../readme/images/basilisp-blender-nrepl-panel.png)
 
-### 8. Connect to Blender nREPL
+### 8. Connect to Blender REPL
+
+**User-facing name:** always “Connect to Blender REPL.” A `.nrepl-port` file only means a server *may* have been started — it does **not** mean connected.
 
 **VS Code family (Calva):**
 
@@ -190,6 +239,7 @@ When the human is ready for real site facts, leave layer 1 and load **`yardcraft
 ## Invariants
 
 - One shape ever — present the current install/connect path only
+- **Outside-in Hello** — no probe dumps; no Clojure CLI / Demo in the human summary
 - Query before install when Observe already shows green
 - Destructive Blender ops → confirm with human
 - Structural edits for `.cljc` forms once editing starts (`clojure` skill)

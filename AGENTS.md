@@ -25,12 +25,13 @@ Visitor story: [`README.md`](README.md). Base-design memoir (optional): [`MY-BAS
 | Field | Value |
 |---|---|
 | **Current layer** | `1` — toolchain / setup *(agent: set to `2` after demo + human ready for real site; `3` when base is good enough to explore redesigns)* |
-| **Harness skills installed** | `[ ]` copy `recipe/skills/` → this harness’s skill location *(Observe settings / docs; ask human if unsure)* |
+| **Harness skills installed** | `[ ]` Yardcraft skills + general skills (`babashka`, `clojure`, …) in **project** skill dir *(e.g. `.cursor/skills/`)* |
 | **Babashka + `bb` REPL** | `[ ]` |
 | **nREPL client the AI can use** | `[ ]` *(VS Code family: Calva + Calva Backseat Driver)* |
-| **Blender + basilisp-blender nREPL** | `[ ]` |
-| **Connected scene REPL** | `[ ]` *(Calva sequence `basilisp-blender`, or other client → `.nrepl-port` + manual `user/init!`)* |
-| **Demo shown** (`ensure-demo!`) | `[ ]` |
+| **Blender** | `[ ]` *(version; upgrade if needed)* |
+| **basilisp-blender** | `[ ]` *(installed version vs PEZ zip)* |
+| **Connect to Blender REPL** | `[ ]` *(.nrepl-port ≠ connected)* |
+| **Demo shown** (`ensure-demo!`) | `[ ]` *(internal win — not a Hello summary row)* |
 | **Real base in progress / done** | `[ ]` |
 
 ```
@@ -42,6 +43,8 @@ Visitor story: [`README.md`](README.md). Base-design memoir (optional): [`MY-BAS
 ```
 
 Depth for layer 1 and 2 lives in **`yardcraft-setup`** and **`yardcraft-base-design`**. Composable skills stay separate (do not fold light-table into base-design).
+
+**Hello voice:** follow **`yardcraft-setup` → Hello conversation** — brief Yardcraft intro; Blender 1–5 then Do vs instructions (question UI when available); outside-in summary (skills in project, REPLs, Blender / basilisp-blender versions as `✓ (ver)`); never leak probe/Phase jargon; omit Clojure CLI and Demo from the human summary; say “Connect to Blender REPL” (not `.nrepl-port`).
 
 ---
 
@@ -65,7 +68,7 @@ Explore yard / patio / parking options in Blender for **your** site.
 - **VS Code family** (Cursor, VS Code + Copilot, other forks): **Calva** + **Calva Backseat Driver** — deep support (`.vscode/settings.json`, connect sequence **`basilisp-blender`**, `cursor`/`code` CLI). No alternate Clojure clients on VS Code.
 - **Anything else** (e.g. Emacs): same goal; Calva/Backseat out of picture. Observe, web-search, adapt — do not enumerate editor combos. Connect via **`.nrepl-port`**; run `(load-file "user.lpy") (user/init!)` manually after Blender connect.
 
-**Also situational:** do vs instructions-only, OS/`PATH`, Blender already installed, country/map stack, sketches vs APIs, **`clojure` on PATH → remove** `.vscode` `"calva.enableClojureLspOnStart": "never"` (VS Code family only; do **not** install Java/Clojure as Yardcraft setup). Skill install dir: Observe harness settings/docs; **ask the human** if unsure.
+**Also situational:** do vs instructions-only, OS/`PATH`, Blender already installed, country/map stack, sketches vs APIs, **`clojure` on PATH → remove** `.vscode` `"calva.enableClojureLspOnStart": "never"` (VS Code family only; do **not** install Java/Clojure as Yardcraft setup). Prefer installing skills into the **project** skill dir; Observe/ask only if the harness root is unclear.
 
 **Blender wording:** with humans say **latest** ([blender.org/download](https://www.blender.org/download/)). Agent-private floor for Observe/compat: **≥ 5.2.0 LTS** at time of writing — don’t lecture versions unless checking or troubleshooting.
 
