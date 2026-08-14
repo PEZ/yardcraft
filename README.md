@@ -64,9 +64,9 @@ The agent will help you get everything else in place. (If you don't have Git, th
 
 **Human:** Server running.
 
-**Agent:** Next step is to connect me to the Blender nREPL server. In Cursor issue the command: **Calva: Connect to a running REPL server in the project**. Then select **basilisp-blender** in the **Project Type** menu.
+**Agent:** Next step is to connect me to the Blender nREPL server. In Cursor issue the command: **Calva: Connect to a running REPL server in the project**. Then select **basilisp-blender** in the **Project Type** menu. The indicator may stay on **bb**, but if you click the indicator you should see **basilisp-blender** in the sessions menu.
 
-**Human:** Done, I see a green **basilisp-blender** indicator in the status bar.
+**Human:** Done.
 
 **Agent:** ⚡️ That means we are connected. Let me test the REPL. You should see an empty site in Blender — just the stage, no house or lot yet. I'll put something more fun there. Watch in Blender or here...
 

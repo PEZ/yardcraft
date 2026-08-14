@@ -79,7 +79,7 @@ Prefer the **project** harness skill location (Observe where this harness loads 
 Three states (do not collapse them):
 
 1. **Client / extensions installed** — tooling on disk  
-2. **Editor jacked in / connected** — human sees a live REPL session (e.g. green **bb** / **basilisp-blender**)  
+2. **Editor jacked in / connected** — human has a live REPL session (status bar often green **bb**; after Blender connect the badge may stay **bb** while **`basilisp-blender`** shows in the sessions menu — see [vscode-family.md](references/vscode-family.md))  
 3. **This chat can eval** — the tools that drive those sessions are available here  
 
 Phase row **nREPL client the AI can use** means **(3)**, not (1) or (2).
