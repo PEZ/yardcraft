@@ -108,6 +108,7 @@ Same env as **basilisp** skill: Blender ≥ 5.2.0 LTS, Calva `basilisp-blender`,
 - **`bpy` module attrs survive Basilisp ns `:reload`:** `(setattr bpy "_yardcraft_…" v)` / `getattr` / `hasattr`. Yardcraft uses `_yardcraft_session_suggestions` and `_yardcraft_active_suggestion` in `site_suggestions.cljc`. Put reload-durable session registries here — not in file-level `def` atoms alone.
 - **`scene.yardcraft` PropertyGroup Python identity changes** across `(ui/register!)` / unregister cycles — **re-fetch** after UI rebuild; do not stash the props object.
 - **EnumProperty items bake at PropertyGroup build time.** After changing the suggestion registry that feeds enums, call `(ui/register!)`. Keyword ids → underscore enum ids (`:quirk-enum-probe` → `"quirk_enum_probe"`).
+- **`sys.modules["yardcraft"]` nil tombstone:** if the key is present with value `None`, require can fail (`'NoneType' … '__path__'`). Fix: `(.pop (.-modules sys) "yardcraft" nil)` then require again (`src/` on path). Details in verified-quirks.
 
 ### Yardcraft UI notes (code-backed)
 
@@ -125,7 +126,7 @@ Depth + explicit non-claims (`:reload-all` RecursionError not invariant): [refer
 | [references/upgrade-basilisp.md](references/upgrade-basilisp.md) | Extension zip / Basilisp version — PEZ pre-upstream zip bundles ≥ 0.5.1 (#1302) |
 | [references/bpy-patterns.md](references/bpy-patterns.md) | Materials, ops, scene query recipes, torus example notes |
 | [references/api.md](references/api.md) | `nrepl-server-start`, `class-make*` |
-| [references/verified-quirks.md](references/verified-quirks.md) | bpy session attrs, scene.yardcraft identity, EnumProperty bake |
+| [references/verified-quirks.md](references/verified-quirks.md) | bpy session attrs, scene.yardcraft identity, EnumProperty bake, sys.modules nil tombstone |
 
 ## Upstream
 

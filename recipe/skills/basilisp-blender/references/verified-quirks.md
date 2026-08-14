@@ -41,6 +41,20 @@ Therefore: after changing the suggestion registry that feeds enum items, call `(
 
 Keyword suggestion ids munge to underscore enum identifiers: `:quirk-enum-probe` → `"quirk_enum_probe"`.
 
+## `sys.modules` nil tombstone for `yardcraft`
+
+If a failed / partial import leaves `sys.modules["yardcraft"]` as **`None`** (key present, value `None`), later `(require 'yardcraft…)` can fail with something like `AttributeError: 'NoneType' object has no attribute '__path__'`.
+
+**Recovery (verified):** pop the tombstone, then require again (repo `src/` must already be on `sys.path` — normally from `user/init!` / Calva connect):
+
+```clojure
+(import sys)
+(.pop (.-modules sys) "yardcraft" nil)
+(require 'yardcraft.site)
+```
+
+Probe (Blender 5.2 / basilisp-blender): planted `None` → require failed as above → `.pop` → require `:ok` and a real module again.
+
 ## Explicitly NOT claimed (probed, unreproduced)
 
 - `:reload-all` on `yardcraft.site-suggestions` does **not** always RecursionError — returned `:ok` in the probe session. Treat prior RecursionError reports as situational, not invariant.
