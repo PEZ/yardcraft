@@ -8,9 +8,6 @@ out/
 .DS_Store
 .venv*
 *.blend1
-# Harness skill mirrors only — canonical package is recipe/skills/
-# Do not ignore all of .cursor/ (rules/settings must stay usable without “unignore”).
-.cursor/skills/
 # Local recipe-authoring pad
 TEMPLATE-CRAFTING.md
 assets/**/*.glb
