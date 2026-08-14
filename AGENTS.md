@@ -152,8 +152,9 @@ Panel UI: **`yardcraft-site-ui`** — `(ui/register!)` once per Blender session 
 ## Coding preferences
 
 1. **Explicit `site` argument** — builders take facts `[s]`; only orchestration refers global `site` from `site-data`.
-2. **Destructuring** — prefer `:keys` / namespaced keys over repeated digging.
-3. **Code Health** — CodeScene aspiration for `src/yardcraft/*.cljc` is **10.0**.
+2. **Destructuring** — prefer `:keys` / namespaced keys over repeated digging, avoid multi arity unless necessary/clean use case.
+3. **Code Health** — CodeScene aspiration for `src/yardcraft/*.cljc` is **10.0**. If no Code Health tools are available, craft code like if you had a Code Health genie on your shoulder, Like “What would CodeScene say about this?”.
+4. **Data Oriented** - What would Rich Hickey do?
 
 ## Key namespaces
 
