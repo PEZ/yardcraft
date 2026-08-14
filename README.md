@@ -134,6 +134,12 @@ The prepared process is like so:
 
 In the [Yardcraft: Redesigning my terrace w/ Calva + Blender + Basilisp + Grok](https://www.youtube.com/watch?v=_JDSeMP8RhE) video on YouTube you can see an example of a fly tour. It took a surprisingly long time to create. I think I may have gone about it the wrong way, or it is just a limitation of the current top AI models that they have a hard time visualizing a 3D tour like that, making the communication lossy. Anyway, like with the suggestions, realizing when it is better to let the AI write the files and then edit them will save you time. The fly tour is very data driven, so you can tweak the tour design pretty easily.
 
+## Assets
+
+This project does not contain any third party assets, but there is a skill for it so the agent knows how to go about finding resources online, download them, install them, make them part of your design, and so on.
+
+However, there are some few included props, the furniture. It is deliberately designed to be simple and unbranded. They are declared in code, but still render super fast, because very blocky. Perhaps the best use you will have for them is as examples so that the agent can create more props like that, without going overboard with it. (Unless your yard project is designing furniture, of course.)
+
 ## Quote plan
 
 In theory you should be able to generate a “quote plan” from any design and suggestion at will by evaluating something like:
