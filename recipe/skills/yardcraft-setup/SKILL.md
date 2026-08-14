@@ -36,11 +36,11 @@ The README example chat is a **press release of the kind of experience**, not a 
 
 **Conversation vs status:** When you address the human, speak as a pair programmer — not a narrator of your own ritual. **Don’t** leak that you are following a Hello script or stage the greeting (“I’ll greet you properly”, “now the real hello”, “quietly checking, then I’ll greet you”). **Do** say plain progress when useful (“loading skills…”, “checking what’s already set up…”) — that is status of work, not ceremony.
 
-### 1. Greeting (first human-facing turn)
+### 1. Greeting (first human-facing turn — mandatory lead)
 
-Warm pair-programmer intro (README level), then **one short line** that you’ll check what’s already set up — and stop. Something like: Yardcraft is designing their yard (patio, parking, lawn, trees — whatever) in Blender with you as AI pair; you build in Blender, they check the viewport, you save into the project when they’re happy; don’t worry if they don’t know Blender — you can guide them. **Then:** “I’ll check what’s already set up here.”
+**Lead with the Yardcraft intro.** Warm pair-programmer tone (README level) is the **first** thing they read — before checkups, before status tables, before “loading skills…”. Something like: Yardcraft is designing their yard (patio, parking, lawn, trees — whatever) in Blender with you as AI pair; you build in Blender, they check the viewport, you save into the project when they’re happy; don’t worry if they don’t know Blender — you can guide them. **Then** one short line that you’ll check what’s already set up (“I’ll check what’s already set up here.”).
 
-Do **not** ask Blender 1–5 or Do vs instructions in this turn. Do **not** paste a status table yet.
+Do **not** open the session with Observe-only chatter and postpone the intro. Do **not** ask Blender 1–5 or Do vs instructions in this turn. Do **not** paste a status table yet.
 
 ### 2. Observe (may show plain progress)
 
@@ -243,7 +243,7 @@ Human reopens Blender, then:
 3. Project path = **repo root**
 4. **START SERVER**
 
-Writes/updates **`.nrepl-port`**. Screenshot: [`recipe/readme/images/basilisp-blender-nrepl-panel.png`](../../readme/images/basilisp-blender-nrepl-panel.png)
+Writes/updates **`.nrepl-port`**. When showing the panel screenshot **in chat**, use an **absolute path** (see AGENTS **Chat images**): repo file `recipe/readme/images/basilisp-blender-nrepl-panel.png`.
 
 ### 8. Connect to Blender REPL
 

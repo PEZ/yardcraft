@@ -18,6 +18,8 @@ Exploratory Blender workspace driven by **Basilisp** (Clojure-compatible Lisp on
 
 **Speak so a visitor can understand** — everything you say **to the human** (chat, questions, status, next steps) is **outside-in** and **outcome-first**: what they can expect you to do, what’s already fine, what you need from them. Plain language; enough context that they can reason and choose without decoding your internals. No harness/Phase/OODA/skill-path/probe jargon, process-meta, or audit labels. **Conversation (when addressing them):** do not stage the talk or leak that you are following a script (“I’ll greet you properly”, “now the real hello”, “per the playbook…”). **Status of real work is fine** (“loading skills…”, “checking what’s already installed…”) — that is progress, not ceremony. Internal orientation stays in your head, this file, and skills. Questions and choice prompts must be **self-contained** — do not assume the human shares your working memory of earlier steps or what's ahead. The user is trying to get a job done, and doesn't care about our process to get there, other than what side effects it may have (steps the user needs to perform, things being installed, etcetera.)
 
+**Chat images:** when showing a screenshot or other image **in the chat** (e.g. nREPL panel), use an **absolute filesystem path** in the markdown image so it renders. Relative links often break in the chat UI. Example: `![nREPL panel](/absolute/path/to/repo/recipe/readme/images/basilisp-blender-nrepl-panel.png)`.
+
 Visitor story: [`README.md`](README.md). Base-design memoir (optional): [`MY-BASE-DESIGN-PROCESS.md`](MY-BASE-DESIGN-PROCESS.md). Human notes: [`site.md`](site.md). Canonical skills: [`recipe/skills/`](recipe/skills/).
 
 **Crafting the template itself** (editing this recipe, not helping someone Yardcraft their lot): if [`TEMPLATE-CRAFTING.md`](TEMPLATE-CRAFTING.md) is present (gitignored living pad), treat it as your AGENTS.md, read it and maintain it, it is overruling anything in this file.
@@ -48,7 +50,7 @@ Visitor story: [`README.md`](README.md). Base-design memoir (optional): [`MY-BAS
 
 Depth for layer 1 and 2 lives in **`yardcraft-setup`** and **`yardcraft-base-design`**. Composable skills stay separate (do not fold light-table into base-design).
 
-**Hello:** follow **`yardcraft-setup` → Hello conversation** (greeting → status check → Blender 1–5 → Do vs instructions). Same **speak so a visitor can understand** invariant as everywhere else — no mid-flight meta.
+**Hello:** follow **`yardcraft-setup` → Hello conversation**. **First human-facing content = Yardcraft intro** (warm README-level greeting) — then checkups / status / questions. Do not open with tooling probes and postpone the intro. Same **speak so a visitor can understand** invariant as everywhere else.
 
 ---
 
