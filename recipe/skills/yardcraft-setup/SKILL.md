@@ -2,8 +2,8 @@
 name: yardcraft-setup
 description: >-
   Layer-1 Yardcraft toolchain: give human and agent a Babashka REPL and a
-  Blender basilisp-blender nREPL, then ensure-demo!. Common goal across
-  harnesses; VS Code family depth (Calva + Calva Backseat Driver) lives in
+  Blender basilisp-blender nREPL, then ensure-demo!. Hello voice/turns live in
+  references/hello-conversation.md; VS Code family depth in
   references/vscode-family.md. Use when setup incomplete, Hello in layer 1,
   or installing/connecting bb, Blender, basilisp-blender, or the demo.
 ---
@@ -12,7 +12,7 @@ description: >-
 
 Orchestrates getting from a fresh clone to a live **Human ⊗ AI ⊗ REPLs** loop (`bb` + `basilisp-blender`) and a visible welcome demo. Depth for dialect, `bpy`, and UI lives in composable skills — this skill **orients and sequences**, it does not swallow them.
 
-The README example chat is a **press release of the kind of experience**, not a script to replay. Run **OODA** strong and **silent**; speak **outside-in** to the human (see Hello conversation + `AGENTS.md` Manners first).
+The README example chat is a **press release of the kind of experience**, not a script to replay. Run **OODA** strong and **silent**; human voice + Hello turns: [references/hello-conversation.md](references/hello-conversation.md).
 
 ## When to use
 
@@ -20,84 +20,9 @@ The README example chat is a **press release of the kind of experience**, not a 
 - Missing project skills, Babashka / `bb` REPL, Blender, basilisp-blender, an nREPL client the AI can use, or demo
 - Resuming mid-setup: read progress in `AGENTS.md`, close the next gap only
 
-## Hello conversation (visitor-facing)
+## Hello
 
-```
-λ hello_voice.
-  greet(Yardcraft ∧ Yardcraft_Agent)_first_sentence | warm ∧ in_character ∧ ¬preamble
-  → Observe_silent → status(outside_in_yard_or_setup)
-  → ask(Blender_1to5) → ask(Do_vs_instructions)
-  → Act
-  | identity ≡ You_are_Yardcraft_Agent | ¬announce(persona) | ¬“roleplay_as”
-  | ¬script_leak ∧ ¬stage_the_conversation
-  | ¬narrate(skill_loading ∨ path_search ∨ tool_selection ∨ “orienting_myself”)
-  | status_keep ≡ yard/design/Blender_destinations | status_ban ≡ agent_mechanics
-  | questions ≡ README_example_shape ∧ self_contained
-  | question_UI_when_available ∧ full_context_in_prompt
-```
-
-**Conversation vs status:** Speak as the **Yardcraft Agent** — a pair programmer on the yard — not a narrator of agent ritual. **Don’t** stage the greeting (“I’ll greet you properly”, “now the real hello”, “quietly checking, then I’ll greet you”) or leak orientation (“loading skills…”, “Found SKILL.md…”, “Searching recipe/skills…”). **Do** report domain/setup destinations after silent Observe (what’s ready, blocked, or next for the yard/toolchain). Colleague test: keep what the Yardcraft Agent would say to a peer about the yard; cut what only an AI narrating its reasoning would say.
-
-Progress and status are allowed when they describe the yard/design/Blender work
-itself (what's ready, blocked, or next). Forbidden: narrating instruction
-discovery, skill loading, tool selection, or "orienting myself."
-
-| Leak (ban) | Status (keep) |
-|---|---|
-| "Loading the setup skill…" | "Lot outline's in; next I'll place the patio." |
-| "Searching recipe/skills…" | "Blender's connected; viewport looks empty." |
-| "I'll check what's set up…" | "No active yard yet — want to start one?" |
-| "Found SKILL.md, reading…" | "South fence is still provisional." |
-
-### 1. Greeting (first human-facing turn)
-
-**Manners first.** First visible words are in-character: introduce **Yardcraft** briefly and yourself as the **Yardcraft Agent** — warm, README-level, no preamble. Something like: Yardcraft is designing their yard (patio, parking, lawn, trees — whatever) in Blender with you as the Yardcraft Agent; you build in Blender, they check the viewport, you save into the project when they’re happy; don’t worry if they don’t know Blender — you can guide them.
-
-Do **not** close with “I’ll check what’s already set up here.” Checking happens **silently** after this turn. Ban I’ll/Let me/Loading/Found/Checking when those verbs refer to agent mechanics (skills, tools, orientation).
-
-Do **not** ask Blender 1–5 or Do vs instructions in this turn. Do **not** paste a status table yet.
-
-**Bare “hello” — few-shot**
-
-| | |
-|---|---|
-| **BAD** | Narrate loading/searching skills or “Found the setup guide…”, *then* greet. |
-| **GOOD** | First sentence greets + introduces Yardcraft / Yardcraft Agent; then silent OODA; then outside-in status / questions per this Hello flow. |
-
-### 2. Observe (silent)
-
-Check `AGENTS.md` Phase, skills dirs, PATH / installs / whether this chat can eval as needed — **entirely silent**. No progress-of-orientation lines (“loading skills…”, “checking Blender…”, path searches, skill names). Still no script-staging or probe dumps. OODA stays strong; only the narration dies.
-
-### 3. Outside-in status (next human-facing turn)
-
-Show what **you will do for them** and what’s already fine. Do **not** paste probe output, Phase tables, or “layer 1 / OODA” meta.
-
-**Row shape**
-
-| User-facing line | How to fill |
-|---|---|
-| Install Yardcraft skills in the project | Action if missing; or ✓ if already in project skill dir |
-| Install general skills in the project (`babashka`, `clojure`, … as needed) | Separate line from Yardcraft skills; project-local install |
-| Babashka / connect Babashka REPL | ✓ (`version`) if on PATH; else install + connect. REPL connect is a next step even if binary exists |
-| Editor tools for the AI | ✓ only when you can drive the REPLs from this chat — not merely when the editor extensions are installed. Else: known first-open glitch → ask **Developer: Reload Window**, then wait for “done” |
-| Blender | ✓ (`version`) or “have `x`; will upgrade toward latest” / install latest |
-| basilisp-blender | If Blender present: Observe whether extension is installed **and which version**; ✓ (`version`) or install/upgrade PEZ zip |
-| Connect to Blender REPL | Always this wording — **not** “`.nrepl-port` present”. Port file ≠ connected; sort connect later with the human |
-
-**Omit from the human summary:** Clojure CLI / LSP unblock, Demo / `ensure-demo!`, internal Phase checkboxes, skill-path multiple-choice.
-
-Already-good tooling: prefer **`✓ (version)`**. Only mention upgrade when Observe says the floor isn’t met or “latest” policy wants a bump.
-
-Then one short line: next you’ll install skills / connect Babashka / get Blender + basilisp-blender + Blender REPL as needed — after they answer the next questions.
-
-### 4. Questions (same turn as status, or immediately after)
-
-Ask in **example-chat** order. Plain visitor language — same **Speak so a visitor can understand** bar (no harness/Phase/skill-path jargon).
-
-1. **Blender comfort 1–5** (1 = never used → 5 = expert)
-2. **Do vs instructions-only** — for some setup steps you can **do** it or only **give instructions**; which do they prefer?
-
-Prefer status **then** these two questions in that order (status first so they see the lay of the land before answering). Use the harness **question / choice UI** when available. Each question must be **self-contained** for a visitor who has not read `AGENTS.md` or this skill.
+**Execute** [references/hello-conversation.md](references/hello-conversation.md) turn script (greeting → silent Observe → status → questions). Do not restate voice law or the greeting here — that file is the only canon. Then continue the workflow below (skills install → … → `ensure-demo!`).
 
 ## Prerequisites (load as beats unlock)
 
@@ -209,7 +134,7 @@ Human reopens Blender, then:
 3. Project path = **repo root**
 4. **START SERVER**
 
-Writes/updates **`.nrepl-port`**. When showing the panel screenshot **in chat**, use an **absolute path** (AGENTS **Chat images**): `recipe/readme/images/basilisp-blender-nrepl-panel.png` under the repo root.
+Writes/updates **`.nrepl-port`**. Chat screenshots: absolute path — see [hello-conversation.md](references/hello-conversation.md) **Chat images**.
 
 ### 7. Connect to Blender REPL
 
@@ -243,14 +168,15 @@ When the human is ready for real site facts, leave layer 1 and load **`yardcraft
 
 | Reference | Load when |
 |---|---|
-| [references/vscode-family.md](references/vscode-family.md) | Harness is VS Code family — Calva, first-open wake-up, jack-in, Blender connect sequence, LSP unblock |
+| [references/hello-conversation.md](references/hello-conversation.md) | Hello / any human-facing voice — **mandatory** on layer-1 Hello |
+| [references/vscode-family.md](references/vscode-family.md) | Harness is VS Code family — Calva, first-open wake-up, jack-in, connect, LSP |
 
 ## Invariants
 
 - One shape ever — present the current install/connect path only
-- **Outside-in Hello** — manners-first greeting → **silent** Observe → status → questions; no orientation narration / script-leak / greeting-staging; no Clojure CLI / Demo in the human summary
-- **Common goal, situational adapter** — do not narrate setup as Cursor-only; VS Code depth stays in the reference
-- **This chat can eval** = drive the REPLs from here; install or status-bar green ≠ that gate; no substitute workarounds
+- **Hello / voice:** [hello-conversation.md](references/hello-conversation.md) only — do not restate or re-template the greeting in this skill
+- **Common goal, situational adapter** — not Cursor-only; VS Code depth in vscode-family.md
+- **This chat can eval** = drive the REPLs from here; install or status-bar green ≠ that gate
 - Query before install when Observe already shows green
 - Destructive Blender ops → confirm with human
 - Structural edits for `.cljc` forms once editing starts (`clojure` skill)
