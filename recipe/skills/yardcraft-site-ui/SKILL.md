@@ -55,7 +55,7 @@ Find the UI: **3D Viewport → N (sidebar) → tab Yardcraft**.
 
 ## Current controls
 
-Confirm against the live file before extending. As of skill authoring:
+Confirm against the live file before extending:
 
 | Control | Path |
 |---|---|
