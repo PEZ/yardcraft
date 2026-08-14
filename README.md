@@ -27,6 +27,7 @@ The agent will help you get everything else in place. (If you don't have Git, th
 ## Getting started
 
 1. On [github.com/PEZ/yardcraft](https://github.com/PEZ/yardcraft), click **Use this template**
+   ![alt text](recipe/readme/images/yardcraft-use-template.png)
 2. Clone your copy of the repo
 3. Open the clone in your editor (the example below assumes **Cursor**).
 4. Say **Hello** to your AI agent in a new chat. It takes things from there.
