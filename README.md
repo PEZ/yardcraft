@@ -22,7 +22,9 @@ This recipe is provided to you as this project, and you then use your AI Agent a
 The agent will help you get everything else in place. (If you don't have Git, the agent can help you with that too, of course.)
 
 > [!NOTE]
-> Technically you can use this recipe without AI, and just your editor jacked-in to Blender, Babashka, and your web browser. That is super fun! But to make this really easy to get started with and to iterate on designs, the project and its instructions lean heavily on AI.
+> At the time of this writing the setup session described below under [Example chat](#example-chat) doesn't really work with Cursor Grok 4.5 (and maybe Grok in general). Grok goes full meta about it's role as your guide. GPT 5.6 Sol handles it perfectly. Sonnet 5 is not bad at it either. They may not be as good at working with Blender though, so you can consider using Grok once you are past the tooling setup.
+>
+> **Also**: Technically you can use this recipe without AI, and just your editor jacked-in to Blender, Babashka, and your web browser. That is super fun! But to make this really easy to get started with and to iterate on designs, the project and its instructions lean heavily on AI.
 
 ## Getting started
 
