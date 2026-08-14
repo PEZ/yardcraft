@@ -1,11 +1,11 @@
 ---
 name: yardcraft-setup
 description: >-
-  Layer-1 Yardcraft toolchain onboarding: harness detect, install packaged
-  skills, Babashka + Calva/Backseat, Blender + basilisp-blender nREPL, connect
-  basilisp-blender, show ensure-demo!. Use when Observe says setup incomplete,
-  the human says Hello and the phase is layer 1, or when installing/connecting
-  Babashka, Blender, basilisp-blender, Calva, or the welcome demo.
+  Layer-1 Yardcraft toolchain: give human and agent a Babashka REPL and a
+  Blender basilisp-blender nREPL, then ensure-demo!. VS Code family (Cursor,
+  VS Code + Copilot, forks) uses Calva + Calva Backseat Driver; other harnesses
+  reach the same goal by Observe / wing. Use when setup incomplete, Hello in
+  layer 1, or installing/connecting bb, Blender, basilisp-blender, or the demo.
 ---
 
 # Yardcraft setup (layer 1 — ingredients / toolchain)
@@ -17,7 +17,7 @@ The README example chat is a **press release of the kind of experience**, not a 
 ## When to use
 
 - Human says **Hello** (or equivalent) and Observe says layer 1 / setup incomplete
-- Missing harness skills, Babashka, Calva/Backseat, Blender, basilisp-blender, nREPL, or demo
+- Missing harness skills, Babashka / `bb` REPL, Blender, basilisp-blender nREPL, an nREPL client the AI can use, or demo
 - Resuming mid-setup: read progress in `AGENTS.md`, close the next gap only
 
 ## Prerequisites (load as beats unlock)
@@ -46,9 +46,16 @@ The README example chat is a **press release of the kind of experience**, not a 
   | composable_skills ≡ load_when_needed (¬swallow)
 ```
 
-**Common ingredients:** packaged skills in harness, Babashka (`bb` REPL), Calva + Backseat Driver (Cursor path), Blender, basilisp-blender nREPL, connect sequence **`basilisp-blender`**, `(site/ensure-demo!)`.
+**Common (goal):** packaged skills in harness · Babashka (`bb` REPL) for human + agent · Blender + basilisp-blender nREPL up · an nREPL client the AI can use through its harness · `(site/ensure-demo!)`.
 
-**Situational:** do vs instructions-only, OS/`PATH`, Blender already present, `clojure` CLI present → LSP unblock, other harnesses (web-search skill install + nREPL client).
+**Harness adapter (situational):**
+
+| Harness | Depth |
+|---|---|
+| **VS Code family** (Cursor, VS Code + Copilot, other forks) | **Calva** + **Calva Backseat Driver** — deep path below. No alternate Clojure clients on VS Code. |
+| **Anything else** (e.g. Emacs) | Same goal; Calva/Backseat out of picture. Observe, web-search, adapt — do not enumerate editor combos. |
+
+**Also situational:** do vs instructions-only, OS/`PATH`, Blender already present, `clojure` CLI → LSP unblock (VS Code family only).
 
 ## Progress
 
@@ -58,43 +65,60 @@ As each beat completes, **update `AGENTS.md` Phase / progress checkboxes** so th
 
 ### 1. Harness → install packaged skills
 
-1. Detect the AI/editor stack (Cursor, VS Code, other) and its skill install location.
-2. **Copy** everything under repo `recipe/skills/` into that location (Cursor: typically `.cursor/skills/`).
-3. Keep `recipe/skills/` as the **canonical package** — do not empty or move it out of the recipe.
-4. Ensure upstream **`babashka`** skill is in the harness (Awesome Backseat Driver / babashka plugin). Install **`clojure`** skill when form-editing work needs it — not required solely to finish Hello.
+1. Detect the AI/editor stack and where **this harness** loads agent skills.
+2. **Observe** settings, known skill dirs, and docs for that harness. **Ask the human** if unsure — do not guess a registry of paths.
+3. **Copy** everything under repo `recipe/skills/` into that location. Keep `recipe/skills/` as the **canonical package** — do not empty it.
+4. Ensure upstream **`babashka`** skill is available when doing host work. Install **`clojure`** skill when form-editing needs it — not required solely to finish Hello.
 5. Mark progress in `AGENTS.md`.
 
-### 2. Calva + Calva Backseat Driver (Cursor)
+### 2. nREPL client the AI can use
 
-Prefer shell/`cursor` CLI:
+**Goal:** the harness can evaluate on `bb` and on Blender’s nREPL.
+
+#### VS Code family (Cursor, VS Code + Copilot, forks)
+
+Install **Calva** and **Calva Backseat Driver** (Backseat is the agent tooling path tied to Calva):
 
 ```bash
+# Cursor
 cursor --list-extensions
 cursor --install-extension betterthantomorrow.calva
 cursor --install-extension betterthantomorrow.calva-backseat-driver
+
+# VS Code (same extensions)
+code --list-extensions
+code --install-extension betterthantomorrow.calva
+code --install-extension betterthantomorrow.calva-backseat-driver
 ```
 
-Confirm with `--list-extensions`. Other harnesses: install equivalent Clojure nREPL client + Backseat Driver (or peer) via that harness’s docs.
+Confirm with `--list-extensions`. Repo ships `.vscode/settings.json` with the **`basilisp-blender`** connect sequence.
 
-### 3. Clojure CLI Observe → LSP unblock only
+#### Not VS Code family
+
+Calva / Backseat are out of picture. Observe what nREPL client and agent bridge this harness already has (or the human prefers). Web-search as needed. Rendezvous on **`.nrepl-port`**; after Blender connect, run `(load-file "user.lpy") (user/init!)` manually (no Calva sequence). Do **not** invent a Backseat “peer” or enumerate Emacs stacks.
+
+### 3. Clojure CLI → LSP unblock (VS Code family only)
 
 Workspace ships `"calva.enableClojureLspOnStart": "never"` in `.vscode/settings.json` so clones without Clojure avoid LSP pain.
 
 ```
 λ clojure_lsp_observe.
-  clojure_on_PATH? → remove("calva.enableClojureLspOnStart" = "never")
+  VS_Code_family ∧ clojure_on_PATH? → remove("calva.enableClojureLspOnStart" = "never")
   | ¬install(Java ∨ Clojure) as_Yardcraft_setup
 ```
 
-If `clojure` is on `PATH`, remove that workspace setting so Calva clojure-lsp can auto-start. Do **not** install Java/Clojure as a Yardcraft setup step.
+Skip this beat off VS Code family.
 
 ### 4. Babashka (common — often before Blender)
 
-1. Observe: `bb` on `PATH`? Babashka REPL connected?
-2. **Do mode:** install Babashka if missing; ask human to **Calva: Start a Project REPL and Connect (Jack-in)** → Project Type **Babashka**. Confirm ember REPL status + green **`bb`** indicator.
-3. **Instructions-only:** give install + jack-in steps; wait for human confirmation.
-4. Host automation stays on session `bb`; Blender/`bpy` stays on `basilisp-blender` later.
-5. Mark progress when `bb` is real.
+**Goal:** live **`bb`** REPL for human and agent.
+
+1. Observe: `bb` on `PATH`? Host REPL already connected?
+2. Install Babashka if missing (**Do** / instructions-only as chosen).
+3. **VS Code family:** **Calva: Start a Project REPL and Connect (Jack-in)** → Project Type **Babashka**. Confirm ember status + green **`bb`** indicator.
+4. **Else:** start/connect however this harness does (`bb nrepl-server`, built-in client, …) — wing; confirm the agent can eval on `bb`.
+5. Host automation stays on `bb`; Blender/`bpy` stays on `basilisp-blender` later.
+6. Mark progress when `bb` is real.
 
 ### 5. Blender
 
@@ -128,14 +152,18 @@ Human reopens Blender, then:
 3. Project path = **repo root**
 4. **START SERVER**
 
-Screenshot: [`recipe/readme/images/basilisp-blender-nrepl-panel.png`](../../readme/images/basilisp-blender-nrepl-panel.png)
+Writes/updates **`.nrepl-port`**. Screenshot: [`recipe/readme/images/basilisp-blender-nrepl-panel.png`](../../readme/images/basilisp-blender-nrepl-panel.png)
 
-### 8. Calva connect
+### 8. Connect to Blender nREPL
+
+**VS Code family (Calva):**
 
 1. **Calva: Connect to a running REPL server in the project**
 2. Sequence / project type: **`basilisp-blender`** (not generic `basilisp` alone)
 3. Expect green **`basilisp-blender`** status-bar indicator
 4. `user/init!` runs via the connect sequence (`afterPrimaryReplConnectedCode`) — **do not re-run every time**. Re-run after Blender restart / blown `sys.path` only.
+
+**Other clients:** connect to the port in **`.nrepl-port`**, then run `(load-file "user.lpy") (user/init!)` so `src/` is on `sys.path` before requiring `yardcraft.*`. Confirm the agent can eval on that session.
 
 ### 9. Early win — demo (not empty site)
 
@@ -156,7 +184,7 @@ When the human is ready for real site facts, leave layer 1 and load **`yardcraft
 
 | Mode | Agent acts |
 |---|---|
-| **Do** (default when human chose Do) | Install extensions, Babashka, download PEZ zip, CLI `extension install-file`, drive REPL/demo; human still does Blender UI clicks (nREPL panel) and Calva jack-in/connect when those need the human |
+| **Do** (default when human chose Do) | Install tooling, Babashka, download PEZ zip, CLI `extension install-file`, drive REPL/demo; human still does Blender UI clicks (nREPL panel) and editor jack-in/connect when those need the human |
 | **Instructions-only** | Spell clicks and commands; wait for confirmation; still Observe before prescribing |
 
 ## Invariants

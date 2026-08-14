@@ -25,11 +25,11 @@ Visitor story: [`README.md`](README.md). Base-design memoir (optional): [`MY-BAS
 | Field | Value |
 |---|---|
 | **Current layer** | `1` — toolchain / setup *(agent: set to `2` after demo + human ready for real site; `3` when base is good enough to explore redesigns)* |
-| **Harness skills installed** | `[ ]` copy `recipe/skills/` → harness (Cursor: `.cursor/skills/`) |
+| **Harness skills installed** | `[ ]` copy `recipe/skills/` → this harness’s skill location *(Observe settings / docs; ask human if unsure)* |
 | **Babashka + `bb` REPL** | `[ ]` |
-| **Calva + Backseat Driver** | `[ ]` |
+| **nREPL client the AI can use** | `[ ]` *(VS Code family: Calva + Calva Backseat Driver)* |
 | **Blender + basilisp-blender nREPL** | `[ ]` |
-| **Connected `basilisp-blender`** | `[ ]` |
+| **Connected scene REPL** | `[ ]` *(Calva sequence `basilisp-blender`, or other client → `.nrepl-port` + manual `user/init!`)* |
 | **Demo shown** (`ensure-demo!`) | `[ ]` |
 | **Real base in progress / done** | `[ ]` |
 
@@ -58,9 +58,14 @@ Explore yard / patio / parking options in Blender for **your** site.
 
 ## Common vs situational ingredients
 
-**Common (close these gaps when Observe says missing):** packaged skills in harness, Babashka + `bb` REPL, Calva + Backseat (Cursor path), Blender, basilisp-blender, connect sequence **`basilisp-blender`**, then `(yardcraft.site/ensure-demo!)` for the early win.
+**Common (close these gaps when Observe says missing):** packaged skills in harness · Babashka + `bb` REPL (human + agent) · Blender + basilisp-blender nREPL · an nREPL client the AI can use through its harness · then `(yardcraft.site/ensure-demo!)` for the early win.
 
-**Situational:** editor/harness, do vs instructions-only, OS/`PATH`, Blender already installed, country/map stack, sketches vs APIs, **`clojure` on PATH → remove** `.vscode` `"calva.enableClojureLspOnStart": "never"` (do **not** install Java/Clojure as Yardcraft setup).
+**Harness adapter**
+
+- **VS Code family** (Cursor, VS Code + Copilot, other forks): **Calva** + **Calva Backseat Driver** — deep support (`.vscode/settings.json`, connect sequence **`basilisp-blender`**, `cursor`/`code` CLI). No alternate Clojure clients on VS Code.
+- **Anything else** (e.g. Emacs): same goal; Calva/Backseat out of picture. Observe, web-search, adapt — do not enumerate editor combos. Connect via **`.nrepl-port`**; run `(load-file "user.lpy") (user/init!)` manually after Blender connect.
+
+**Also situational:** do vs instructions-only, OS/`PATH`, Blender already installed, country/map stack, sketches vs APIs, **`clojure` on PATH → remove** `.vscode` `"calva.enableClojureLspOnStart": "never"` (VS Code family only; do **not** install Java/Clojure as Yardcraft setup). Skill install dir: Observe harness settings/docs; **ask the human** if unsure.
 
 **Blender wording:** with humans say **latest** ([blender.org/download](https://www.blender.org/download/)). Agent-private floor for Observe/compat: **≥ 5.2.0 LTS** at time of writing — don’t lecture versions unless checking or troubleshooting.
 
@@ -68,7 +73,7 @@ Explore yard / patio / parking options in Blender for **your** site.
 
 **nREPL (humans):** Output Properties (printer icon) → **Basilisp nREPL server** → project path = this repo → **START SERVER**. Screenshot: [`recipe/readme/images/basilisp-blender-nrepl-panel.png`](recipe/readme/images/basilisp-blender-nrepl-panel.png).
 
-**Connect:** Calva → *Connect to a running REPL server in the project* → **`basilisp-blender`** (not generic `basilisp` alone). Connect sequence runs `(user/init!)` / `user.lpy`. Re-run `user/init!` only after Blender restart or a blown `sys.path`.
+**Connect (VS Code family):** Calva → *Connect to a running REPL server in the project* → **`basilisp-blender`** (not generic `basilisp` alone). Connect sequence runs `(user/init!)` / `user.lpy`. Re-run `user/init!` only after Blender restart or a blown `sys.path`. **Other clients:** connect using **`.nrepl-port`**, then `(load-file "user.lpy") (user/init!)` so `src/` is on `sys.path`.
 
 **Early win:** `(require '[yardcraft.site :as site])` then `(site/ensure-demo!)` — letters, furniture, sundial, orbit fly, Yardcraft panel. Ask what they see. Empty `(ensure-site! …)` is for later real-base / insufficient-facts work, not the Hello delight check.
 
@@ -83,7 +88,7 @@ Explore yard / patio / parking options in Blender for **your** site.
 | Blender (latest; floor ≥ 5.2.0 LTS) | Host app + `bpy` |
 | Basilisp | Lisp in Blender; sources under `src/` as `.cljc` |
 | basilisp-blender | nREPL from Blender’s main loop; project root on `sys.path` (not `src/`) |
-| `user.lpy` | `user/init!` adds `src/` after Calva connect |
+| `user.lpy` | `user/init!` adds `src/` after editor connect (Calva sequence runs it; other clients run it manually) |
 | `basilisp.edn` | Editor project marker |
 | `.nrepl-port` | Written when nREPL starts |
 | Babashka (`bb`) | Host HTTP/fs/process REPL |
@@ -118,7 +123,7 @@ Packaged skills live under `recipe/skills/` until copied into the harness (layer
   | destructive_ops → confirm_with_human
   | host_scripting → bb_REPL (¬bash/python one-offs)
   | .cljc_form_edits → structural_editing
-  | connect → basilisp-blender ∧ user/init!_via_sequence
+  | connect → scene_REPL ∧ user/init!_(sequence ∨ manual)
 ```
 
 ### REPL → Blender check → promote
@@ -168,7 +173,7 @@ UI: `(require '[yardcraft.site-ui :as ui])` `(ui/register!)` — once per Blende
 1. **Explicit `site` argument** — builders take facts `[s]`; only orchestration refers global `site` from `site-data`.
 2. **Destructuring** — prefer `:keys` / namespaced keys over repeated digging.
 3. **Code Health** — CodeScene aspiration for `src/yardcraft/*.cljc` is **10.0**.
-4. **Editor scripting** — Calva + basilisp-blender + Babashka (+ Epupp for maps); no separate extension-host Clojure runtime required for Yardcraft.
+4. **Editor scripting (VS Code family)** — Calva + basilisp-blender + Babashka (+ Epupp for maps); no separate extension-host Clojure runtime required for Yardcraft. Other harnesses: same REPLs, wing the client.
 
 ## Key namespaces
 

@@ -37,9 +37,9 @@ Working notes for crafting visitor-facing onboarding. **Not** for GitHub visitor
 
 **Form (lean locked): mix.** Use **λ / nucleus notation** for harder rules, procedures, invariants, and trade-off hierarchies (compact, scannable, less waffle). Use **effective prose** when the agent needs freer description, empathy, or situational judgment. Always-on core: engage(nucleus) opener with **OODA** + **Human ⊗ AI ⊗ REPLs**; pull denser dual lines (`phi…`, `Δ λ Ω…`) where they sharpen an invariant — not as obligatory wallpaper on every paragraph.
 
-**Common ingredients (almost every cook):** Babashka (`bb` REPL), Blender, basilisp-blender (nREPL), Calva + Backseat (or equivalent), packaged skills installed into the detected harness, demo then real work.
+**Common ingredients (goal):** Babashka (`bb` REPL), Blender, basilisp-blender (nREPL), packaged skills in harness, an nREPL client the AI can use, demo then real work.
 
-**Situational ingredients:** editor/harness (Cursor vs other), do vs instructions-only, OS/`PATH`, Blender already present vs fresh, country/map stack, sketches vs APIs, **`clojure` CLI already present → unblock LSP** (see crafting rules), etc.
+**Situational ingredients:** VS Code family vs other harnesses, do vs instructions-only, OS/`PATH`, Blender already present vs fresh, country/map stack, sketches vs APIs, **`clojure` CLI already present → unblock LSP** (VS Code family; see crafting rules), skill install location (Observe / ask human), etc.
 
 ## Crafting rules (author → agent behavior in examples)
 
@@ -63,20 +63,21 @@ Working notes for crafting visitor-facing onboarding. **Not** for GitHub visitor
 - Bundles **Basilisp ≥ 0.5.1** — fixes [basilisp#1302](https://github.com/basilisp-lang/basilisp/issues/1302) (Calva load-file / module aliases)
 - Pre-upstream: [PR #14](https://github.com/ikappaki/basilisp-blender/pull/14) to ikappaki — once merged+released upstream, prefer upstream again and drop special-version callout
 
-### Editor extensions (Cursor CLI)
+### Editor extensions (VS Code family)
 
-- Prefer shell/`cursor` for check+install of editor extensions.
-- Don’t ban optional tools the human already has (e.g. if Joyride is installed it may help the agent) — just don’t make them part of the Yardcraft setup story.
-- Verified on this machine: `cursor --install-extension mechatroner.rainbow-csv` succeeded (v3.24.1); confirm with `cursor --list-extensions`.
-- Useful commands:
-  - `cursor --list-extensions`
-  - `cursor --install-extension <publisher.name>`
-  - (also `--uninstall-extension`, `--update-extensions` exist)
-- Target extensions for Yardcraft agent setup: **Calva** (`betterthantomorrow.calva`) and **Calva Backseat Driver** (`betterthantomorrow.calva-backseat-driver`).
+- Prefer shell/`cursor` or `code` CLI for check+install of Calva + Calva Backseat Driver.
+- Don’t ban optional tools the human already has — just don’t make them part of the Yardcraft setup story.
+- Verified on this machine: `cursor --install-extension mechatroner.rainbow-csv` succeeded (v3.24.1); confirm with `--list-extensions`.
+- Useful commands (same extensions for VS Code via `code`):
+  - `cursor --list-extensions` / `code --list-extensions`
+  - `cursor --install-extension <publisher.name>` / `code --install-extension …`
+- Target: **Calva** (`betterthantomorrow.calva`) and **Calva Backseat Driver** (`betterthantomorrow.calva-backseat-driver`).
 
 ### Babashka (base setup — before Blender)
 
-- **Do mode:** agent installs Babashka if missing, then human **Calva: Start a Project REPL and Connect (Jack-in)** → Project Type **Babashka**. Confirm ember REPL status + green **`bb`** indicator.
+- **Goal:** live `bb` REPL for human and agent.
+- **VS Code family / Do mode:** install Babashka if missing, then human **Calva: Start a Project REPL and Connect (Jack-in)** → Project Type **Babashka**. Confirm ember REPL status + green **`bb`** indicator.
+- **Else:** wing client connect; confirm agent can eval on `bb`.
 - Host automation REPL from the start (HTTP/fs/assets later); Blender scene work stays on **basilisp-blender** after that connect.
 - Ensure upstream **`babashka` skill** is available in the harness when this beat runs (same install+progress pattern as packaged skills).
 
@@ -117,10 +118,11 @@ Bad cooking analogy, useful knob: the recipe has **three layers**, each with a d
 | Template flow | Use this template → clone → open → Hello |
 | basilisp-blender zip | PEZ `v0.5.0-basilisp-0.5.1` until upstream ships Basilisp 0.5.1 (PR #14) |
 | basilisp-blender install | Do mode → close Blender → agent CLI `extension install-file … -e` → reopen + nREPL panel; UI Install From Disk = fallback / instructions-only |
-| Babashka in Hello | Install `bb` + jack-in Babashka REPL (status **bb**) **before** Blender; host REPL from the start |
+| Harness model | **Goal common:** bb + blender nREPL for human + agent. **VS Code family** (Cursor, VS Code+Copilot, forks): Calva + Backseat deep adapter; no alternate VS Code Clojure clients. **Else:** wing; Calva/Backseat out of picture. Skills dir: Observe / ask human. Phase: “nREPL client the AI can use (VS Code: Calva + Backseat)” |
 | One shape ever | Guiding principle (top) — working tree presents only the current shape; archaeology in git only |
 | Story vs AGENTS | README chat = **example**; AGENTS = **engage(nucleus)** — OODA + **Human ⊗ AI ⊗ REPLs**; λ-notation for hard rules/invariants/trade-offs, prose when freer description fits |
-| Common vs situational ingredients | Always-ish: Babashka, Blender, basilisp-blender (+ Calva/Backseat path). Rest depends on Observe (harness, OS, what’s already there, country/maps, …) |
+| Babashka in Hello | Install `bb` + host REPL for human+agent **before** Blender when missing; VS Code family: Calva jack-in → **bb** |
+| Common vs situational ingredients | Goal: bb, Blender, basilisp-blender, skills, nREPL client AI can use, demo. Adapter: VS Code family vs wing |
 | Three recipe layers | (1) toolchain/setup → (2) base design → (3) redesign/explore; AGENTS phase-aware; composable skills not folded into phase skills (see Three layers) |
 | Post-setup `AGENTS.md` | Living Phase section; layer skills; update progress as layers advance (hybrid locked) |
 | Inventory AFK pass | 2026-08-13 — backlog cranked; see `recipe/readme/subagents/inventory-X-cross-review.md` |
@@ -143,7 +145,7 @@ Bad cooking analogy, useful knob: the recipe has **three layers**, each with a d
 - Fixed: README quote-plan needs `sug` in `site.cljc`; `site-suggestions` must not hard-require `site` (cycle) — use `ns-resolve` for `clear-site!` / `ensure-site!`. Verify reload on `basilisp-blender`.
 - [x] **Code sanity pass** (initial): fly no-tour guard; sun/time geo-guard; quote-plan RCF; cycle soft-deps OK. **Re-run** periodically.
 - Tip: if `sys.modules` has a `nil` tombstone for `yardcraft`, pop it; `sys.path` needs repo `src/` before `yardcraft.*` — normally from Calva connect, not a manual `(user/init!)` every time.
-- `(user/init!)` runs in Calva **basilisp-blender** connect sequence (`afterPrimaryReplConnectedCode`). Agents: skip re-run after normal connect; still useful after Blender restart (before reconnect) or if `sys.path` got blown.
+- `(user/init!)` runs in Calva **basilisp-blender** connect sequence (`afterPrimaryReplConnectedCode`). Other clients: run `(load-file "user.lpy") (user/init!)` after connect. Agents: skip re-run after normal Calva connect; still useful after Blender restart or if `sys.path` got blown.
 - Agent story beat after connect: call `(ensure-demo!)` (from `yardcraft.site`) so the visitor sees the fun scene quickly.
 - [x] README basilisp-blender install beat — close Blender → agent CLI install → reopen + nREPL panel (PEZ voice pass done).
 - [ ] Voice pass: PEZ continues story; agent only spelling/grammar + asks.
