@@ -17,7 +17,7 @@ This recipe is provided to you as this project, and you then use your AI Agent a
 ## Prerequisites
 
 * Git
-* A competent AI agent ([*](#which-model-it-depends))
+* A competent AI agent (Suggestion: [Grok for design work. Not Grok for the project setup](#which-model-it-depends))
 
 The agent will help you get everything else in place. (If you don't have Git, the agent can help you with that too, of course.)
 
