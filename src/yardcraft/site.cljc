@@ -267,7 +267,10 @@
         (assoc built :status :full)))))
 
 (defn ensure-demo!
-  "Welcome onboarding scene: YARDCRAFT patio letters, furniture, sundial, orbit fly playing, Yardcraft N-panel shown."
+  "Convenience one-shot welcome demo (atomic — no dramaturgy).
+
+  Hello/setup: eval yardcraft.site-demo/demo-stage-clear! … demo-stage-finish!
+  as separate REPL forms so Blender paints between stages."
   []
   (require 'yardcraft.site-demo)
   ((ns-resolve 'yardcraft.site-demo 'ensure-demo!)))

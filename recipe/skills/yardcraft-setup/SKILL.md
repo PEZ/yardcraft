@@ -2,7 +2,7 @@
 name: yardcraft-setup
 description: >-
   Layer-1 Yardcraft toolchain: give human and agent a Babashka REPL and a
-  Blender basilisp-blender nREPL, then ensure-demo!. Hello voice/turns live in
+  Blender basilisp-blender nREPL, then staged demo (demo-stage-*!). Hello voice/turns live in
   references/hello-conversation.md; VS Code family depth in
   references/vscode-family.md. Use when setup incomplete, Hello in layer 1,
   or installing/connecting bb, Blender, basilisp-blender, or the demo.
@@ -45,13 +45,13 @@ The README example chat is a **press release of the kind of experience**, not a 
   → Act(do_mode ∨ instructions_only)
   → update(AGENTS.md phase ∧ progress)
   | Hello ∧ layer_1 → this_skill
-  | success ≡ ensure-demo! visible ∧ human_feedback
+  | success ≡ staged_demo visible ∧ human_feedback
   | ¬replay(README_chat) | ¬empty_ensure-site!_as_win
   | Human ⊗ AI ⊗ REPLs ≡ bb ∧ basilisp-blender
   | composable_skills ≡ load_when_needed (¬swallow)
 ```
 
-**Common (goal):** packaged skills in harness · Babashka (`bb` REPL) for human + agent · Blender + basilisp-blender nREPL up · an nREPL client the AI can use through its harness · `(site/ensure-demo!)`.
+**Common (goal):** packaged skills in harness · Babashka (`bb` REPL) for human + agent · Blender + basilisp-blender nREPL up · an nREPL client the AI can use through its harness · staged welcome demo (`demo-stage-*!`).
 
 **Harness adapter (situational):** same common goal everywhere. **VS Code family** (Cursor, VS Code + Copilot, forks) → load [references/vscode-family.md](references/vscode-family.md) when that path unlocks (Calva + Calva Backseat Driver). **Anything else** → Observe / web-search / wing; do not enumerate editor stacks. Setup is **not** “the Cursor recipe with a footnote.”
 
@@ -90,7 +90,7 @@ Phase row **nREPL client the AI can use** means **(3)**, not (1) or (2).
   | installed ≠ connected ≠ this_chat_can_eval
   | ¬this_chat_can_eval → STOP ∧ guide(human_reload_window)
   | ¬invent_alternate_workarounds
-  | gate_pass → then jack-in framing / Connect_to_Blender_REPL / ensure-demo!
+  | gate_pass → then jack-in framing / Connect_to_Blender_REPL / demo_stages
 ```
 
 **VS Code family:** load [references/vscode-family.md](references/vscode-family.md) for install, tool Observe, and connect details. **When this chat cannot drive the REPLs yet** (known first-open glitch): in **plain chat** (not the question UI), ask for Command Palette → **Developer: Reload Window**, then “Tell me when that’s done.” Re-Observe. More steps only if reload fails — in that reference. Keep human wording free of internals (no “MCP”, no “bridge”, no extension short-names unless escalation needs them).
@@ -147,12 +147,23 @@ Connect with this harness’s nREPL client; confirm **this chat** can eval. Afte
 
 ### 8. Early win — demo (not empty site)
 
+**Dramaturgy needs separate REPL evals.** Blender only paints when an eval returns. One `(ensure-demo!)` (or any single form that runs all stages) freezes, then pops in complete — that is **not** the win. Eval each **`demo-stage-*!`** as its **own** form; tell the human to **watch the viewport**.
+
 ```clojure
-(require '[yardcraft.site :as site])
-(site/ensure-demo!)
+(require '[yardcraft.site-demo :as demo])
+;; each line = its own eval — do not wrap in do/let or batch:
+(demo/demo-stage-clear!)     ; 1/6 clear + site-root
+(demo/demo-stage-terrain!)   ; 2/6 lawn
+(demo/demo-stage-yard!)      ; 3/6 YARD
+(demo/demo-stage-craft!)     ; 4/6 brick + CRAFT
+(demo/demo-stage-overlays!)  ; 5/6 stairs, pedestal, sundial
+(demo/demo-stage-finish!)    ; 6/6 furniture, sun, fly, Yardcraft panel
 ```
 
-Success for layer 1 is the **welcome demo** (letters, furniture, sundial, orbit fly **playing**, Yardcraft N-panel **open** on the Yardcraft tab). `(ensure-demo!)` builds the scene in stages (terrain → YARD → CRAFT → stairs → finish), starts orbit playback, registers the panel, and shows the sidebar on the Yardcraft tab. Empty `(ensure-site! …)` is for later real-base / insufficient-facts work — not the Hello win.
+- Do **not** call `(site/ensure-demo!)` / `(demo/ensure-demo!)` for Hello — that convenience path is atomic (no dramaturgy).
+- Do **not** reimplement stages in one mega-form.
+
+Success for layer 1 is the **welcome demo** after that staged reveal (letters, furniture, sundial, orbit fly **playing**, Yardcraft N-panel **open**). Empty `(ensure-site! …)` is for later real-base — not the Hello win.
 
 **Ask the human what they see** in the Blender viewport (and panel). Point out Set time / lounger delight and Fly cam as demo-safe.
 
@@ -195,4 +206,5 @@ When **they** engage real-site work, leave layer 1, load **`yardcraft-base-desig
 - **This chat can eval** = drive the REPLs from here; install or status-bar green ≠ that gate
 - Query before install when Observe already shows green
 - Destructive Blender ops → confirm with human
+- **Demo dramaturgy:** six separate `demo-stage-*!` REPL evals (§8); not `(ensure-demo!)`
 - Structural edits for `.cljc` forms once editing starts (`clojure` skill)

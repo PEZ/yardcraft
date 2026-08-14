@@ -1,7 +1,7 @@
 (ns yardcraft.site-demo
   "Welcome demo: YARDCRAFT patio letters, brick CRAFT deck, lawn furniture, sundial, orbit fly.
 
-  `(ensure-demo!)` after REPL connect — README onboarding scene.
+  `demo-stage-*!` for Hello dramaturgy (separate REPL evals); `(ensure-demo!)` one-shot convenience.
   Objects: site-demo-*, site-furniture-*, site-sundial-*, site-fly-*.
   Does not require yardcraft.site-ui at ns level (avoid cycles)."
   (:require [basilisp.string :as string]
@@ -571,21 +571,49 @@
   (require 'yardcraft.site-ui)
   ((ns-resolve 'yardcraft.site-ui 'register!)))
 
-(defn ensure-demo! []
+(defn demo-stage-clear!
+  "Demo dramaturgy stage 1/6 — clear scene, reset demo facts, site-root. Own REPL eval."
+  []
   (site/clear-site!)
   (reset-demo-facts!)
   (railing/clear-railings!)
+  (hierarchy/ensure-site-root! (demo-facts))
+  (viewport/redraw!)
+  {:stage :clear})
+
+(defn demo-stage-terrain!
+  "Demo dramaturgy stage 2/6 — lawn terrain. Own REPL eval."
+  []
+  (let [terrain (build-terrain!)]
+    (viewport/redraw!)
+    {:stage :terrain :terrain terrain}))
+
+(defn demo-stage-yard!
+  "Demo dramaturgy stage 3/6 — YARD letter patios. Own REPL eval."
+  []
+  (let [yard (build-yard-patios!)]
+    (viewport/redraw!)
+    {:stage :yard :yard yard}))
+
+(defn demo-stage-craft!
+  "Demo dramaturgy stage 4/6 — brick + CRAFT letters. Own REPL eval."
+  []
+  (let [brick (build-brick!)
+        craft (build-craft-patios!)]
+    (viewport/redraw!)
+    {:stage :craft :brick brick :craft craft}))
+
+(defn demo-stage-overlays!
+  "Demo dramaturgy stage 5/6 — stairs, pedestal, sundial. Own REPL eval."
+  []
+  (let [overlays (ensure-demo-overlays! (demo-facts))]
+    (viewport/redraw!)
+    {:stage :overlays :overlays overlays}))
+
+(defn demo-stage-finish!
+  "Demo dramaturgy stage 6/6 — furniture, sun, paint, hierarchy, fly, Yardcraft panel. Own REPL eval."
+  []
   (let [s (demo-facts)
-        _ (hierarchy/ensure-site-root! s)
-        terrain (build-terrain!)
-        _ (viewport/redraw!)
-        yard (build-yard-patios!)
-        _ (viewport/redraw!)
-        brick (build-brick!)
-        craft (build-craft-patios!)
-        _ (viewport/redraw!)
-        overlays (ensure-demo-overlays! s)
-        _ (viewport/redraw!)
         furn (furniture/ensure-terrace-furniture! s)
         world-r (sun/ensure-world! s)
         aimed (sun/aim-sun-at-clock s (:sun/time-of-day s))
@@ -599,11 +627,8 @@
     (viewport/show-rendered!)
     (let [ui-r (register-ui!)
           panel (viewport/show-n-panel! "Yardcraft")]
-      {:terrain terrain
-       :yard yard
-       :brick brick
-       :craft craft
-       :overlays overlays
+      (viewport/redraw!)
+      {:stage :finish
        :furniture furn
        :sun sun-r
        :world world-r
@@ -613,3 +638,16 @@
        :fly fly
        :ui ui-r
        :panel panel})))
+
+(defn ensure-demo!
+  "Convenience: run all demo stages in one eval (no viewport dramaturgy).
+
+  Hello/setup dramaturgy: evaluate `demo-stage-clear!` … `demo-stage-finish!`
+  as **separate** REPL forms so Blender can paint between them."
+  []
+  (merge (demo-stage-clear!)
+         (demo-stage-terrain!)
+         (demo-stage-yard!)
+         (demo-stage-craft!)
+         (demo-stage-overlays!)
+         (demo-stage-finish!)))
