@@ -17,7 +17,7 @@ Explore alternate patio/parking/furniture designs. **Author in the REPL/session 
 Load before using this skill:
 
 1. **`basilisp`** — dialect / Python interop
-2. **`basilisp-blender`** — nREPL-in-Blender, `bpy`, Yardcraft session bootstrap
+2. **`basilisp-blender`** — nREPL-in-Blender, `bpy`, Yardcraft session bootstrap (**Safe visual self-check** / `render_check` lives here)
 3. **`clojure`** — shared Clojure conventions (structural edits, REPL-first)
 
 After connect: confirm `user/init!` added `src/` to `sys.path` before requiring `yardcraft.*`. Tooling: `src/yardcraft/site_suggestions.cljc` (`yardcraft.site-suggestions`, alias `sug`); facts in `yardcraft.site-data`; orchestration in `yardcraft.site`. Panel: load **`yardcraft-site-ui`** when touching N-panel source.
@@ -26,20 +26,28 @@ After connect: confirm `user/init!` added `src/` to `sys.path` before requiring 
 
 | Role | Owns |
 |---|---|
-| Agent | Session register → `ui/register!` → optional `show!` for smoke check; iterate patch until human happy; write EDN / builder / facts only after approval |
+| Agent | Session register → `ui/register!` → **`show!` + self-verify** → **`show-base!` + self-verify** → then ask human N-panel Show/Base; iterate until happy; write EDN only after approval |
 | Human | Selects suggestion in Yardcraft N-panel dropdown, clicks **Show** / **Base**; judges viewport; confirms file commit and any promote into `site_data` |
 
 ```
 λ suggestion_authoring.
-  REPL_register_map → ui/register! → human(N-panel Show/Base) → iterate_until_approve
+  REPL_register_map → ui/register!
+  → show! → render_check(inspect_image) → fix_if_wrong
+  → show-base! → render_check(inspect_image) → fix_if_wrong
+  → human(N-panel Show/Base) → iterate_until_approve
   | then_commit(EDN ∧ builder_support_if_needed)
   | promote_plan → site_data only_when_adopting_as_base
   | ¬write_EDN ¬edit_site_data_early
+  | ¬ask_human_before_self_verify
 ```
+
+**Self-verify is mandatory** — same discipline as demo builds. Do not hand the human a suggestion you have not applied and visually checked. Use **`basilisp-blender` → Safe visual self-check** (temp PNG via scene REPL, read the image, restore camera/render/active state). Check **Show** *and* **Base** (same camera/frame) so restore is proven too. Execution success ≠ visual correctness.
 
 ## Demo Hello smoke (`:demo` domain)
 
-When verifying suggestions during **layer-1 demo** (README), use domain **`#{:demo}`** and patch keys under `:demo/…` only (e.g. `:demo/a-back-stair?`, `:demo/pedestal-xy`). Show/Base then rebuild demo overlays (stairs / pedestal / sundial) — not the real terrace.
+Ask like the README: open question with soft examples (*move something, or add a stair…*). Invent id/title/patch from **their** answer. Do **not** pre-register or “Recommend” a canned Brick A-stairs.
+
+Use domain **`#{:demo}`** only. Hooks like `:demo/a-back-stair?` / `:demo/pedestal-xy` are optional footing after the ask — not a UI entry until you register.
 
 ```clojure
 (require '[yardcraft.site-demo :as demo])
@@ -47,27 +55,30 @@ When verifying suggestions during **layer-1 demo** (README), use domain **`#{:de
 (require '[yardcraft.site-ui :as ui])
 
 (sug/register-suggestion!
- {:suggestion/id :brick-a-stairs
-  :suggestion/title "Brick A-stairs"
-  :suggestion/note "Demo Hello smoke — A-back stair + pedestal moved."
+ {:suggestion/id    :their-idea
+  :suggestion/title "Their idea"
+  :suggestion/note  "Demo Hello smoke — session only."
   :suggestion/domains #{:demo}
-  :suggestion/patch {:demo/a-back-stair? true
-                     :demo/pedestal-xy [0.0 -5.5]}})
+  :suggestion/patch {;; from their ask
+                     }})
 (ui/register!)
-;; Human: N-panel → select "Brick A-stairs (session)" → Show / Base
-;; Optional agent check:
-(sug/show! (demo/demo-facts) :brick-a-stairs)
+;; Agent MUST self-verify before asking the human:
+(sug/show! (demo/demo-facts) :their-idea)
+;; → basilisp-blender render_check: inspect image; fix if wrong
 (sug/show-base! (demo/demo-facts))
+;; → render_check again (same camera): Base restored?
+;; Only then ask human: select their title → Show / Base
 ```
 
-Do **not** use `#{:terrace}` / `#{:furniture}` against the welcome demo — those domains rebuild survey terrace/furniture.
+Do **not** use `#{:terrace}` / `#{:furniture}` against the welcome demo. Template ships no suggestion EDN on purpose.
 
 ## Primary authoring process
 
 1. **Create in the REPL** — suggestion map (same shape as EDN) → `(sug/register-suggestion! …)` (session registry; no disk write).
 2. **Add to the UI** — `(ui/register!)` or `(ui/reload!)` so EnumProperty items rebuild (baked at PropertyGroup class build).
-3. **Iterate with the human** — they **select** in the dropdown (staged only), then click **Show** to apply / **Base** to restore. Selecting alone does not apply. Optional agent `(sug/show! site :id)` for a quick check — still stop and ask for N-panel + viewport feedback.
-4. **Commit to files only when approved** — write `src/yardcraft/suggestions/<snake_id>.edn`; keep any builder + default facts keys the patch needs. Optionally `(sug/promote-plan :id)` **only** if adopting into survey base (`site_data`) — that is separate from durable suggestion EDN.
+3. **Self-verify** — `(sug/show! …)` then render_check; `(sug/show-base! …)` then render_check. Fix obvious mismatches (wrong letter, wrong side, pedestal nowhere near the stair, Base not restoring) before involving the human.
+4. **Iterate with the human** — they **select** in the dropdown (staged only), then click **Show** / **Base**. Selecting alone does not apply.
+5. **Commit to files only when approved** — write `src/yardcraft/suggestions/<snake_id>.edn`; keep any builder + default facts keys the patch needs. Optionally `(sug/promote-plan :id)` **only** if adopting into survey base (`site_data`) — that is separate from durable suggestion EDN.
 
 Builder support for new patch keys may be required before Show works; experiment in REPL/session until happy.
 
@@ -84,17 +95,16 @@ Builder support for new patch keys may be required before Show works; experiment
   :suggestion/note "Design option — session only."
   :suggestion/domains #{:terrace}
   :suggestion/patch {:terrace/depth-m 5.2}})
-(ui/register!)   ; refresh baked enum (also after unregister! / clear-session-suggestions!)
+(ui/register!)
 
-;; Optional agent smoke check — then stop:
 (sug/show! site :my-idea)
-;; Ask human: select "My idea (session)" in Yardcraft N-panel → Show / Base.
-;; Tweak patch → register-suggestion! again → ui/register! → repeat until approved.
+;; render_check + inspect image — fix if wrong
+(sug/show-base! site)
+;; render_check again — Base OK?
+;; Then ask human: N-panel → Show / Base
 
-;; After human approval — durable EDN (and builder/facts support if needed):
-;; write src/yardcraft/suggestions/my_idea.edn  (same map keys)
-;; (sug/unregister-suggestion! :my-idea)  ; optional once file exists
-;; (sug/clear-session-suggestions!)       ; optional cleanup
+;; After human approval — durable EDN:
+;; write src/yardcraft/suggestions/my_idea.edn
 ```
 
 - **Resolve:** `load-suggestion` — session registry first, then `src/yardcraft/suggestions/<id>.edn`.
@@ -154,6 +164,7 @@ Promote never silently rewrites `site_data`. No suggestion code path writes that
 
 ## Invariants
 
+- **Self-verify before asking the human** — `show!` + render_check, then `show-base!` + render_check (`basilisp-blender` Safe visual self-check). Do not skip on demo smoke.
 - **Session registry + active suggestion persist on `bpy` attrs** (`_yardcraft_session_suggestions`, `_yardcraft_active_suggestion`) — survive Basilisp ns reload. Not Vars / `session-suggestions*` / `alter-var-root`.
 - **Session registry is memory-only** — `register-suggestion!` / `unregister-suggestion!` / `clear-session-suggestions!` never write EDN; after any of those, `(ui/register!)` (or `reload!`) so the enum rebuilds.
 - **`show!` does not persist.** Session `site` Var stays file base; effective is builders-only.

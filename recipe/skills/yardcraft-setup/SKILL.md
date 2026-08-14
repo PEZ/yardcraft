@@ -176,12 +176,12 @@ Success for layer 1 is the **welcome demo** after that staged reveal (letters, f
 
 ### 8b. Demo suggestions smoke (README beat — before handoff)
 
-Load **`yardcraft-design-suggestions`**. On the **demo** scene (not empty `site`), verify Show/Base:
+Load **`yardcraft-design-suggestions`** (and follow its self-verify rules). On the **demo** scene (not empty `site`):
 
-1. Ask the human for a **simple** redesign to try (README shape: e.g. stair from the brick near A + move sundial/pedestal).
-2. Session-register a suggestion with **`:suggestion/domains #{:demo}`** and a `:demo/…` patch (e.g. `:demo/a-back-stair? true`, `:demo/pedestal-xy […]`). Do **not** use `:terrace`/`:furniture` domains on the demo — those rebuild the real site.
-3. `(ui/register!)` so the enum lists it; ask them to select it → **Show**, then **Base**.
-4. After they confirm it works, persist EDN under `src/yardcraft/suggestions/` (and keep the session entry or unregister — depth in the suggestions skill).
+1. Ask openly for a redesign (take inspiration from the README, i.e. mention some ideas and then ask **openly**) — wait for **their** answer; do not Recommend a canned Brick A-stairs.
+2. Session-register **`:suggestion/domains #{:demo}`** implementing what they asked. Do **not** use `:terrace`/`:furniture` on the demo.
+3. `(ui/register!)` → agent **`show!` + render_check**, then **`show-base!` + render_check** (fix if wrong) → only then ask them to select → **Show** / **Base**.
+4. Persist EDN under `src/yardcraft/suggestions/` when they want it kept.
 
 Mark progress: demo shown. Then continue.
 

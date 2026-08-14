@@ -88,7 +88,7 @@ What do you see now?
 
 **Agent:** There is a feature in that UI with suggestions. The way it works is that from a base design we can create alternatives, and add them to the UI suggestions list where you can switch between them. We should verify that it works with the demo design. Suggest some redesign we can test it with, please. If you suggest something simple, like move something, or add a stair, that is pretty quick.
 
-**Human:** Add a stair down from that red brick down on the back side from the A, and move the sundial with its pedestal to the side of the stair.
+**Human:** Add stairs down from that A in CRAFT down the back side (opposite the furniture), and move the sundial with its pedestal to the side of the new stairs.
 
 **Agent:**  ...*Agent cranks on the design a while, the changes appear and then dissappear*...There you go, yardcrafter, test selecting the "Brick A-stairs" suggestions from the list and click the **Show** button. To switch back, click the **Base** button.
 
