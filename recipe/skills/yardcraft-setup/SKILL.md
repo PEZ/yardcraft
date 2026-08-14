@@ -22,7 +22,7 @@ The README example chat is a **press release of the kind of experience**, not a 
 
 ## Hello
 
-**Execute** [references/hello-conversation.md](references/hello-conversation.md) turn script (greeting → silent Observe → status → questions). Do not restate voice law or the greeting here — that file is the only canon. Then continue the workflow below (skills install → … → `ensure-demo!`).
+**Execute** [references/hello-conversation.md](references/hello-conversation.md): first bubble greeting → silent Observe → status → questions (**wait**) → this workflow → demo → offer/begin base design. Exchange rule: after you speak, Act or ask — never idle. Do not restate voice law here — that file is the only canon.
 
 ## Prerequisites (load as beats unlock)
 
