@@ -8,9 +8,10 @@ out/
 .DS_Store
 .venv*
 *.blend1
-# Harness-local skill install (canonical package stays under recipe/skills/)
-.cursor/
-# Local recipe-authoring pad (seed: recipe/readme/TEMPLATE-CRAFTING.seed.md)
+# Harness skill mirrors only — canonical package is recipe/skills/
+# Do not ignore all of .cursor/ (rules/settings must stay usable without “unignore”).
+.cursor/skills/
+# Local recipe-authoring pad
 TEMPLATE-CRAFTING.md
 assets/**/*.glb
 assets/**/*.gltf

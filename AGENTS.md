@@ -20,7 +20,7 @@ Exploratory Blender workspace driven by **Basilisp** (Clojure-compatible Lisp on
 
 Visitor story: [`README.md`](README.md). Base-design memoir (optional): [`MY-BASE-DESIGN-PROCESS.md`](MY-BASE-DESIGN-PROCESS.md). Human notes: [`site.md`](site.md). Canonical skills: [`recipe/skills/`](recipe/skills/).
 
-**Crafting the template itself** (editing this recipe, not helping someone Yardcraft their lot): if [`TEMPLATE-CRAFTING.md`](TEMPLATE-CRAFTING.md) is present (gitignored living pad; seed at [`recipe/readme/TEMPLATE-CRAFTING.seed.md`](recipe/readme/TEMPLATE-CRAFTING.seed.md)), prefer that file as orientation over running the Hello / Phase playbook below.
+**Crafting the template itself** (editing this recipe, not helping someone Yardcraft their lot): if [`TEMPLATE-CRAFTING.md`](TEMPLATE-CRAFTING.md) is present (gitignored living pad), prefer that file as orientation over running the Hello / Phase playbook below.
 
 ---
 
