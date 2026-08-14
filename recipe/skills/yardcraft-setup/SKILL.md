@@ -55,7 +55,7 @@ Show what **you will do for them** and what’s already fine. Do **not** paste p
 | Install Yardcraft skills in the project | Action if missing; or ✓ if already in project skill dir |
 | Install general skills in the project (`babashka`, `clojure`, … as needed) | Separate line from Yardcraft skills; project-local install |
 | Babashka / connect Babashka REPL | ✓ (`version`) if on PATH; else install + connect. REPL connect is a next step even if binary exists |
-| Calva + Backseat (VS Code family) | ✓ if installed; else install |
+| Editor tools for the AI (VS Code family) | ✓ only when the AI can actually eval on the REPL from this chat — not merely when Calva is installed. Else “need a quick editor refresh” (agent guides) |
 | Blender | ✓ (`version`) or “have `x`; will upgrade toward latest” / install latest |
 | basilisp-blender | If Blender present: Observe whether extension is installed **and which version**; ✓ (`version`) or install/upgrade PEZ zip |
 | Connect to Blender REPL | Always this wording — **not** “`.nrepl-port` present”. Port file ≠ connected; sort connect later with the human |
@@ -120,11 +120,19 @@ Prefer the **project** harness skill location (Cursor: typically **`.cursor/skil
 
 ### 2. nREPL client the AI can use
 
-**Goal:** the harness can evaluate on `bb` and on Blender’s nREPL.
+**Goal:** the harness can evaluate on `bb` and on Blender’s nREPL **from this agent chat**.
+
+Three states (do not collapse them):
+
+1. **Extensions installed** — on disk (`--list-extensions`)
+2. **Editor jacked in / connected** — human sees green **bb** / **basilisp-blender**; the editor has sessions
+3. **Agent bridge live** — this chat can call the tools that eval on those sessions
+
+Phase row **nREPL client the AI can use** means **(3)**, not (1) or (2).
 
 #### VS Code family (Cursor, VS Code + Copilot, forks)
 
-Install **Calva** and **Calva Backseat Driver** (Backseat is the agent tooling path tied to Calva):
+Install **Calva** and **Calva Backseat Driver** (thereafter in this skill: **Backseat Driver** — agent-private naming; visitor summary uses the outside-in row above, not that short name):
 
 ```bash
 # Cursor
@@ -140,9 +148,38 @@ code --install-extension betterthantomorrow.calva-backseat-driver
 
 Confirm with `--list-extensions`. Repo ships `.vscode/settings.json` with the **`basilisp-blender`** connect sequence.
 
+```
+λ backseat_driver_mcp_gate.  ; VS Code family only
+  Observe(MCP_tools)
+  → must_see(clojure_evaluate_code ∨ clojure_list_sessions)
+  | extension_installed ≠ agent_can_eval
+  | Calva_status_bar_green ≠ agent_can_eval
+  | ¬tools ∨ 0_tools ∨ server_missing
+    → STOP ∧ guide(human_reload_escalation)
+  | ¬workaround(Joyride→Calva_API ∨ shell_nREPL) as_substitute
+  | gate_pass → then jack-in / Connect_to_Blender_REPL / ensure-demo!
+```
+
+**Observe (agent-private):** discover MCP tools for this chat. Require Backseat Driver eval tools (`clojure_evaluate_code` and/or `clojure_list_sessions`). **Server listed with 0 tools = fail.**
+
+**STOP:** do not frame Babashka jack-in as done for the agent, do not Connect to Blender REPL for demo work, do not `(ensure-demo!)` until the gate passes.
+
+**Progress:** leave **nREPL client the AI can use** unchecked in `AGENTS.md` until the gate passes — never when `--list-extensions` alone succeeds.
+
+**Invariant:** other editor scripting (e.g. Joyride) may *diagnose* (“Calva has bb; agent tools missing”) but must **not** carry Yardcraft setup past this gate as a substitute for Backseat Driver.
+
+**When the gate fails — human guidance (outside-in):** Calva may look fine, but the AI’s link into it isn’t live yet (tools missing or empty). Ask them to revive **Calva Backseat Driver** (then you may say **Backseat Driver** in the same message):
+
+1. Reload / toggle the Backseat Driver MCP server off–on in the editor’s MCP settings  
+2. Command Palette: **Start the MCP socket server** and/or **Register MCP Server with Cursor** (Cursor) — on other VS Code-family builds, the equivalent Backseat Driver MCP register/start commands  
+3. **Developer: Reload Window**  
+4. Fully quit and reopen the editor  
+
+Re-Observe MCP tools after each step. Do **not** invent alternate agent bridges.
+
 #### Not VS Code family
 
-Calva / Backseat are out of picture. Observe what nREPL client and agent bridge this harness already has (or the human prefers). Web-search as needed. Rendezvous on **`.nrepl-port`**; after Blender connect, run `(load-file "user.lpy") (user/init!)` manually (no Calva sequence). Do **not** invent a Backseat “peer” or enumerate Emacs stacks.
+Calva / Backseat Driver are out of picture. Observe what nREPL client and **agent eval bridge** this harness already has (or the human prefers). Web-search as needed. Rendezvous on **`.nrepl-port`**; after Blender connect, run `(load-file "user.lpy") (user/init!)` manually (no Calva sequence). Confirm **this chat** can eval on `bb` and later on the Blender session before marking the Phase row. Do **not** invent a Backseat Driver “peer” or enumerate Emacs stacks.
 
 ### 3. Clojure CLI → LSP unblock (VS Code family only)
 
@@ -162,10 +199,10 @@ Skip this beat off VS Code family.
 
 1. Observe: `bb` on `PATH`? Host REPL already connected?
 2. Install Babashka if missing (**Do** / instructions-only as chosen).
-3. **VS Code family:** **Calva: Start a Project REPL and Connect (Jack-in)** → Project Type **Babashka**. Confirm ember status + green **`bb`** indicator.
-4. **Else:** start/connect however this harness does (`bb nrepl-server`, built-in client, …) — wing; confirm the agent can eval on `bb`.
+3. **VS Code family:** **Calva: Start a Project REPL and Connect (Jack-in)** → Project Type **Babashka**. Confirm ember status + green **`bb`** indicator. Agent eval still requires the **Backseat Driver MCP gate** in §2 — status-bar green alone is not enough.
+4. **Else:** start/connect however this harness does (`bb nrepl-server`, built-in client, …) — wing; confirm **this chat** can eval on `bb`.
 5. Host automation stays on `bb`; Blender/`bpy` stays on `basilisp-blender` later.
-6. Mark progress when `bb` is real.
+6. Mark Babashka progress when `bb` is real for the human; mark **nREPL client the AI can use** only when the §2 agent-bridge gate (VS Code family) or else-branch eval check passes.
 
 ### 5. Blender
 
@@ -208,7 +245,9 @@ Writes/updates **`.nrepl-port`**. Screenshot: [`recipe/readme/images/basilisp-bl
 3. Expect green **`basilisp-blender`** status-bar indicator
 4. `user/init!` runs via the connect sequence (`afterPrimaryReplConnectedCode`) — **do not re-run every time**. Re-run after Blender restart / blown `sys.path` only.
 
-**Other clients:** connect to the port in **`.nrepl-port`**, then run `(load-file "user.lpy") (user/init!)` so `src/` is on `sys.path` before requiring `yardcraft.*`. Confirm the agent can eval on that session.
+**Other clients:** connect to the port in **`.nrepl-port`**, then run `(load-file "user.lpy") (user/init!)` so `src/` is on `sys.path` before requiring `yardcraft.*`. Confirm **this chat** can eval on that session.
+
+**VS Code family:** the §2 Backseat Driver MCP gate must already be green before treating Connect / demo as an agent-driven success.
 
 ### 9. Early win — demo (not empty site)
 
@@ -236,6 +275,7 @@ When the human is ready for real site facts, leave layer 1 and load **`yardcraft
 
 - One shape ever — present the current install/connect path only
 - **Outside-in Hello** — no probe dumps; no Clojure CLI / Demo in the human summary
+- **VS Code family:** Calva Backseat Driver MCP tools live = agent can eval; extension install or Calva green ≠ that gate; no Joyride/shell substitute
 - Query before install when Observe already shows green
 - Destructive Blender ops → confirm with human
 - Structural edits for `.cljc` forms once editing starts (`clojure` skill)

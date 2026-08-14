@@ -50,6 +50,7 @@ Connect (this repo):
 - Other nREPL clients: connect via **`.nrepl-port`**, then `(load-file "user.lpy") (user/init!)`
 - Sources are `.cljc` under `src/yardcraft/`; snake_case files → kebab-case namespaces
 - Host-side asset work: Babashka session `bb`; Blender/`bpy` stays on `basilisp-blender`
+- **VS Code family:** before agent-driven connect/demo, the Calva Backseat Driver MCP gate in **`yardcraft-setup`** must pass (tools like `clojure_evaluate_code` / `clojure_list_sessions` visible — not merely Calva installed or status-bar green)
 
 Light-table / sketch overlay: load **`yardcraft-light-table`**.
 
