@@ -66,6 +66,7 @@ Working notes for crafting visitor-facing onboarding. **Not** for GitHub visitor
 ### Editor extensions (Cursor CLI)
 
 - Prefer shell/`cursor` for check+install of editor extensions.
+- Don’t ban optional tools the human already has (e.g. if Joyride is installed it may help the agent) — just don’t make them part of the Yardcraft setup story.
 - Verified on this machine: `cursor --install-extension mechatroner.rainbow-csv` succeeded (v3.24.1); confirm with `cursor --list-extensions`.
 - Useful commands:
   - `cursor --list-extensions`
