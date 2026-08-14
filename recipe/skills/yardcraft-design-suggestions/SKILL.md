@@ -37,6 +37,31 @@ After connect: confirm `user/init!` added `src/` to `sys.path` before requiring 
   | ¬write_EDN ¬edit_site_data_early
 ```
 
+## Demo Hello smoke (`:demo` domain)
+
+When verifying suggestions during **layer-1 demo** (README), use domain **`#{:demo}`** and patch keys under `:demo/…` only (e.g. `:demo/a-back-stair?`, `:demo/pedestal-xy`). Show/Base then rebuild demo overlays (stairs / pedestal / sundial) — not the real terrace.
+
+```clojure
+(require '[yardcraft.site-demo :as demo])
+(require '[yardcraft.site-suggestions :as sug])
+(require '[yardcraft.site-ui :as ui])
+
+(sug/register-suggestion!
+ {:suggestion/id :brick-a-stairs
+  :suggestion/title "Brick A-stairs"
+  :suggestion/note "Demo Hello smoke — A-back stair + pedestal moved."
+  :suggestion/domains #{:demo}
+  :suggestion/patch {:demo/a-back-stair? true
+                     :demo/pedestal-xy [0.0 -5.5]}})
+(ui/register!)
+;; Human: N-panel → select "Brick A-stairs (session)" → Show / Base
+;; Optional agent check:
+(sug/show! (demo/demo-facts) :brick-a-stairs)
+(sug/show-base! (demo/demo-facts))
+```
+
+Do **not** use `#{:terrace}` / `#{:furniture}` against the welcome demo — those domains rebuild survey terrace/furniture.
+
 ## Primary authoring process
 
 1. **Create in the REPL** — suggestion map (same shape as EDN) → `(sug/register-suggestion! …)` (session registry; no disk write).

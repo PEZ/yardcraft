@@ -209,7 +209,8 @@
     :terrace/roof-opacity 1.0
     :sundial/radius-m 0.4
     :world/color [0.45 0.52 0.65]
-    :world/strength 0.15}))
+    :world/strength 0.15
+    :demo/a-back-stair? false}))
 
 (defn- reset-demo-facts! []
   (reset! demo-facts* (base-demo-facts)))
@@ -343,11 +344,46 @@
                 opts)]
     {:stairs stair-names :railings (vec (concat rail-n rail-s))}))
 
-(defn- build-pedestal! []
+(defn- a-stair-x-span []
+  (let [cx (+ (letter-start-x 1) (/ letter-w 2.0))
+        half (* cell-m 2.0)]
+    [(- cx half) (+ cx half)]))
+
+(defn- build-a-back-stair! [s]
+  (let [[x-min x-max] (a-stair-x-span)
+        brick-south (word-bottom-y)
+        run-s 1.2
+        z-top (+ brick-h slab-thick)
+        z-bot slab-thick
+        opts (railing/railing-opts s)
+        inset (:inset opts)
+        steps 5
+        stair-names (add-stair-flight! "site-demo-stair-a-back"
+                                       {:dir :south
+                                        :a0 x-min :a1 x-max
+                                        :start-b brick-south
+                                        :run run-s
+                                        :drop brick-h
+                                        :steps steps}
+                                       z-top)
+        rail-w (railing/add-stair-side-railing!
+                "site-railing-demo-a-back-w" steps
+                {:x0 (+ x-min inset) :y0 brick-south :z0 z-bot
+                 :x1 (+ x-min inset) :y1 (- brick-south run-s) :z1 z-top}
+                opts)
+        rail-e (railing/add-stair-side-railing!
+                "site-railing-demo-a-back-e" steps
+                {:x0 (- x-max inset) :y0 brick-south :z0 z-bot
+                 :x1 (- x-max inset) :y1 (- brick-south run-s) :z1 z-top}
+                opts)]
+    {:stairs stair-names :railings (vec (concat rail-w rail-e))}))
+
+(defn- build-pedestal! [s]
   (let [radius 0.45
         height (+ brick-h slab-thick)
-        cx (+ (craft-max-x) (* 0.75 cell-m) radius)
-        cy (- (word-bottom-y) (* 0.25 cell-m))
+        default-cx (+ (craft-max-x) (* 0.75 cell-m) radius)
+        default-cy (- (word-bottom-y) (* 0.25 cell-m))
+        [cx cy] (or (:demo/pedestal-xy s) [default-cx default-cy])
         cz (/ height 2.0)]
     (mesh/add-cylinder! "site-demo-pedestal" radius height [cx cy cz])
     {:name "site-demo-pedestal" :cx cx :cy cy :height height :radius radius}))
@@ -471,6 +507,35 @@
            (map #(mesh/assign-material! % noon-m)
                 (filter #(= % "site-sundial-hour-12") names))))}))
 
+(defn- clear-demo-overlays! []
+  (let [names (mesh/site-object-names)
+        remove? (fn [n]
+                  (or (string/starts-with? n "site-demo-stair")
+                      (string/starts-with? n "site-railing-demo")
+                      (= n "site-demo-pedestal")
+                      (string/starts-with? n "site-sundial")))]
+    (run! mesh/unlink-and-remove! (filter remove? names))))
+
+(defn ensure-demo-overlays! [s]
+  (clear-demo-overlays!)
+  (let [stairs (build-stairs-and-railings! s)
+        a-back (when (:demo/a-back-stair? s) (build-a-back-stair! s))
+        pedestal (build-pedestal! s)
+        sundial (ensure-demo-sundial! s pedestal)]
+    {:stairs stairs
+     :a-back-stair a-back
+     :pedestal pedestal
+     :sundial sundial}))
+
+(defn adopt-demo-facts! [s]
+  (reset! demo-facts* s)
+  s)
+
+(defn refresh-demo-appearance! [s]
+  (let [painted (paint-demo! s)
+        hierarchy (demo-hier/sync-demo-hierarchy! s)]
+    {:paint painted :hierarchy hierarchy}))
+
 (defn ensure-orbit-fly! []
   (demo-fly/ensure-orbit-fly!))
 
@@ -513,12 +578,14 @@
   (let [s (demo-facts)
         _ (hierarchy/ensure-site-root! s)
         terrain (build-terrain!)
+        _ (viewport/redraw!)
         yard (build-yard-patios!)
+        _ (viewport/redraw!)
         brick (build-brick!)
         craft (build-craft-patios!)
-        stairs (build-stairs-and-railings! s)
-        pedestal (build-pedestal!)
-        sundial (ensure-demo-sundial! s pedestal)
+        _ (viewport/redraw!)
+        overlays (ensure-demo-overlays! s)
+        _ (viewport/redraw!)
         furn (furniture/ensure-terrace-furniture! s)
         world-r (sun/ensure-world! s)
         aimed (sun/aim-sun-at-clock s (:sun/time-of-day s))
@@ -536,9 +603,7 @@
        :yard yard
        :brick brick
        :craft craft
-       :stairs stairs
-       :pedestal pedestal
-       :sundial sundial
+       :overlays overlays
        :furniture furn
        :sun sun-r
        :world world-r

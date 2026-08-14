@@ -33,6 +33,7 @@ The README example chat is a **press release of the kind of experience**, not a 
 | **`babashka`** | Host-side install, downloads, `bb` REPL work (install upstream if missing) |
 | **`clojure`** | When editing `.cljc` / Clojure forms (install upstream if missing) |
 | **`yardcraft-site-ui`** | After demo (demo registers the panel); when extending N-panel |
+| **`yardcraft-design-suggestions`** | Demo suggestions smoke (README §8b); real-base redesigns later |
 
 ## Layer-1 OODA
 
@@ -151,9 +152,20 @@ Connect with this harness’s nREPL client; confirm **this chat** can eval. Afte
 (site/ensure-demo!)
 ```
 
-Success for layer 1 is the **welcome demo** (letters, furniture, sundial, orbit fly **playing**, Yardcraft N-panel **open** on the Yardcraft tab). `(ensure-demo!)` builds the scene, starts orbit playback, registers the panel, and shows the sidebar. Empty `(ensure-site! …)` is for later real-base / insufficient-facts work — not the Hello win.
+Success for layer 1 is the **welcome demo** (letters, furniture, sundial, orbit fly **playing**, Yardcraft N-panel **open** on the Yardcraft tab). `(ensure-demo!)` builds the scene in stages (terrain → YARD → CRAFT → stairs → finish), starts orbit playback, registers the panel, and shows the sidebar on the Yardcraft tab. Empty `(ensure-site! …)` is for later real-base / insufficient-facts work — not the Hello win.
 
-**Ask the human what they see** in the Blender viewport (and panel). Point out Set time / lounger delight and Fly cam as demo-safe. Mark progress: demo shown.
+**Ask the human what they see** in the Blender viewport (and panel). Point out Set time / lounger delight and Fly cam as demo-safe.
+
+### 8b. Demo suggestions smoke (README beat — before handoff)
+
+Load **`yardcraft-design-suggestions`**. On the **demo** scene (not empty `site`), verify Show/Base:
+
+1. Ask the human for a **simple** redesign to try (README shape: e.g. stair from the brick near A + move sundial/pedestal).
+2. Session-register a suggestion with **`:suggestion/domains #{:demo}`** and a `:demo/…` patch (e.g. `:demo/a-back-stair? true`, `:demo/pedestal-xy […]`). Do **not** use `:terrace`/`:furniture` domains on the demo — those rebuild the real site.
+3. `(ui/register!)` so the enum lists it; ask them to select it → **Show**, then **Base**.
+4. After they confirm it works, persist EDN under `src/yardcraft/suggestions/` (and keep the session entry or unregister — depth in the suggestions skill).
+
+Mark progress: demo shown. Then continue.
 
 ### 9. Hand off
 

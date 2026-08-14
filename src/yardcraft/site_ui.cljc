@@ -218,13 +218,14 @@
                 ^{:default "Apply selected design suggestion"} bl_description]
                (execute [context]
                         (let [props (.-yardcraft (.-scene context))
-                              enum-id (.-suggestion_id props)]
+                              enum-id (.-suggestion_id props)
+                              facts (if (demo/demo-active?) (demo/demo-facts) site)]
                           (if (or (not enum-id) (= enum-id "__base__"))
                             finished
                             (let [id (suggestion-keyword enum-id)]
                               (try
                                 (when (not= (sug/active-id) id)
-                                  (sug/show! site id))
+                                  (sug/show! facts id))
                                 (set-suppress-updates! true)
                                 (try
                                   (set! (.-suggestion_id (.-yardcraft (.-scene context)))
@@ -245,13 +246,14 @@
                 ^{:default "Base"} bl_label
                 ^{:default "Restore base site (clear active suggestion)"} bl_description]
                (execute [context]
-                        (sug/show-base! site)
-                        (set-suppress-updates! true)
-                        (try
-                          (set! (.-suggestion_id (.-yardcraft (.-scene context))) "__base__")
-                          (finally
-                            (set-suppress-updates! false)))
-                        finished)))
+                        (let [facts (if (demo/demo-active?) (demo/demo-facts) site)]
+                          (sug/show-base! facts)
+                          (set-suppress-updates! true)
+                          (try
+                            (set! (.-suggestion_id (.-yardcraft (.-scene context))) "__base__")
+                            (finally
+                              (set-suppress-updates! false)))
+                          finished))))
 
 (defn- make-view-fly-camera-op
   []

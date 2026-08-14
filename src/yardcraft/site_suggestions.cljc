@@ -144,7 +144,7 @@
   []
   (:id (active-state)))
 
-(def ^:private known-domains #{:furniture :terrace :full})
+(def ^:private known-domains #{:furniture :terrace :full :demo})
 
 (defn- assert-patch-allowed!
   [{:suggestion/keys [patch allows-survey-keys?]}]
@@ -240,7 +240,11 @@
 (def ^:private domain-registry
   {:furniture {:teardown [[:prefix "site-furniture"]]}
    :terrace {:teardown terrace-teardown}
-   :full {:teardown []}})
+   :full {:teardown []}
+   :demo {:teardown [[:prefix "site-demo-stair"]
+                     [:prefix "site-railing-demo"]
+                     [:exact "site-demo-pedestal"]
+                     [:prefix "site-sundial"]]}})
 
 (defn- matcher-object-names
   [[kind val]]
@@ -271,6 +275,8 @@
     (do (terrace/ensure-terrace! s)
         (terrace/ensure-terrace-roof! s))
     (= domain-key :full) (site-ensure! s)
+    (= domain-key :demo)
+    ((ns-resolve 'yardcraft.site-demo 'ensure-demo-overlays!) s)
     :else (throw (ex-info "Unregistered domain" {:domain domain-key}))))
 
 (defn- rebuild-domains!
@@ -288,11 +294,22 @@
     (rebuild-domains! U domains-B effective-B base)
     U))
 
+(defn- demo-active? []
+  ((ns-resolve 'yardcraft.site-demo 'demo-active?)))
+
+(defn- adopt-demo-facts! [s]
+  ((ns-resolve 'yardcraft.site-demo 'adopt-demo-facts!) s))
+
+(defn- refresh-demo-appearance! [s]
+  ((ns-resolve 'yardcraft.site-demo 'refresh-demo-appearance!) s))
+
 (defn- sync-scene!
   "Adopt rebuilt meshes under site-root (north-offset). Avoids site/sync after reload breakage."
   [s]
-  {:hierarchy (hierarchy/organize-site-hierarchy! s)
-   :root (hierarchy/parent-under-site-root! s)})
+  (if (demo-active?)
+    (refresh-demo-appearance! s)
+    {:hierarchy (hierarchy/organize-site-hierarchy! s)
+     :root (hierarchy/parent-under-site-root! s)}))
 
 (defn show!
   "Apply suggestion id on base: union teardown, rebuild B from effective, A\\B from base.
@@ -306,18 +323,30 @@
         domains-A (or (:domains (active-state)) #{})
         effective-B (materialize-suggestion base B)
         U (switch-domains! base domains-A domains-B effective-B)]
-    (sync-scene! effective-B)
-    (paint/paint-site! effective-B)
+    (if (demo-active?)
+      (do (adopt-demo-facts! effective-B)
+          (refresh-demo-appearance! effective-B))
+      (do (sync-scene! effective-B)
+          (paint/paint-site! effective-B)))
     (set-active! {:id id :domains domains-B})
     {:id id :domains domains-B :union U}))
+
+(defn- demo-base-facts [base]
+  (-> base
+      (assoc :demo/a-back-stair? false)
+      (dissoc :demo/pedestal-xy)))
 
 (defn show-base!
   "Teardown active domains and rebuild them from pure base; clear active state."
   [base]
   (if-let [{:keys [domains]} (active-state)]
-    (let [U (switch-domains! base domains #{} base)]
-      (sync-scene! base)
-      (paint/paint-site! base)
+    (let [base' (if (demo-active?) (demo-base-facts base) base)
+          U (switch-domains! base' domains #{} base')]
+      (if (demo-active?)
+        (do (adopt-demo-facts! base')
+            (refresh-demo-appearance! base'))
+        (do (sync-scene! base')
+            (paint/paint-site! base')))
       (set-active! nil)
       {:cleared true :domains domains :union U})
     {:cleared false}))

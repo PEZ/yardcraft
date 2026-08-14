@@ -82,9 +82,19 @@ What do you see now?
 
 **Agent:** You can exit the fly-cam mode by zooming or panning in Blender. To enable it again, click the **Fly Cam** button.
 
-**Human:** Great. Now what?
+**Human:** Great. That worked fine.
 
-**Agent:** Now I will need to ask you for information and material so that we can get the base structure of your yard up to replace the demo design. Material such as maps and sketch over photos, and we will try to find information from the web and any open APIs to make the manual labor less. You can look at the [`MY-BASE-DESIGN-PROCESS.md`](MY-BASE-DESIGN-PROCESS.md) document to get an idea for what the process may look like. Or just jump straight in at the deep end, let me know when you are ready for the next step.
+**Agent:** There is a feature in that UI with suggestions. The way it works is that from a base design we can create alternatives, and add them to the UI suggestions list where you can switch between them. We should verify that it works with the demo design. Suggest some redesign we can test it with, please. If you suggest something simple, like move something, or add a stair, that is pretty quick.
+
+**Human:** Add a stair down from that red brick down on the back side from the A, and move the sundial with its pedestal to the side of the stair.
+
+**Agent:**  ...*Agent cranks on the design a while, the changes appear and then dissappear*...There you go, yardcrafter, test selecting the "Brick A-stairs" suggestions from the list and click the **Show** button. To switch back, click the **Base** button.
+
+**Human:** I'm done testing. Worked as advertised!
+
+**Agent:** Great, I'll persist the changes to the files in the project. ...*Writes files*... Tooling setup is done. Next is to start with your actual yard.
+
+**Agent:** I will need to ask you for information and material so that we can get the base structure of your yard up to replace the demo design. Material such as maps and sketch over photos, and we will try to find information from the web and any open APIs to make the manual labor less. You can look at the [`MY-BASE-DESIGN-PROCESS.md`](MY-BASE-DESIGN-PROCESS.md) document to get an idea for what the process may look like. Or just jump straight in at the deep end, let me know when you are ready for the next step.
 
 **Human:** Let's get cranking!
 

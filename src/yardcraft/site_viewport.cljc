@@ -67,25 +67,45 @@
     {:playing? (.-is_animation_playing (.-screen (.-context bpy)))
      :started? (not was-playing?)}))
 
+(defn redraw!
+  "Force a viewport redraw (DRAW_WIN_SWAP). Returns {:redraw …}."
+  []
+  (try
+    (.redraw_timer (.-wm (.-ops bpy)) ** :type "DRAW_WIN_SWAP" :iterations 1)
+    {:redraw :ok}
+    (catch python/Exception e
+      {:redraw :error :error (str e)})))
+
+(defn- set-panel-category!
+  [region category]
+  (when (and category (hasattr region "active_panel_category"))
+    (try
+      (setattr region "active_panel_category" category)
+      (catch python/Exception _))))
+
+(defn- activate-panel-on-area!
+  [area category]
+  (doseq [space (filter #(= (.-type %) "VIEW_3D") (.-spaces area))]
+    (set! (.-show_region_ui space) true))
+  (when-let [region (first (filter #(= (.-type %) "UI") (.-regions area)))]
+    (when (hasattr region "tag_refresh_ui")
+      (try (.tag_refresh_ui region) (catch python/Exception _)))
+    (set-panel-category! region category)
+    (.tag_redraw area)))
+
 (defn show-n-panel!
   "Open VIEW_3D sidebar (N) and select panel category when supported (e.g. \"Yardcraft\")."
   [category]
-  (let [areas (view3d-areas)
-        updated
-        (reduce
-         (fn [n area]
-           (doseq [space (filter #(= (.-type %) "VIEW_3D") (.-spaces area))]
-             (set! (.-show_region_ui space) true))
-           (when-let [region (first (filter #(= (.-type %) "UI") (.-regions area)))]
-             (when (and category (hasattr region "active_panel_category"))
-               (try
-                 (setattr region "active_panel_category" category)
-                 (catch python/Exception _)))
-             (.tag_redraw area))
-           (inc n))
-         0
-         areas)]
-    {:updated updated :category category}))
+  (let [areas (view3d-areas)]
+    (run! #(activate-panel-on-area! % category) areas)
+    (redraw!)
+    (run! #(activate-panel-on-area! % category) areas)
+    (.register (.-timers (.-app bpy))
+               (fn []
+                 (run! #(activate-panel-on-area! % category) (view3d-areas))
+                 nil)
+               ** :first_interval 0.15)
+    {:updated (count areas) :category category}))
 
 (defn show-scene-camera!
   "Switch all VIEW_3D spaces to the scene camera (View → Cameras → Active Camera / no numpad)."
