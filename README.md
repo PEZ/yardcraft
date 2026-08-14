@@ -154,10 +154,10 @@ As more people use this recipe we should be able to improve the skills and instr
 
 ## Recipe content
 
-- This README.
+- This README
 - Base design process (how I created my base design): [`MY-BASE-DESIGN-PROCESS.md`](MY-BASE-DESIGN-PROCESS.md)
-- Site facts (canonical): [`src/yardcraft/site_data.cljc`](src/yardcraft/site_data.cljc)
-- Agent orientation (coords, heights, conventions): [`AGENTS.md`](AGENTS.md) § *Site orientation*
+- Yardcraft recipe framework, code and data: [`src/yardcraft/`](src/yardcraft/)
+- Agent orientation (knowhow, guidance, conventions, etcetera): [`AGENTS.md`](AGENTS.md)
 - Recipe package (skills, example images, helper scripts): [`recipe/`](recipe/)
 
 ## Licence
