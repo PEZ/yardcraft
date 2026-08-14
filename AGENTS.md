@@ -60,7 +60,7 @@ Explore yard / patio / parking options in Blender for **your** site.
 
 **Common (close these gaps when Observe says missing):** packaged skills in harness, Babashka + `bb` REPL, Calva + Backseat (Cursor path), Blender, basilisp-blender, connect sequence **`basilisp-blender`**, then `(yardcraft.site/ensure-demo!)` for the early win.
 
-**Situational:** editor/harness, do vs instructions-only, OS/`PATH`, Blender already installed, country/map stack, sketches vs APIs, **`clojure` on PATH → remove** `.vscode` `"calva.enableClojureLspOnStart": "never"` (do **not** install Java/Clojure as Yardcraft setup). Joyride stays out of the setup narrative.
+**Situational:** editor/harness, do vs instructions-only, OS/`PATH`, Blender already installed, country/map stack, sketches vs APIs, **`clojure` on PATH → remove** `.vscode` `"calva.enableClojureLspOnStart": "never"` (do **not** install Java/Clojure as Yardcraft setup).
 
 **Blender wording:** with humans say **latest** ([blender.org/download](https://www.blender.org/download/)). Agent-private floor for Observe/compat: **≥ 5.2.0 LTS** at time of writing — don’t lecture versions unless checking or troubleshooting.
 

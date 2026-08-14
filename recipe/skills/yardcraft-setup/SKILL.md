@@ -30,8 +30,6 @@ The README example chat is a **press release of the kind of experience**, not a 
 | **`clojure`** | When editing `.cljc` / Clojure forms (install upstream if missing) |
 | **`yardcraft-site-ui`** | After demo (demo registers the panel); when extending N-panel |
 
-Do **not** pull Joyride into setup narrative or install path.
-
 ## Layer-1 OODA
 
 ```
@@ -68,7 +66,7 @@ As each beat completes, **update `AGENTS.md` Phase / progress checkboxes** so th
 
 ### 2. Calva + Calva Backseat Driver (Cursor)
 
-Prefer shell/`cursor` CLI — **not Joyride**:
+Prefer shell/`cursor` CLI:
 
 ```bash
 cursor --list-extensions

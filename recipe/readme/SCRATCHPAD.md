@@ -39,7 +39,7 @@ Working notes for crafting visitor-facing onboarding. **Not** for GitHub visitor
 
 **Common ingredients (almost every cook):** Babashka (`bb` REPL), Blender, basilisp-blender (nREPL), Calva + Backseat (or equivalent), packaged skills installed into the detected harness, demo then real work.
 
-**Situational ingredients:** editor/harness (Cursor vs other), do vs instructions-only, OS/`PATH`, Blender already present vs fresh, country/map stack, sketches vs APIs, Joyride never in the narrative, **`clojure` CLI already present → unblock LSP** (see crafting rules), etc.
+**Situational ingredients:** editor/harness (Cursor vs other), do vs instructions-only, OS/`PATH`, Blender already present vs fresh, country/map stack, sketches vs APIs, **`clojure` CLI already present → unblock LSP** (see crafting rules), etc.
 
 ## Crafting rules (author → agent behavior in examples)
 
@@ -65,7 +65,7 @@ Working notes for crafting visitor-facing onboarding. **Not** for GitHub visitor
 
 ### Editor extensions (Cursor CLI)
 
-- **Not Joyride:** Prefer shell/`cursor` for check+install. Do **not** pull Joyride into the visitor story or agent setup narrative — users may get overwhelmed wondering where it fits.
+- Prefer shell/`cursor` for check+install of editor extensions.
 - Verified on this machine: `cursor --install-extension mechatroner.rainbow-csv` succeeded (v3.24.1); confirm with `cursor --list-extensions`.
 - Useful commands:
   - `cursor --list-extensions`
@@ -126,7 +126,7 @@ Bad cooking analogy, useful knob: the recipe has **three layers**, each with a d
 
 ## Todos
 
-- [x] Calva + Backseat via `cursor --install-extension` in **yardcraft-setup** / AGENTS (Joyride out).
+- [x] Calva + Backseat via `cursor --install-extension` in **yardcraft-setup** / AGENTS.
 - [x] Babashka base-setup beat in playbook/skill.
 - [x] Living-AGENTS hybrid: Phase gate + yardcraft-setup + yardcraft-base-design.
 - [x] Rewrite `AGENTS.md` around engage(nucleus) + phase gate.
