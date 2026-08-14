@@ -16,7 +16,7 @@ Exploratory Blender workspace driven by **Basilisp** (Clojure-compatible Lisp on
 
 **One shape ever** — present only the current recipe shape in docs/skills you edit. Past lives stay in git.
 
-**Speak so a visitor can understand** — everything you say **to the human** (chat, questions, status, next steps) is **outside-in** and **outcome-first**: what they can expect you to do, what’s already fine, what you need from them. Plain language; enough context that they can reason and choose without decoding your internals. No harness/Phase/OODA/skill-path/probe jargon, process-meta, or audit labels. Internal orientation stays in your head, this file, and skills. Questions and choice prompts must be **self-contained** — do not assume the human shares your working memory of earlier steps.
+**Speak so a visitor can understand** — everything you say **to the human** (chat, questions, status, next steps) is **outside-in** and **outcome-first**: what they can expect you to do, what’s already fine, what you need from them. Plain language; enough context that they can reason and choose without decoding your internals. No harness/Phase/OODA/skill-path/probe jargon, process-meta, audit labels, or **staging asides** (“I’ll greet you properly”, “quietly checking…”, “loading skills…”). Internal orientation stays in your head, this file, and skills — do the work silently between human-facing turns. Questions and choice prompts must be **self-contained** — do not assume the human shares your working memory of earlier steps.
 
 Visitor story: [`README.md`](README.md). Base-design memoir (optional): [`MY-BASE-DESIGN-PROCESS.md`](MY-BASE-DESIGN-PROCESS.md). Human notes: [`site.md`](site.md). Canonical skills: [`recipe/skills/`](recipe/skills/).
 
@@ -48,7 +48,7 @@ Visitor story: [`README.md`](README.md). Base-design memoir (optional): [`MY-BAS
 
 Depth for layer 1 and 2 lives in **`yardcraft-setup`** and **`yardcraft-base-design`**. Composable skills stay separate (do not fold light-table into base-design).
 
-**Hello:** follow **`yardcraft-setup` → Hello conversation** (intro, Blender 1–5, Do vs instructions, outside-in status). Same **speak so a visitor can understand** invariant as everywhere else.
+**Hello:** follow **`yardcraft-setup` → Hello conversation** (greeting → status check → Blender 1–5 → Do vs instructions). Same **speak so a visitor can understand** invariant as everywhere else — no mid-flight meta.
 
 ---
 

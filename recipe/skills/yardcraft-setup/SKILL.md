@@ -24,27 +24,29 @@ The README example chat is a **press release of the kind of experience**, not a 
 
 ```
 λ hello_voice.
-  intro(Yardcraft) → ask(Blender_1to5) → ask(Do_vs_instructions)
-  → summary(outside_in) → Act
-  | Observe ≡ internal (¬leak_probe_jargon_to_human)
+  greet(Yardcraft) ∧ one_line(I’ll_check_what’s_already_set_up)
+  → Observe(silent) → status(outside_in)
+  → ask(Blender_1to5) → ask(Do_vs_instructions)
+  → Act
+  | human_turns ≡ greeting∨status∨questions∨Act (¬narrate_loading ∨ ¬“greet_you_properly” ∨ ¬“quietly_checking”)
+  | Observe ≡ between_turns (¬chat_about_probes)
   | questions ≡ README_example_shape ∧ self_contained
   | question_UI_when_available ∧ full_context_in_prompt
 ```
 
-### 1. Brief intro (README level)
+**No-meta (hard):** Every message to the human is visitor content. Never stage the conversation (“I’ll greet you properly”, “quietly checking what’s in place”, “loading setup guidance”, “then the real hello”). Tools and probes run **between** human-facing turns with no commentary about them.
 
-Warm pair-programmer tone. Something like: Yardcraft is designing their yard (patio, parking, lawn, trees — whatever) in Blender with you as AI pair; you build in Blender, they check the viewport, you save into the project when they’re happy; don’t worry if they don’t know Blender — you can guide them.
+### 1. Greeting (first human-facing turn)
 
-### 2. Questions (before dumping a plan)
+Warm pair-programmer intro (README level), then **one short line** that you’ll check what’s already set up — and stop. Something like: Yardcraft is designing their yard (patio, parking, lawn, trees — whatever) in Blender with you as AI pair; you build in Blender, they check the viewport, you save into the project when they’re happy; don’t worry if they don’t know Blender — you can guide them. **Then:** “I’ll check what’s already set up here.”
 
-Ask in **example-chat** order. Questions and status use **plain visitor language** — same standard as AGENTS **Speak so a visitor can understand** (no harness/Phase/skill-path jargon at all).
+Do **not** ask Blender 1–5 or Do vs instructions in this turn. Do **not** paste a status table yet.
 
-1. **Blender comfort 1–5** (1 = never used → 5 = expert)
-2. **Do vs instructions-only** — for some setup steps you can **do** it or only **give instructions**; which do they prefer?
+### 2. Quiet Observe (no human message)
 
-Use the harness **question / choice UI** when available. Each question must be **self-contained** for a visitor who has not read `AGENTS.md` or this skill (no “skills copy target”, no “phase checkboxes”, no path menus unless they asked).
+Between turns: read `AGENTS.md` Phase, skills dirs, PATH / installs / MCP bridge as needed. Emit **nothing** to the human while probing.
 
-### 3. Outside-in status (after quiet Observe)
+### 3. Outside-in status (next human-facing turn)
 
 Show what **you will do for them** and what’s already fine. Do **not** paste probe output, Phase tables, or “layer 1 / OODA” meta.
 
@@ -64,7 +66,16 @@ Show what **you will do for them** and what’s already fine. Do **not** paste p
 
 Already-good tooling: prefer **`✓ (version)`**. Only mention upgrade when Observe says the floor isn’t met or “latest” policy wants a bump.
 
-Then one short line: next you’ll install skills / connect Babashka / get Blender + basilisp-blender + Blender REPL as needed — **then** proceed (Do mode) or spell steps (instructions-only).
+Then one short line: next you’ll install skills / connect Babashka / get Blender + basilisp-blender + Blender REPL as needed — after they answer the next questions.
+
+### 4. Questions (same turn as status, or immediately after)
+
+Ask in **example-chat** order. Plain visitor language — same **Speak so a visitor can understand** bar (no harness/Phase/skill-path jargon).
+
+1. **Blender comfort 1–5** (1 = never used → 5 = expert)
+2. **Do vs instructions-only** — for some setup steps you can **do** it or only **give instructions**; which do they prefer?
+
+Prefer status **then** these two questions in that order (status first so they see the lay of the land before answering). Use the harness **question / choice UI** when available. Each question must be **self-contained** for a visitor who has not read `AGENTS.md` or this skill.
 
 ## Prerequisites (load as beats unlock)
 
@@ -274,7 +285,7 @@ When the human is ready for real site facts, leave layer 1 and load **`yardcraft
 ## Invariants
 
 - One shape ever — present the current install/connect path only
-- **Outside-in Hello** — no probe dumps; no Clojure CLI / Demo in the human summary
+- **Outside-in Hello** — greeting → silent Observe → status → questions; no probe dumps; no staging asides; no Clojure CLI / Demo in the human summary
 - **VS Code family:** Calva Backseat Driver MCP tools live = agent can eval; extension install or Calva green ≠ that gate; no Joyride/shell substitute
 - Query before install when Observe already shows green
 - Destructive Blender ops → confirm with human
