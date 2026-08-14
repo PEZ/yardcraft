@@ -22,7 +22,7 @@ This recipe is provided to you as this project, and you then use your AI Agent a
 The agent will help you get everything else in place. (If you don't have Git, the agent can help you with that too, of course.)
 
 > [!NOTE]
-> Technically you can use this recipe without AI, and just your editor jack-in to Blender. That is super fun! But to make this really easy to get started with and to iterate on designs, the project and its instructions lean heavily on AI.
+> Technically you can use this recipe without AI, and just your editor jacked-in to Blender, Babashka, and your web browser. That is super fun! But to make this really easy to get started with and to iterate on designs, the project and its instructions lean heavily on AI.
 
 ## Getting started
 
