@@ -57,7 +57,8 @@ Excluded from `site-root` parenting (`site_hierarchy` `site-fly-*` prefix). `syn
 ## Rebuild
 
 ```clojure
-(require '[yardcraft.site-fly :as fly] :reload)
+(require 'yardcraft.site-fly :reload)
+(require '[yardcraft.site-fly :as fly])
 (fly/ensure-fly-tour! site)
 ```
 

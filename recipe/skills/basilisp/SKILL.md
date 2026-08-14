@@ -116,8 +116,9 @@ Minimal editor-oriented roots (e.g. Blender project dirs) may be flatter: `basil
 
 ## Verified quirks
 
-Probed on **Blender ≥ 5.2.0 LTS** / Basilisp nREPL (Calva `basilisp-blender`) / **Python 3.13**. This skill supersedes unreproduced folklore (e.g. “trailing `:reload` drops `:as`” was **not** reproduced here — alias kept).
+Probed on **Blender ≥ 5.2.0 LTS** / Basilisp nREPL (Calva `basilisp-blender`) / **Python 3.13**.
 
+- **`(require '[ns :as alias] :reload)` does not bind `:as`** — use two-step `(require 'ns :reload)` then `(require '[ns :as alias])`. Existing aliases can look fine after the combined form (false negative); probe with a fresh alias name.
 - **Dotted method symbols** rejected at analyze: `(sys/path.insert 0 "…")` → `symbol names may not contain the '.' operator`. Use `(.insert (.-path sys) 0 "…")`.
 - **File-defined Vars reinitialize on `(require 'ns :reload)`** — `alter-var-root` mutations lost. Interned-only Vars (not in source) can keep mutated roots; assume **file defs reset**.
 - **Private Vars:** `other-ns/private-sym` fails at analyze (`cannot resolve private Var`).
@@ -134,7 +135,7 @@ Load only what the task needs:
 | [references/python-interop.md](references/python-interop.md) | Calling Python modules, classes, kwargs, `#py`, iterators |
 | [references/differences-from-clojure.md](references/differences-from-clojure.md) | Fuller digest of official Differences from Clojure |
 | [references/projects-and-tooling.md](references/projects-and-tooling.md) | Bootstrapping, CLI, testing, packaging |
-| [references/verified-quirks.md](references/verified-quirks.md) | Reload/Var roots, private Vars, dotted-method analyze rejects |
+| [references/verified-quirks.md](references/verified-quirks.md) | Reload/Var roots, `:as`+`:reload`, private Vars, dotted-method analyze rejects |
 
 ## See also
 

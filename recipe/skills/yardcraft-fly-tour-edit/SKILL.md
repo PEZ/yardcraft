@@ -39,7 +39,8 @@ DSL reference: [tour-dsl.md](./references/tour-dsl.md)
 After every structural edit:
 
 ```clojure
-(require '[yardcraft.site-fly :as fly] :reload)
+(require 'yardcraft.site-fly :reload)
+(require '[yardcraft.site-fly :as fly])
 (fly/ensure-fly-tour! site)
 ```
 

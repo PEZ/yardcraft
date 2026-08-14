@@ -94,7 +94,7 @@ Builder support for new patch keys may be required before Show works; experiment
 (ensure-site! site)
 ```
 
-- **Basilisp reload:** prefer trailing `:reload-all` when reloading namespaces that need Var restore (e.g. `site-data`). Trailing `:reload` may drop `:as` in some Basilisp versions — use the two-step require above for `site-suggestions`. `:reload-all` can RecursionError if there is a cycle with `yardcraft.site`.
+- **Basilisp reload:** prefer trailing `:reload-all` when reloading namespaces that need Var restore (e.g. `site-data`). `(require '[ns :as alias] :reload)` does not bind `:as` — use the two-step require above. `:reload-all` can RecursionError if there is a cycle with `yardcraft.site`.
 - If still stale after structural edits: `(load-file "src/yardcraft/site_suggestions.cljc")`.
 
 The View3D **Yardcraft** N-panel shares `show!` / `show-base!`; select stages, **Show** applies, **Base** restores. Promotion and `set-base!` remain RCF-only.

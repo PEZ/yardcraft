@@ -101,7 +101,8 @@ Empty facts: tour helpers should no-op or fail clearly until landmarks exist —
 ## Reload after edits
 
 ```clojure
-(require '[yardcraft.site-fly :as fly] :reload)
+(require 'yardcraft.site-fly :reload)
+(require '[yardcraft.site-fly :as fly])
 (fly/ensure-fly-tour! site)
 ```
 

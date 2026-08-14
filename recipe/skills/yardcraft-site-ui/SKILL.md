@@ -84,7 +84,7 @@ Non-demo: sun/time use `site` facts; **Fly cam** builds the narrative tour from 
 (ui/register!)
 ```
 
-Basilisp trailing `:reload` may drop `:as` — two-step required (same as site-suggestions).
+`(require '[ns :as alias] :reload)` does not bind `:as` — two-step required (basilisp verified quirk; same as site-suggestions).
 
 Also: `(ui/unregister!)`, `(ui/reload!)` (unregister → reload ns → register). Call `(ui/register!)` once per Blender session after site is built; re-register after Blender restart.
 

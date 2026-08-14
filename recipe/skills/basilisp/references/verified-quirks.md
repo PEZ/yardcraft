@@ -42,6 +42,17 @@ Do not assume every Var resets; assume **file defs reset**.
 
 Resolving `other-ns/private-sym` from another namespace fails at analyze (`cannot resolve private Var`). Same discipline as Clojure visibility.
 
-## Explicitly NOT claimed (probed, unreproduced)
+## Trailing `:reload` does not bind `:as`
 
-- Trailing `:reload` does **not** drop `:as` aliases. `(require '[basilisp.string :as strx] :reload)` kept `strx` resolvable (`strx/join` worked).
+`(require '[some.ns :as alias] :reload)` reloads the ns but **does not establish** `alias` in the current ns. A fresh alias then fails to resolve (`unable to resolve symbol 'alias/…'`).
+
+**Workaround (verified):** two-step —
+
+```clojure
+(require 'some.ns :reload)
+(require '[some.ns :as alias])
+```
+
+**False negative to avoid:** if `alias` was already bound from an earlier require, it may still resolve after the combined form — that is leftover mapping, not proof the combined form binds `:as`. Probe with a **new** alias name.
+
+Reproduced on Blender ≥ 5.2 / basilisp-blender / Python 3.13 for `basilisp.string` and `yardcraft.site-suggestions`.
