@@ -61,28 +61,11 @@ Explore yard / patio / parking options in Blender for **your** site.
 
 ---
 
-## Common vs situational ingredients
+## Harness and connect
 
-**Common (close these gaps when Observe says missing):** packaged skills in harness · Babashka + `bb` REPL (human + agent) · Blender + basilisp-blender nREPL · an nREPL client the AI can use through its harness · then `(yardcraft.site/ensure-demo!)` for the early win.
+**Adapter:** VS Code family (Cursor, VS Code + Copilot, other forks) → **Calva** + **Calva Backseat Driver**; no alternate Clojure clients on VS Code. Anything else (e.g. Emacs): same goal — Observe, web-search, adapt; do not enumerate editor combos. Install workflow (skills, `bb`, Blender, PEZ zip, nREPL panel, demo, do vs instructions-only): **`yardcraft-setup`**.
 
-**Harness adapter**
-
-- **VS Code family** (Cursor, VS Code + Copilot, other forks): **Calva** + **Calva Backseat Driver** — deep support (`.vscode/settings.json`, connect sequence **`basilisp-blender`**, `cursor`/`code` CLI). No alternate Clojure clients on VS Code.
-- **Anything else** (e.g. Emacs): same goal; Calva/Backseat out of picture. Observe, web-search, adapt — do not enumerate editor combos. Connect via **`.nrepl-port`**; run `(load-file "user.lpy") (user/init!)` manually after Blender connect.
-
-**Also situational:** do vs instructions-only, OS/`PATH`, Blender already installed, country/map stack, sketches vs APIs, **`clojure` on PATH → remove** `.vscode` `"calva.enableClojureLspOnStart": "never"` (VS Code family only; do **not** install Java/Clojure as Yardcraft setup). Prefer installing skills into the **project** skill dir; Observe/ask only if the harness root is unclear.
-
-**Blender wording:** with humans say **latest** ([blender.org/download](https://www.blender.org/download/)). Agent-private floor for Observe/compat: **≥ 5.2.0 LTS** at time of writing — don’t lecture versions unless checking or troubleshooting.
-
-**basilisp-blender:** [PEZ zip v0.5.0-basilisp-0.5.1](https://github.com/PEZ/basilisp-blender/releases/tag/v0.5.0-basilisp-0.5.1) (bundles Basilisp ≥ 0.5.1; temporary until [upstream PR #14](https://github.com/ikappaki/basilisp-blender/pull/14)). **Quit Blender** before `blender --command extension install-file <zip> -r user_default -e`. Details: **`basilisp-blender`** skill → [upgrade-basilisp.md](recipe/skills/basilisp-blender/references/upgrade-basilisp.md).
-
-**nREPL (humans):** Output Properties (printer icon) → **Basilisp nREPL server** → project path = this repo → **START SERVER**. Screenshot: [`recipe/readme/images/basilisp-blender-nrepl-panel.png`](recipe/readme/images/basilisp-blender-nrepl-panel.png).
-
-**Connect (VS Code family):** Calva → *Connect to a running REPL server in the project* → **`basilisp-blender`** (not generic `basilisp` alone). Connect sequence runs `(user/init!)` / `user.lpy`. Re-run `user/init!` only after Blender restart or a blown `sys.path`. **Other clients:** connect using **`.nrepl-port`**, then `(load-file "user.lpy") (user/init!)` so `src/` is on `sys.path`.
-
-**Early win:** `(require '[yardcraft.site :as site])` then `(site/ensure-demo!)` — letters, furniture, sundial, orbit fly, Yardcraft panel. Ask what they see. Empty `(ensure-site! …)` is for later real-base / insufficient-facts work, not the Hello delight check.
-
-**Demo → base:** when ready for a real lot, leave demo; gather facts; `(ensure-site! site)` / empty path as appropriate. `clear-site!` removes scene objects but **keeps `draft-*`** light-table drafts. Load **`yardcraft-base-design`**.
+**Connect (any layer):** VS Code family: Calva → *Connect to a running REPL server in the project* → sequence **`basilisp-blender`** (not generic `basilisp` alone). The sequence runs `(user/init!)`; re-run only after Blender restart or a blown `sys.path`. Other clients: **`.nrepl-port`**, then `(load-file "user.lpy") (user/init!)`. A `.nrepl-port` file ≠ connected. Depth: **`basilisp-blender`** skill.
 
 ---
 
@@ -154,23 +137,15 @@ Throwaway work: REPL or [`src/yardcraft/scratch.cljc`](src/yardcraft/scratch.clj
 
 ---
 
-## Site ingestion (layer 2)
-
-1. **National maps** — Sweden: [Min Karta](https://minkarta.lantmateriet.se/) + **`sweden-lantmateriet-min-karta`**. Norway: [Norgeskart](https://norgeskart.no/) — no packaged country skill yet; discover via Epupp and/or author `recipe/skills/references/<country>-…/` (declare CRS + vertical datum).
-2. **Hand light table** — sketches / photos; **`yardcraft-light-table`**. Examples under `recipe/example-source-images/`.
-3. **Promote** confirmed facts only after viewport checks. Memoir: [`MY-BASE-DESIGN-PROCESS.md`](MY-BASE-DESIGN-PROCESS.md) (optional, not a script).
-
----
-
 ## Base → suggestions → fly / quote (layer 3)
 
 | Layer | What |
 |---|---|
 | **Base** | Survey facts + `ensure-site!` |
 | **Suggestions** | Overlays via `show!` / `show-base!` / EDN under `src/yardcraft/suggestions/` |
-| **Fly / quote-plan** | Narrative fly (`yardcraft-fly-tour-*`; panel Fly cam no-ops cleanly until a tour is authored) and contractor SVG (`yardcraft-quote-plan`). Quote from `yardcraft.site` REPL: `(plan/write-quote-plan! (sug/effective-site site))` — needs filled facts, not empty template |
+| **Fly / quote-plan** | Narrative fly (`yardcraft-fly-tour-*`; panel Fly cam no-ops cleanly until a tour is authored) and contractor SVG (`yardcraft-quote-plan`) — quote needs filled facts, not the empty template |
 
-UI: `(require '[yardcraft.site-ui :as ui])` `(ui/register!)` — once per Blender session (demo already registers). Panel: sun date, time slider, **Set time**, suggestion Show/Base, **Fly cam**.
+Panel UI: **`yardcraft-site-ui`** — `(ui/register!)` once per Blender session (demo already registers).
 
 ---
 
@@ -179,7 +154,6 @@ UI: `(require '[yardcraft.site-ui :as ui])` `(ui/register!)` — once per Blende
 1. **Explicit `site` argument** — builders take facts `[s]`; only orchestration refers global `site` from `site-data`.
 2. **Destructuring** — prefer `:keys` / namespaced keys over repeated digging.
 3. **Code Health** — CodeScene aspiration for `src/yardcraft/*.cljc` is **10.0**.
-4. **Editor scripting (VS Code family)** — Calva + basilisp-blender + Babashka (+ Epupp for maps); no separate extension-host Clojure runtime required for Yardcraft. Other harnesses: same REPLs, wing the client.
 
 ## Key namespaces
 

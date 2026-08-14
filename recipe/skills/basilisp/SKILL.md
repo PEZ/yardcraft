@@ -116,7 +116,7 @@ Minimal editor-oriented roots (e.g. Blender project dirs) may be flatter: `basil
 
 ## Verified quirks
 
-Probed on **Blender ≥ 5.2.0 LTS** / Basilisp nREPL (Calva `basilisp-blender`) / **Python 3.13**. This skill supersedes unreproduced folklore elsewhere (e.g. `AGENTS.md` “trailing `:reload` drops `:as`” was **not** reproduced — alias kept).
+Probed on **Blender ≥ 5.2.0 LTS** / Basilisp nREPL (Calva `basilisp-blender`) / **Python 3.13**. This skill supersedes unreproduced folklore (e.g. “trailing `:reload` drops `:as`” was **not** reproduced here — alias kept).
 
 - **Dotted method symbols** rejected at analyze: `(sys/path.insert 0 "…")` → `symbol names may not contain the '.' operator`. Use `(.insert (.-path sys) 0 "…")`.
 - **File-defined Vars reinitialize on `(require 'ns :reload)`** — `alter-var-root` mutations lost. Interned-only Vars (not in source) can keep mutated roots; assume **file defs reset**.

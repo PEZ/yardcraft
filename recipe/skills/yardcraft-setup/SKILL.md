@@ -174,10 +174,7 @@ Skip this beat off VS Code family.
 
 ### 6. basilisp-blender (PEZ zip)
 
-When Blender is present, **Observe** whether the basilisp-blender extension is installed and **which version** (Blender extensions UI / CLI / addon list — wing the probe). Compare to the Yardcraft-recommended PEZ zip below.
-
-Release: [PEZ v0.5.0-basilisp-0.5.1](https://github.com/PEZ/basilisp-blender/releases/tag/v0.5.0-basilisp-0.5.1)  
-Asset: `basilisp_blender_extension-0.5.0.zip` from that tag.
+When Blender is present, **Observe** whether the basilisp-blender extension is installed and **which version** (Blender extensions UI / CLI / addon list — wing the probe). Compare to the Yardcraft-recommended PEZ zip.
 
 ```
 λ basilisp_blender_install.
@@ -185,10 +182,9 @@ Asset: `basilisp_blender_extension-0.5.0.zip` from that tag.
   | blender --command extension install-file <zip> -r user_default -e
   | macOS_fallback → /Applications/Blender.app/Contents/MacOS/Blender …
   | CLI_fails → Install_From_Disk (human)
-  | details → basilisp-blender skill ∧ references/upgrade-basilisp.md
 ```
 
-**Quit Blender first.** Then install+enable via CLI. Resolve `blender` on `PATH`; macOS app-bundle fallback above when bare `blender` is missing. **Install From Disk** only if CLI is missing or fails. Depth: **`basilisp-blender`** skill → [upgrade-basilisp.md](../basilisp-blender/references/upgrade-basilisp.md).
+**Quit Blender first.** Release + asset URL, finding `blender`, fallback details, verify: **`basilisp-blender`** skill → [upgrade-basilisp.md](../basilisp-blender/references/upgrade-basilisp.md).
 
 ### 7. nREPL (human path)
 

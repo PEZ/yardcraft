@@ -38,19 +38,16 @@ When the nREPL server starts with a **Basilisp Project Directory** set, that dir
 
 - `basilisp.edn` — editor project marker
 - `scratch.lpy` — playground
-- `.nrepl-port` — port file for Calva/CIDER (overwritten each start)
-
-Connect: Calva connect sequence **`basilisp-blender`** (named sequence in `.vscode/settings.json`). Use generic **basilisp** only when no Yardcraft sequence is available. Other nREPL clients: connect via **`.nrepl-port`**, then `(load-file "user.lpy") (user/init!)` so `src/` is on `sys.path` (Calva’s sequence does this for you).
+- `.nrepl-port` — port file for editor clients (overwritten each start)
 
 ## Yardcraft session bootstrap
 
-**Do-mode install:** quit Blender completely, download the PEZ zip, then `blender --command extension install-file <zip> -r user_default -e` (not Install From Disk unless CLI fails) — [references/upgrade-basilisp.md](references/upgrade-basilisp.md).
+**Install/upgrade (do-mode):** quit Blender completely first, then CLI `extension install-file` of the PEZ zip (Install From Disk only when CLI fails) — [references/upgrade-basilisp.md](references/upgrade-basilisp.md).
 
-Yardcraft connect (this repo):
+Connect (this repo):
 
-- Calva connect sequence: **`basilisp-blender`** (not generic basilisp alone); session key `basilisp-blender`
-- The `basilisp-blender` connect sequence runs `user.lpy` / `(user/init!)` so `src/` is on `sys.path`; re-run `(user/init!)` after a Blender restart or if `sys.path` lost `src/` before requiring `yardcraft.*`
-- Non-Calva clients: same `user/init!` after connect via `.nrepl-port`
+- Calva: connect sequence **`basilisp-blender`** (named in `.vscode/settings.json`; not generic `basilisp` alone); session key `basilisp-blender`. The sequence runs `user.lpy` / `(user/init!)` so `src/` is on `sys.path` — re-run `(user/init!)` only after a Blender restart or if `sys.path` lost `src/` before requiring `yardcraft.*`
+- Other nREPL clients: connect via **`.nrepl-port`**, then `(load-file "user.lpy") (user/init!)`
 - Sources are `.cljc` under `src/yardcraft/`; snake_case files → kebab-case namespaces
 - Host-side asset work: Babashka session `bb`; Blender/`bpy` stays on `basilisp-blender`
 

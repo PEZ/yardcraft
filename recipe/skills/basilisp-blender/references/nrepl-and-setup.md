@@ -4,22 +4,7 @@ Upstream README: https://github.com/ikappaki/basilisp-blender
 
 ## Extension install (Blender ≥ 5.2.0 LTS)
 
-**Agents / do-mode (CLI first):**
-
-**Quit Blender completely before running `extension install-file`.**
-
-1. Download `basilisp_blender_extension-<version>.zip` from releases
-2. Install and enable from the shell:
-
-```bash
-blender --command extension install-file /path/to/basilisp_blender_extension-<version>.zip -r user_default -e
-```
-
-Find `blender` on `PATH`, or on macOS use `/Applications/Blender.app/Contents/MacOS/Blender` when the binary is not on `PATH`. Full steps and PEZ asset URL: [upgrade-basilisp.md](upgrade-basilisp.md).
-
-**Fallback (human UI):** `Edit → Preferences → Get Extensions → Install From Disk…`, then enable **Basilisp Blender Extension** under Add-ons — only when the CLI is missing or `install-file` fails.
-
-**Yardcraft default:** install the [PEZ zip bundling Basilisp 0.5.1](https://github.com/PEZ/basilisp-blender/releases/tag/v0.5.0-basilisp-0.5.1) (temporary until [ikappaki/basilisp-blender#14](https://github.com/ikappaki/basilisp-blender/pull/14)). Quit Blender before CLI install. See [upgrade-basilisp.md](upgrade-basilisp.md).
+**Quit Blender completely before running `extension install-file`.** CLI steps, the Yardcraft-default PEZ zip (release + asset URL), finding `blender` (macOS app-bundle fallback), and the human **Install From Disk** fallback: [upgrade-basilisp.md](upgrade-basilisp.md).
 
 ## Control panel
 

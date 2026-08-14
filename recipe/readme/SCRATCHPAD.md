@@ -1,6 +1,6 @@
 # README / onboarding scratchpad
 
-Working notes for visitor-facing onboarding. **Not** for GitHub visitors.
+Working notes for **crafting** the visitor-facing onboarding (PEZ + recipe-authoring chats). **Not** for GitHub visitors; agents running the recipe orient via `AGENTS.md` + `recipe/skills/` and can skip this file.
 
 ## Guiding principles
 
