@@ -149,7 +149,7 @@ Connect with this harness’s nREPL client; confirm **this chat** can eval. Afte
 (site/ensure-demo!)
 ```
 
-Success for layer 1 is the **welcome demo** (letters, furniture, sundial, orbit fly, Yardcraft panel). Demo **registers** the N-panel. Empty `(ensure-site! …)` is for later real-base / insufficient-facts work — not the Hello win.
+Success for layer 1 is the **welcome demo** (letters, furniture, sundial, orbit fly **playing**, Yardcraft N-panel **open** on the Yardcraft tab). `(ensure-demo!)` builds the scene, starts orbit playback, registers the panel, and shows the sidebar. Empty `(ensure-site! …)` is for later real-base / insufficient-facts work — not the Hello win.
 
 **Ask the human what they see** in the Blender viewport (and panel). Point out Set time / lounger delight and Fly cam as demo-safe. Mark progress: demo shown.
 

@@ -530,7 +530,8 @@
         fly (demo-fly/ensure-orbit-fly!)]
     (viewport/hide-relationship-lines!)
     (viewport/show-rendered!)
-    (let [ui-r (register-ui!)]
+    (let [ui-r (register-ui!)
+          panel (viewport/show-n-panel! "Yardcraft")]
       {:terrain terrain
        :yard yard
        :brick brick
@@ -545,4 +546,5 @@
        :paint painted
        :hierarchy hierarchy
        :fly fly
-       :ui ui-r})))
+       :ui ui-r
+       :panel panel})))

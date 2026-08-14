@@ -266,7 +266,7 @@
         (assoc built :status :full)))))
 
 (defn ensure-demo!
-  "Welcome onboarding scene: YARDCRAFT patio letters, furniture, sundial, orbit fly, UI."
+  "Welcome onboarding scene: YARDCRAFT patio letters, furniture, sundial, orbit fly playing, Yardcraft N-panel shown."
   []
   (require 'yardcraft.site-demo)
   ((ns-resolve 'yardcraft.site-demo 'ensure-demo!)))

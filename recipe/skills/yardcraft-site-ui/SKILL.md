@@ -72,7 +72,7 @@ When `(demo/demo-active?)` (demo objects present, e.g. after `(demo/ensure-demo!
 
 - Sun date, time scrub, and **Set time** route to `demo/set-demo-date!`, `demo/preview-demo-time!`, `demo/set-demo-time!` instead of `site/*`.
 - **Fly cam** calls `demo/ensure-orbit-fly!` (orbit tour) instead of narrative `fly/ensure-fly-tour!`.
-- `(demo/ensure-demo!)` registers the panel via `(ui/register!)` at the end of the demo build — no separate register step needed for onboarding.
+- `(demo/ensure-demo!)` registers the panel via `(ui/register!)`, opens the VIEW_3D sidebar, and selects the Yardcraft tab — no separate register/show step needed for onboarding.
 
 Non-demo: sun/time use `site` facts; **Fly cam** builds the narrative tour from `yardcraft.site-fly` (`ensure-fly-tour!`). Until a site-specific `tour-path-spec` / `tour-look-spec` is authored, the tour may be empty — panel code should guard before calling `ensure-fly-tour!`.
 

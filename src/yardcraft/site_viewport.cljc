@@ -57,6 +57,36 @@
     (run! #(set! (.-show-relationship-lines (.-overlay %)) false) spaces)
     {:updated (count spaces)}))
 
+(defn play-animation!
+  "Start timeline playback if not already playing (screen.animation_play is a toggle)."
+  []
+  (let [screen (.-screen (.-context bpy))
+        was-playing? (.-is_animation_playing screen)]
+    (when-not was-playing?
+      (.animation_play (.-screen (.-ops bpy))))
+    {:playing? (.-is_animation_playing (.-screen (.-context bpy)))
+     :started? (not was-playing?)}))
+
+(defn show-n-panel!
+  "Open VIEW_3D sidebar (N) and select panel category when supported (e.g. \"Yardcraft\")."
+  [category]
+  (let [areas (view3d-areas)
+        updated
+        (reduce
+         (fn [n area]
+           (doseq [space (filter #(= (.-type %) "VIEW_3D") (.-spaces area))]
+             (set! (.-show_region_ui space) true))
+           (when-let [region (first (filter #(= (.-type %) "UI") (.-regions area)))]
+             (when (and category (hasattr region "active_panel_category"))
+               (try
+                 (setattr region "active_panel_category" category)
+                 (catch python/Exception _)))
+             (.tag_redraw area))
+           (inc n))
+         0
+         areas)]
+    {:updated updated :category category}))
+
 (defn show-scene-camera!
   "Switch all VIEW_3D spaces to the scene camera (View → Cameras → Active Camera / no numpad)."
   []

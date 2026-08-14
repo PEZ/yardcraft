@@ -120,7 +120,9 @@
     (set! (.-frame-end scene) end-frame)
     (set! (.-frame-current scene) 1)
     (view-fly-camera!)
-    {:path "site-fly-path"
-     :lookat "site-fly-lookat"
-     :camera "site-fly-camera"
-     :frames [1 end-frame]}))
+    (let [play (viewport/play-animation!)]
+      {:path "site-fly-path"
+       :lookat "site-fly-lookat"
+       :camera "site-fly-camera"
+       :frames [1 end-frame]
+       :play play})))
