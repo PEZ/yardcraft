@@ -51,11 +51,11 @@ Three states (same as main skill) — Phase **nREPL client the AI can use** is *
 
 Calva Backseat Driver often fails to wake its tools the **first time** a project is opened. That is a **known problem**. The **known workaround** is reloading the window.
 
-Outside-in (visitor wording — keep it this plain):
+Outside-in (visitor wording — keep it this plain), in **plain chat only** — **not** the question UI (reload drops that UI):
 
 > There's a known glitch where my editor link doesn’t wake up the first time you open the project. Please run **Developer: Reload Window** from the Command Palette, then tell me when that’s done — that usually fixes it.
 
-Re-Observe tools after they confirm. Do **not** lead with a multi-step troubleshooting essay.
+Re-Observe tools after they confirm in chat. Do **not** lead with a multi-step troubleshooting essay. Do **not** wrap this (or quit-Blender / jack-in / nREPL clicks) in the harness question tool — that tool is for **questions** (choices), not action confirmations.
 
 ### If reload alone doesn’t restore tools
 

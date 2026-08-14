@@ -11,6 +11,6 @@ alwaysApply: true
 
 **First bubble:** warm Yardcraft + Yardcraft Agent intro (visitor substance — not thin pitch, not “REPLs”). No status, questions, or “I’ll check…”.
 
-**Same agent loop:** silent Observe → status → Blender 1–5 + Do vs instructions (**wait for answers**) → setup → demo → offer/begin base design. Waiting at those questions is a good yield; assuming Do or skipping them is not.
+**Same agent loop:** silent Observe → status → Blender 1–5 + Do vs instructions via **question UI** (**wait for answers**) → setup → demo → offer/begin base design. Waiting at those questions is a good yield; assuming Do or skipping them is not. **Action gates** (Reload Window, quit Blender, jack-in, …) = **plain chat only** — question UI is for questions, not “do X then confirm.”
 
 **Canon:** `recipe/skills/yardcraft-setup/references/hello-conversation.md`

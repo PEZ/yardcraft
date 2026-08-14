@@ -92,7 +92,9 @@ Phase row **nREPL client the AI can use** means **(3)**, not (1) or (2).
   | gate_pass → then jack-in framing / Connect_to_Blender_REPL / ensure-demo!
 ```
 
-**VS Code family:** load [references/vscode-family.md](references/vscode-family.md) for install, tool Observe, and connect details. **When this chat cannot drive the REPLs yet** (known first-open glitch): ask for Command Palette → **Developer: Reload Window**, then “Tell me when that’s done.” Re-Observe. More steps only if reload fails — in that reference. Keep human wording free of internals (no “MCP”, no “bridge”, no extension short-names unless escalation needs them).
+**VS Code family:** load [references/vscode-family.md](references/vscode-family.md) for install, tool Observe, and connect details. **When this chat cannot drive the REPLs yet** (known first-open glitch): in **plain chat** (not the question UI), ask for Command Palette → **Developer: Reload Window**, then “Tell me when that’s done.” Re-Observe. More steps only if reload fails — in that reference. Keep human wording free of internals (no “MCP”, no “bridge”, no extension short-names unless escalation needs them).
+
+**Question UI:** only for real choice questions (see [hello-conversation.md](references/hello-conversation.md)). Action gates (Reload Window, quit Blender, jack-in, nREPL panel, …) stay in plain chat.
 
 **Other harnesses:** Observe what nREPL client and how this chat can eval (or the human prefers). Web-search as needed. Rendezvous on **`.nrepl-port`**; after Blender connect, `(load-file "user.lpy") (user/init!)` if no auto sequence. Confirm **this chat** can eval before marking the Phase row. Do not invent a VS Code-shaped stack.
 

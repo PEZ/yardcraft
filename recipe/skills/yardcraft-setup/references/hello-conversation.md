@@ -47,7 +47,9 @@ Everything you say **to the human** (chat, questions, status, next steps) is **o
 
 **Exchange rule:** after every agent message, either **you** are doing the next thing, or you have **asked the human** to do something or answer something. No greet-and-idle. No status-and-idle.
 
-Human gates stay hard: Blender 1–5 and Do vs instructions — **ask and wait**; do not assume. Yielding there is correct. Human-only clicks (jack-in, nREPL panel, Reload Window, install confirmations) — ask and wait. Then Act again.
+Human gates stay hard: Blender 1–5 and Do vs instructions — **ask and wait**; do not assume. Yielding there is correct. Human-only **actions** (jack-in, nREPL panel, **Developer: Reload Window**, quit Blender, install confirmations) — ask in **plain chat** and wait for their reply. Then Act again.
+
+**Question UI (when the harness has one):** use it **only for real questions** — choices / preferences with answers (e.g. Blender 1–5, Do vs instructions). **Never** use the question UI for “please do X, then confirm” action gates. Those prompts die if the action reloads the window or otherwise drops the question UI (Reload Window is the classic trap). Plain chat survives; the question tool often does not.
 
 “Greeting only” means the *first visitor bubble* has no status/questions — it does **not** mean end the agent reply with no next move. After that bubble, **keep the exchange alive** in the same agent loop: silent Observe → status → questions → setup → demo → offer/begin base design.
 
@@ -90,12 +92,12 @@ Show what **you will do for them** and what’s already fine. Do **not** paste p
 
 Already-good tooling: prefer **`✓ (version)`**. Then one short line that you’ll proceed after their answers (the ask below is the next move).
 
-**Questions** (status first, then these — example-chat order; question UI when available; each self-contained):
+**Questions** (status first, then these — example-chat order; **question UI when available** for these choice questions only; each self-contained):
 
 1. **Blender comfort 1–5** (1 = never used → 5 = expert)
 2. **Do vs instructions-only** — for some setup steps you can **do** it or only **give instructions**; which do they prefer?
 
-This ask **is** involving the human — wait for answers; do not assume Do or skip comfort. After they answer, **Act** — close the next setup gap per `yardcraft-setup`. When blocked on a human click, ask and wait. After demo, **offer** (or begin, if they want) real **base design** via `yardcraft-base-design` — job stays open until that is done or clearly offered.
+This ask **is** involving the human — wait for answers; do not assume Do or skip comfort. After they answer, **Act** — close the next setup gap per `yardcraft-setup`. When blocked on a human **action** (Reload Window, quit Blender, jack-in, nREPL START, …), write it in **plain chat** — not the question UI — and wait for “done” (or equivalent) in the chat. After demo, **offer** (or begin, if they want) real **base design** via `yardcraft-base-design` — job stays open until that is done or clearly offered.
 
 ---
 
@@ -103,6 +105,7 @@ This ask **is** involving the human — wait for answers; do not assume Do or sk
 
 | | |
 |---|---|
+| **BAD** | Put **Developer: Reload Window**, quit Blender, jack-in, or other “do X then confirm” gates in the **question UI** (it often dies on reload). |
 | **BAD** | Warm greeting → stop with no ask and no Act. |
 | **BAD** | Status with no questions and no next action for either party. |
 | **BAD** | Assume Do / skip Blender 1–5 and steamroll installs. |
