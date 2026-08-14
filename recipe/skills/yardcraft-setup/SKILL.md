@@ -99,7 +99,7 @@ Then one short line: next you’ll install skills / connect Babashka / get Blend
 | Harness | Depth |
 |---|---|
 | **VS Code family** (Cursor, VS Code + Copilot, other forks) | **Calva** + **Calva Backseat Driver** — deep path below. No alternate Clojure clients on VS Code. |
-| **Anything else** (e.g. Emacs) | Same goal; Calva/Backseat out of picture. Observe, web-search, adapt — do not enumerate editor combos. |
+| **Anything else** (e.g. Emacs) | Same goal; Calva / Backseat Driver out of picture. Observe, web-search, adapt — do not enumerate editor combos. |
 
 **Also situational:** do vs instructions-only, OS/`PATH`, Blender already present, `clojure` CLI → LSP unblock (VS Code family only).
 
