@@ -116,17 +116,24 @@ Phase row **nREPL client the AI can use** means **(3)**, not (1) or (2).
 
 ### 5. basilisp-blender (PEZ zip)
 
-When Blender is present, **Observe** whether the basilisp-blender extension is installed and **which version** (Blender extensions UI / CLI / addon list — wing the probe). Compare to the Yardcraft-recommended PEZ zip.
+**Observe before Act — two gates:**
+
+1. **Installed?** Probe whether basilisp-blender is already present and which version (CLI `extension list`, extensions dir under Blender’s user config, or Preferences → Get Extensions). Compare to the Yardcraft-recommended PEZ zip ([upgrade-basilisp.md](../basilisp-blender/references/upgrade-basilisp.md)). If already the right package → mark ✓ and **skip** download/install. Do **not** reinstall “just in case.”
+2. **Blender running?** Only if install/upgrade is actually needed: Observe whether a Blender process is running (OS process list / human). Ask them to **quit Blender** only when it **is** running. Do **not** ask to quit when Blender is not running.
 
 ```
 λ basilisp_blender_install.
-  human_quits_Blender → download(PEZ_zip) → CLI_install_file → enable
+  Observe(installed? ∧ version) → already_ok? → skip
+  | need_install_or_upgrade → Observe(Blender_running?)
+  | running? → ask_quit_in_plain_chat ∧ wait
+  | ¬running? → ¬ask_quit
+  | then download(PEZ_zip) → CLI_install_file → enable
   | blender --command extension install-file <zip> -r user_default -e
   | macOS_fallback → /Applications/Blender.app/Contents/MacOS/Blender …
   | CLI_fails → Install_From_Disk (human)
 ```
 
-**Quit Blender first.** Release + asset URL, finding `blender`, fallback details, verify: **`basilisp-blender`** skill → [upgrade-basilisp.md](../basilisp-blender/references/upgrade-basilisp.md).
+Release + asset URL, finding `blender`, probes, fallback, verify: **`basilisp-blender`** skill → [upgrade-basilisp.md](../basilisp-blender/references/upgrade-basilisp.md).
 
 ### 6. nREPL (human path)
 
@@ -205,6 +212,7 @@ When **they** engage real-site work, leave layer 1, load **`yardcraft-base-desig
 - **Common goal, situational adapter** — not Cursor-only; VS Code depth in vscode-family.md
 - **This chat can eval** = drive the REPLs from here; install or status-bar green ≠ that gate
 - Query before install when Observe already shows green
+- **basilisp-blender:** Observe installed/version before download; ask quit Blender only if it is running (§5)
 - Destructive Blender ops → confirm with human
 - **Demo dramaturgy:** six separate `demo-stage-*!` REPL evals (§8); not `(ensure-demo!)`
 - Structural edits for `.cljc` forms once editing starts (`clojure` skill)

@@ -42,7 +42,7 @@ When the nREPL server starts with a **Basilisp Project Directory** set, that dir
 
 ## Yardcraft session bootstrap
 
-**Install/upgrade (do-mode):** quit Blender completely first, then CLI `extension install-file` of the PEZ zip (Install From Disk only when CLI fails) — [references/upgrade-basilisp.md](references/upgrade-basilisp.md).
+**Install/upgrade (do-mode):** **Observe first** — already installed at the PEZ target? skip. Need install/upgrade? ask quit **only if Blender is running**, then CLI `extension install-file` (Install From Disk only when CLI fails) — [references/upgrade-basilisp.md](references/upgrade-basilisp.md).
 
 Connect (this repo):
 
