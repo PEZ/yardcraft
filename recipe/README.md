@@ -16,4 +16,4 @@ Bootstrap and teaching materials that ship with the Yardcraft template. They are
 | [`yardcraft-base-design`](skills/yardcraft-base-design/) | Layer 2 — orchestrate maps/sketches/facts into a real base (loads composables) |
 | `basilisp`, `basilisp-blender`, `yardcraft-*`, `references/sweden-lantmateriet/` | Composable dialect / scene / product skills — stay separate; phase skills do not swallow them |
 
-Live project code stays at the repo root (`src/yardcraft/`, `assets/`, `site.md`, …). Your own source photos go under `source-images/` at the repo root when you create them.
+Live project code stays at the repo root (`src/yardcraft/`, `assets/`, …). Your own source photos go under `source-images/` at the repo root when you create them.

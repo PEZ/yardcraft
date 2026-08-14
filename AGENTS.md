@@ -28,7 +28,7 @@ If the user would see you “checking” or “finishing the greeting,” you fa
 
 **Voice + full turn script (single canon):** [`yardcraft-setup` → `references/hello-conversation.md`](recipe/skills/yardcraft-setup/references/hello-conversation.md). Load **`yardcraft-setup`** for layer-1 procedure.
 
-Visitor story: [`README.md`](README.md). Memoir (optional): [`MY-BASE-DESIGN-PROCESS.md`](MY-BASE-DESIGN-PROCESS.md). Notes: [`site.md`](site.md). Packaged skills: [`recipe/skills/`](recipe/skills/).
+Visitor story: [`README.md`](README.md). Memoir (optional): [`MY-BASE-DESIGN-PROCESS.md`](MY-BASE-DESIGN-PROCESS.md). Packaged skills: [`recipe/skills/`](recipe/skills/).
 
 **Crafting the template itself** (editing this recipe, not helping someone Yardcraft their lot): if [`TEMPLATE-CRAFTING.md`](TEMPLATE-CRAFTING.md) is present (gitignored living pad), treat it as your AGENTS.md, read it and maintain it, it is overruling anything in this file.
 
@@ -66,10 +66,23 @@ Depth for layer 1 and 2 lives in **`yardcraft-setup`** and **`yardcraft-base-des
 
 Explore yard / patio / parking options in Blender for **your** site.
 
-- Facts map `site` in [`src/yardcraft/site_data.cljc`](src/yardcraft/site_data.cljc) (`yardcraft.site-data`)
-- Domain builders in `yardcraft.site-*`; orchestration in [`src/yardcraft/site.cljc`](src/yardcraft/site.cljc)
+- Canonical facts: map `site` in [`src/yardcraft/site_data.cljc`](src/yardcraft/site_data.cljc) (`yardcraft.site-data`); domain builders in `yardcraft.site-*`; orchestration in [`src/yardcraft/site.cljc`](src/yardcraft/site.cljc)
+- Project entry: [`README.md`](README.md)
 
-**Do not invent site measurements.** Extend `site` when something is confirmed. Flat `yardcraft.site-*` namespaces (not nested `yardcraft.site.data`).
+**Do not invent site measurements.** Extend `site` in `yardcraft.site-data` when something is confirmed. Flat `yardcraft.site-*` namespaces (not nested `yardcraft.site.data`).
+
+## Site orientation
+
+Human-friendly naming for agents (canonical numbers live in `yardcraft.site-data`):
+
+- **Units** — 1 Blender unit = 1 m
+- **World** — +Y = true north (`site-north` when present), +Z up; horizontal origin = house center after a full rebuild with house facts; world +Y stays true north
+- **Local / house-NW** (under `site-root`) — 0,0 at NW house corner; +X along the house (typically ∥ access road); +Y toward the access road. Builders author here
+- **`site-root`** — parents `site-*`; Z-rot = −`:site/north-offset-deg` so local +Y points relative to true north while world +Y = north
+- **Heights** — Z=0 = constructed house platform (= RH00 datum as `:terrain/z0-rh00` when you set one); pad/floor heights live on fact keys
+- **`site-sun`** — true azimuth, not under `site-root`; scene objects use the `site-*` prefix (`clear-site!` spares `draft-*`)
+- **Facts** — promote confirmed measurements into `yardcraft.site-data` only; do not invent
+- **Sources** — photos under `source-images/` (example overlays under `recipe/example-source-images/`); provenance on fact keys (`:…/note` in site-data)
 
 ---
 
@@ -142,7 +155,7 @@ Throwaway work: REPL or [`src/yardcraft/scratch.cljc`](src/yardcraft/scratch.clj
 4. **Keep experiments small.**
 5. After partial rebuilds: `(yardcraft.site/sync-site-hierarchy! site)` (then paint if needed).
 6. Site objects use `site-` prefix. `clear-site!` clears the scene but **spares `draft-*`**.
-7. **Do not invent site measurements.**
+7. **Do not invent site measurements.** Ask, or leave placeholders, until facts are in [`src/yardcraft/site_data.cljc`](src/yardcraft/site_data.cljc) (`yardcraft.site-data`).
 8. **Suggestions Show/Base** need a real base — not the empty demo / empty template.
 9. **Set time / loungers** on a real site need lat/lon; demo ships geo for that delight.
 10. Prefer `(.-ops bpy)` / `(.-context bpy)` over `bpy.ops/…` (clj-kondo).

@@ -1,10 +1,13 @@
 (ns yardcraft.site-data
   "Canonical site facts — empty template.
 
-  House-NW frame (when used): origin at NW house corner; +X along the house;
-  +Y toward the access road; Z=0 at the constructed house platform.
-  World +Y = true north after site-root rotation by −:site/north-offset-deg.
+  House-NW: origin at NW house corner; +X along the house; +Y toward the access road.
+  World +Y = true north via site-root Z-rotation by −:site/north-offset-deg.
+  Z=0 = constructed house platform (= RH00 via :terrain/z0-rh00 when set); pad/floor
+  detail lives on keys like :house/floor-z and :…/note entries in this map — not
+  invented elsewhere. Lot outline: :lot/polygon-xy.
 
+  Prefer :…/note keys on facts for source/provenance prose.
   Fill keys as you measure and confirm. Do not invent measurements.
   Keys below document the shape builders expect; values start nil / empty.")
 

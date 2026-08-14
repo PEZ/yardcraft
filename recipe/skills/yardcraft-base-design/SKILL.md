@@ -9,7 +9,7 @@ description: >-
 
 # Yardcraft base design (layer 2 — base sauce)
 
-Orchestrates turning a connected Yardcraft session into a **real-site base**: facts in `yardcraft.site-data` / `site.md`, meshes via `ensure-site!`, human viewport judgment. Composable skills hold procedures — this skill **loads them when needed** and keeps the OODA loop honest.
+Orchestrates turning a connected Yardcraft session into a **real-site base**: facts in `yardcraft.site-data`, meshes via `ensure-site!`, human viewport judgment. Composable skills hold procedures — this skill **loads them when needed** and keeps the OODA loop honest.
 
 README / [`MY-BASE-DESIGN-PROCESS.md`](../../../MY-BASE-DESIGN-PROCESS.md) are **examples / memoir**, not scripts. Paths differ by country, sketches vs APIs, and what Observe finds. Run **Human ⊗ AI ⊗ REPLs** (`bb` + `basilisp-blender`, plus Epupp when map UIs open).
 
@@ -67,7 +67,7 @@ When **entering** or **leaving** layer 2, update `AGENTS.md` Phase / progress so
 
 ### Do not invent measurements
 
-Ask the human, leave placeholders, or capture from maps/sketches/APIs **then** confirm in the viewport. Promote into `src/yardcraft/site_data.cljc` / `site.md` only when the human is happy. Confirmed facts only.
+Ask the human, leave placeholders, or capture from maps/sketches/APIs **then** confirm in the viewport. Promote into `src/yardcraft/site_data.cljc` only when the human is happy. Confirmed facts only.
 
 ### Real-site sun / Set time
 

@@ -32,7 +32,7 @@ Load before using this skill:
 
 Related: **`yardcraft-light-table`** — hand-traced contours and driveway edges that outrank raw LM where validated.
 
-After connect: confirm `user/init!` added `src/` to `sys.path`. Tooling: `src/yardcraft/site_lm.cljc` (`yardcraft.site-lm`); terrain blend in `yardcraft.site-lot`; orchestration in `yardcraft.site`. Facts: `yardcraft.site-data` / `site.md`. **Do not invent site measurements.**
+After connect: confirm `user/init!` added `src/` to `sys.path`. Tooling: `src/yardcraft/site_lm.cljc` (`yardcraft.site-lm`); terrain blend in `yardcraft.site-lot`; orchestration in `yardcraft.site`. Facts: `yardcraft.site-data` (`src/yardcraft/site_data.cljc`). **Do not invent site measurements.**
 
 ## Division of labor
 
@@ -166,7 +166,7 @@ Confirm exact fn names in the live `site_lot` / `site_lm` sources for your check
 
 ## Invariants
 
-- **Do not invent site measurements** — extend `yardcraft.site-data` / `site.md` when confirmed.
+- **Do not invent site measurements** — extend `yardcraft.site-data` when confirmed.
 - **LM ≠ survey truth** near constructed pads; blend and overrides encode human judgment.
 - **Prefer point samples** over full grid re-fetch for spot checks.
 - **`sync-site-hierarchy!` after partial rebuilds** — new meshes inherit `site-root` rotation.

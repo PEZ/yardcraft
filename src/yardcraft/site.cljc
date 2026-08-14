@@ -2,12 +2,13 @@
   "Yardcraft site model — orchestration entrypoint, paint, sun/north, viewport.
 
   Units: 1 Blender unit = 1 meter.
-  House-NW frame when facts exist: origin at NW corner; +X along house; +Y toward
-  access road; Z=0 at constructed house platform.
-  World horizontal origin = house center after parenting; world +Y = true north.
+  Frame, Z datum, and lot geometry: see yardcraft.site-data (House-NW, :terrain/z0-rh00, :lot/polygon-xy).
+
+  Key scene objects (all `site-` prefixed): site-root (world origin + north rotate),
+  site-sun; clear-site! removes site-* objects but spares draft-*.
 
   Facts: yardcraft.site-data/site
-  Scene objects use the `site-` name prefix; clear-site! removes them.
+  Domains: yardcraft.site-{mesh,paint,viewport,sun,hierarchy,draw,house,lot,terrace,furniture,driveway,fence,plan,suggestions,props,demo,…}; sketch tooling: yardcraft.site-sketch
 
   Empty facts: (ensure-site! s) → site-root + sun/world/viewport defaults only."
   (:require [basilisp.string :as string]

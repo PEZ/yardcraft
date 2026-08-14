@@ -93,4 +93,4 @@ Use `draft-contour-xy` instead of `draft-bezier-xy` when control points alone ar
 - **Fit is computed, not eyeballed.** `sketch-fit` best-fits rotation + uniform scale + translation from a spec's `:corner-px` ↔ `:lot/polygon-xy` (`:sketch/specs` in `yardcraft.site-data`) and reports per-corner residuals — treat large residuals as a bad fit, not as truth.
 - **`draft-*` objects survive `clear-site!`.** The light table persists across rebuilds; `sketch/hide-drafts!` / `sketch/show-drafts!` toggle it.
 - **`persist-site!` is session-only.** Capture updates the live `site` Var, not the file. After capture + rebuild, ask the human to check the viewport; promote captured values into `src/yardcraft/site_data.cljc` (structural edit) only when they are happy — the facts file stays canonical.
-- **Do not invent site measurements.** Leave placeholders until confirmed in `site.md` / `site_data`.
+- **Do not invent site measurements.** Leave placeholders until confirmed in `site_data`.
