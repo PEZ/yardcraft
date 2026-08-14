@@ -10,6 +10,8 @@ out/
 *.blend1
 # Harness-local skill install (canonical package stays under recipe/skills/)
 .cursor/
+# Local recipe-authoring pad (seed: recipe/readme/TEMPLATE-CRAFTING.seed.md)
+TEMPLATE-CRAFTING.md
 assets/**/*.glb
 assets/**/*.gltf
 assets/**/*.bin

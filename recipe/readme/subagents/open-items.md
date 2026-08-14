@@ -1,10 +1,5 @@
 # Recipe open items
 
-Standing backlog. Story example in `README.md` remains the *experience* SoT; `AGENTS.md` + skills teach OODA delivery (current architecture lives there, not here).
+Authoring backlog lives in the local **`TEMPLATE-CRAFTING.md`** pad (gitignored; bootstrap from [`TEMPLATE-CRAFTING.seed.md`](TEMPLATE-CRAFTING.seed.md)).
 
-## Open
-
-- Exact layer 1→2 / 2→3 flip moments (demo vs “ready for material” vs explicit “base done”) — Phase table is editable; refine with use
-- Full narrative fly tour content (guarded empty path until a site tour is written)
-- README quote-plan empty-facts hedge — optional PEZ pen (`data/site` form already in README; needs filled facts)
-- Ongoing **code sanity** sweeps (see scratchpad open list)
+Harness depth-budget constraints: [`harness-model.md`](harness-model.md).
