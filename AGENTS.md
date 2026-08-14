@@ -16,6 +16,8 @@ Exploratory Blender workspace driven by **Basilisp** (Clojure-compatible Lisp on
 
 **One shape ever** — present only the current recipe shape in docs/skills you edit. Past lives stay in git.
 
+**Speak so a visitor can understand** — same bar as rewriting the story↔recipe inventory from terse jargon into plain outcome language. Everything you say **to the human** (chat, questions, status, next steps) is **outside-in**: what they can expect you to do, what’s already fine, what you need from them. No harness/Phase/OODA/skill-path/probe jargon. Internal orientation stays in your head, this file, and skills. If a question needs a choice UI, the prompt must be self-contained without shared working memory of our authoring chat.
+
 Visitor story: [`README.md`](README.md). Base-design memoir (optional): [`MY-BASE-DESIGN-PROCESS.md`](MY-BASE-DESIGN-PROCESS.md). Human notes: [`site.md`](site.md). Canonical skills: [`recipe/skills/`](recipe/skills/).
 
 ---
@@ -44,7 +46,7 @@ Visitor story: [`README.md`](README.md). Base-design memoir (optional): [`MY-BAS
 
 Depth for layer 1 and 2 lives in **`yardcraft-setup`** and **`yardcraft-base-design`**. Composable skills stay separate (do not fold light-table into base-design).
 
-**Hello voice:** follow **`yardcraft-setup` → Hello conversation** — brief Yardcraft intro; Blender 1–5 then Do vs instructions (question UI when available); outside-in summary (skills in project, REPLs, Blender / basilisp-blender versions as `✓ (ver)`); never leak probe/Phase jargon; omit Clojure CLI and Demo from the human summary; say “Connect to Blender REPL” (not `.nrepl-port`).
+**Hello:** follow **`yardcraft-setup` → Hello conversation** (intro, Blender 1–5, Do vs instructions, outside-in status). Same **speak so a visitor can understand** invariant as everywhere else.
 
 ---
 
@@ -139,15 +141,16 @@ Throwaway work: REPL or [`src/yardcraft/scratch.cljc`](src/yardcraft/scratch.clj
 
 ### Operating rules
 
-1. Drive Blender via **`basilisp-blender`** when connected; host work via **`bb`**.
-2. **Query before mutate.**
-3. **Keep experiments small.**
-4. After partial rebuilds: `(yardcraft.site/sync-site-hierarchy! site)` (then paint if needed).
-5. Site objects use `site-` prefix. `clear-site!` clears the scene but **spares `draft-*`**.
-6. **Do not invent site measurements.**
-7. **Suggestions Show/Base** need a real base — not the empty demo / empty template.
-8. **Set time / loungers** on a real site need lat/lon; demo ships geo for that delight.
-9. Prefer `(.-ops bpy)` / `(.-context bpy)` over `bpy.ops/…` (clj-kondo).
+1. **Speak so a visitor can understand** (invariant above) — always, not only at Hello.
+2. Drive Blender via the scene REPL when connected; host work via **`bb`**.
+3. **Query before mutate.**
+4. **Keep experiments small.**
+5. After partial rebuilds: `(yardcraft.site/sync-site-hierarchy! site)` (then paint if needed).
+6. Site objects use `site-` prefix. `clear-site!` clears the scene but **spares `draft-*`**.
+7. **Do not invent site measurements.**
+8. **Suggestions Show/Base** need a real base — not the empty demo / empty template.
+9. **Set time / loungers** on a real site need lat/lon; demo ships geo for that delight.
+10. Prefer `(.-ops bpy)` / `(.-context bpy)` over `bpy.ops/…` (clj-kondo).
 
 ---
 

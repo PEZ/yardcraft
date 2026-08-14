@@ -37,7 +37,7 @@ Warm pair-programmer tone. Something like: Yardcraft is designing their yard (pa
 
 ### 2. Questions (before dumping a plan)
 
-Ask in **example-chat** order — not harness/skills jargon:
+Ask in **example-chat** order. Questions and status use **plain visitor language** — same standard as AGENTS **Speak so a visitor can understand** (no harness/Phase/skill-path jargon at all).
 
 1. **Blender comfort 1–5** (1 = never used → 5 = expert)
 2. **Do vs instructions-only** — for some setup steps you can **do** it or only **give instructions**; which do they prefer?

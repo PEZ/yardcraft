@@ -7,6 +7,7 @@ Working notes for crafting visitor-facing onboarding. **Not** for GitHub visitor
 - **One shape ever** — The working tree (README, `AGENTS.md`, skills, code comments agents read) should read as if the recipe **always** had its current shape. No “formerly / retired / don’t use the old path / see git history for…”. Past lives belong in **git history only**. When changing a design, rewrite the present — don’t leave archaeology beside it. (Scrub pass: todos / inventory #23.)
 - **Story is the example / press release** — README chat shows the *kind* of experience; not a script to replay. `AGENTS.md` + skills make that experience deliverable via situational awareness.
 - **Human ⊗ AI ⊗ REPLs** + **OODA** — observe system, REPLs, project, and human before acting; depth in skills; λ for hard rules, prose when freer description fits (see below).
+- **Speak so a visitor can understand** — locked in `AGENTS.md`: outside-in human chat (inventory rewrite lesson); jargon stays internal.
 
 ## Collaboration workflow
 
