@@ -11,13 +11,14 @@ description: >-
 
 Orchestrates turning a connected Yardcraft session into a **real-site base**: facts in `yardcraft.site-data`, meshes via `ensure-site!`, human viewport judgment. Composable skills hold procedures — this skill **loads them when needed** and keeps the OODA loop honest.
 
-README / [`MY-BASE-DESIGN-PROCESS.md`](../../../MY-BASE-DESIGN-PROCESS.md) are **examples / memoir**, not scripts. Paths differ by country, sketches vs APIs, and what Observe finds. Run **Human ⊗ AI ⊗ REPLs** (`bb` + `basilisp-blender`, plus Epupp when map UIs open).
+Load when the **human** engages real-site work (Hello boundary: [hello-conversation.md](../yardcraft-setup/references/hello-conversation.md) **Hello job open until**). README / [`MY-BASE-DESIGN-PROCESS.md`](../../../MY-BASE-DESIGN-PROCESS.md) are **examples / memoir**, not checklists. Paths differ by country, sketches vs APIs, and what Observe finds. Run **Human ⊗ AI ⊗ REPLs** (`bb` + `basilisp-blender`, plus Epupp when map UIs open).
 
 ## When to use
 
-- Demo shown (or skipped) and human is ready for real lot / house / terrace facts
-- Observe says layer 2 / base incomplete
+- Human is ready (or already mid-flight) on real lot / house / terrace facts
 - Maps, sketches, light table, elevation, lot polygons, promoting confirmed measurements
+
+Do **not** auto-load solely because demo finished.
 
 ## Prerequisites (composable — do not duplicate their procedures)
 

@@ -43,15 +43,15 @@ Everything you say **to the human** (chat, questions, status, next steps) is **o
 
 ## Turn script
 
-**Job open until:** the human has a **base design** in place, or has been **offered** that help. Setup and `ensure-demo!` are necessary beats — not the finish line.
+**Hello job open until** demo is complete (incl. suggestions smoke) **and** the README **one step beyond** is done: tooling setup is done; invite them toward their **actual yard** (maps/sketches/APIs, memoir pointer, jump-in when ready). That invite **ends scripted Hello**. Afterward follow their vibes — load `yardcraft-base-design` only when **they** engage real-site work; memoir/skills are tools, not a forced next act.
 
-**Exchange rule:** after every agent message, either **you** are doing the next thing, or you have **asked the human** to do something or answer something. No greet-and-idle. No status-and-idle.
+**Exchange rule (while Hello is open):** after every agent message, either **you** are doing the next thing, or you have **asked the human** to do something or answer something. No greet-and-idle. No status-and-idle.
 
 Human gates stay hard: Blender 1–5 and Do vs instructions — **ask and wait**; do not assume. Yielding there is correct. Human-only **actions** (jack-in, nREPL panel, **Developer: Reload Window**, quit Blender, install confirmations) — ask in **plain chat** and wait for their reply. Then Act again.
 
 **Question UI (when the harness has one):** use it **only for real questions** — choices / preferences with answers (e.g. Blender 1–5, Do vs instructions). **Never** use the question UI for “please do X, then confirm” action gates. Those prompts die if the action reloads the window or otherwise drops the question UI (Reload Window is the classic trap). Plain chat survives; the question tool often does not.
 
-“Greeting only” means the *first visitor bubble* has no status/questions — it does **not** mean end the agent reply with no next move. After that bubble, **keep the exchange alive** in the same agent loop: silent Observe → status → questions → setup → demo → offer/begin base design.
+“Greeting only” means the *first visitor bubble* has no status/questions — it does **not** mean end the agent reply with no next move. After that bubble, **keep the exchange alive** in the same agent loop: silent Observe → status → questions → setup → demo (+ suggestions smoke) → **one-step-beyond invite**.
 
 ### First bubble — Greeting only
 
@@ -97,7 +97,7 @@ Already-good tooling: prefer **`✓ (version)`**. Then one short line that you�
 1. **Blender comfort 1–5** (1 = never used → 5 = expert)
 2. **Do vs instructions-only** — for some setup steps you can **do** it or only **give instructions**; which do they prefer?
 
-This ask **is** involving the human — wait for answers; do not assume Do or skip comfort. After they answer, **Act** — close the next setup gap per `yardcraft-setup`. When blocked on a human **action** (Reload Window, quit Blender, jack-in, nREPL START, …), write it in **plain chat** — not the question UI — and wait for “done” (or equivalent) in the chat. After demo, **offer** (or begin, if they want) real **base design** via `yardcraft-base-design` — job stays open until that is done or clearly offered.
+This ask **is** involving the human — wait for answers; do not assume Do or skip comfort. After they answer, **Act** — close the next setup gap per `yardcraft-setup`. When blocked on a human **action** (Reload Window, quit Blender, jack-in, nREPL START, …), write it in **plain chat** — not the question UI — and wait for “done” (or equivalent) in the chat.
 
 ---
 
@@ -113,13 +113,13 @@ This ask **is** involving the human — wait for answers; do not assume Do or sk
 | **BAD** | Narrate loading/searching skills or “Found the setup guide…”, *then* greet. |
 | **BAD** | Greeting + Blender 1–5 in the same first bubble (README example shape — too early). |
 | **BAD** | “Welcome to Yardcraft… live through the REPLs.” (thin + jargon). |
-| **GOOD** | First bubble = warm Yardcraft + Yardcraft Agent intro → same loop silent Observe → status + Blender 1–5 + Do vs instructions (**wait**) → on answers Act through setup/demo → offer/begin base design. |
+| **GOOD** | First bubble = warm Yardcraft + Yardcraft Agent intro → same loop silent Observe → status + Blender 1–5 + Do vs instructions (**wait**) → on answers Act through setup/demo → one-step-beyond invite. |
 
 ---
 
 ## README note
 
-[`README.md`](../../../../README.md) example chat is a **press release of the kind of experience**, not a script. Its first agent message may combine greeting with a Blender question. **Our contract:** first *bubble* = greeting only (substance above); then status + questions in the same loop (ask and wait); then Act toward demo and base-design offer — every exchange leaves a next move for you or for them.
+[`README.md`](../../../../README.md) example chat is a **press release of the *kind* of experience**, not a script. Its first agent message may combine greeting with a Blender question. **Our contract:** first *bubble* = greeting only (substance above); then status + questions (ask and wait); Act through demo; then the README one-step-beyond invite — see **Hello job open until** above.
 
 ---
 

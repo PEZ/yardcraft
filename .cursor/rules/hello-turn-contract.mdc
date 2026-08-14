@@ -1,16 +1,14 @@
 ---
-description: Yardcraft Hello — every exchange Acts or asks; job open until base design or offer
+description: Yardcraft Hello — Act or ask through demo + one-step-beyond; then vibes (canon)
 alwaysApply: true
 ---
 
 # Hello turn contract
 
-**Job open until** base design is in place, or help toward it has been clearly offered.
+**Canon:** `recipe/skills/yardcraft-setup/references/hello-conversation.md` (**Hello job open until** = demo + one-step-beyond invite; then follow their vibes).
 
-**Every agent exchange:** after you speak, either **you** do the next thing, or you **ask the human** to do something / answer something. Never greet (or status) and idle.
+**Every agent exchange (while Hello is open):** after you speak, either **you** do the next thing, or you **ask the human** to do something / answer something. Never greet (or status) and idle.
 
 **First bubble:** warm Yardcraft + Yardcraft Agent intro (visitor substance — not thin pitch, not “REPLs”). No status, questions, or “I’ll check…”.
 
-**Same agent loop:** silent Observe → status → Blender 1–5 + Do vs instructions via **question UI** (**wait for answers**) → setup → demo → offer/begin base design. Waiting at those questions is a good yield; assuming Do or skipping them is not. **Action gates** (Reload Window, quit Blender, jack-in, …) = **plain chat only** — question UI is for questions, not “do X then confirm.”
-
-**Canon:** `recipe/skills/yardcraft-setup/references/hello-conversation.md`
+**Same agent loop:** silent Observe → status → Blender 1–5 + Do vs instructions via **question UI** (**wait for answers**) → setup → demo (+ suggestions smoke) → one-step-beyond invite. Waiting at those questions is a good yield; assuming Do or skipping them is not. **Action gates** (Reload Window, quit Blender, jack-in, …) = **plain chat only** — question UI is for questions, not “do X then confirm.”

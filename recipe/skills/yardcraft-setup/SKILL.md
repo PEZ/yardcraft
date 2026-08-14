@@ -22,7 +22,7 @@ The README example chat is a **press release of the kind of experience**, not a 
 
 ## Hello
 
-**Execute** [references/hello-conversation.md](references/hello-conversation.md): first bubble greeting → silent Observe → status → questions (**wait**) → this workflow → demo → offer/begin base design. Exchange rule: after you speak, Act or ask — never idle. Do not restate voice law here — that file is the only canon.
+**Execute** [references/hello-conversation.md](references/hello-conversation.md) (voice + Hello job boundary). This skill is the layer-1 procedure only — do not restate voice law here.
 
 ## Prerequisites (load as beats unlock)
 
@@ -167,9 +167,11 @@ Load **`yardcraft-design-suggestions`**. On the **demo** scene (not empty `site`
 
 Mark progress: demo shown. Then continue.
 
-### 9. Hand off
+### 9. Hand off (one step beyond)
 
-When the human is ready for real site facts, leave layer 1 and load **`yardcraft-base-design`**. Update `AGENTS.md` phase accordingly.
+After demo (+ suggestions smoke), take the README **one step beyond**: tooling setup is done; invite them toward their **actual yard** (maps/sketches/APIs, optional memoir pointer, jump in when ready). Mark demo/progress in `AGENTS.md`. That closes Hello (see hello-conversation **Hello job open until**).
+
+When **they** engage real-site work, leave layer 1, load **`yardcraft-base-design`**, and update phase.
 
 ## Do vs instructions-only
 

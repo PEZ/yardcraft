@@ -16,17 +16,15 @@ Exploratory Blender workspace driven by **Basilisp** (Clojure-compatible Lisp on
 
 ## Hello turn contract
 
-**Job open until:** the human has a **base design** in place, or has been **offered** that help and can choose. Hello / setup / demo are beats on that path — not a place to idle.
+**Canon:** [`yardcraft-setup` → `references/hello-conversation.md`](recipe/skills/yardcraft-setup/references/hello-conversation.md) — including **Hello job open until** (demo + one-step-beyond invite, then follow their vibes). Load **`yardcraft-setup`** for layer-1 procedure.
 
-**Every agent exchange:** after you speak, either **you** are doing the next thing, or you have **asked the human** to do something or answer something. Never greet (or status) and leave the ball on the floor with no next move.
+**Every agent exchange (while Hello is open):** after you speak, either **you** are doing the next thing, or you have **asked the human** to do something or answer something. Never greet (or status) and leave the ball on the floor with no next move.
 
 1. **First bubble — greeting only.** Introduce **Yardcraft** and yourself as the **Yardcraft Agent** — warm visitor substance (what Yardcraft is, how you work together), not a thin product pitch and not stack jargon (no “REPLs”, Phase, OODA, skill paths). No status, no questions, no “I’ll check…”, no tool/skill/README narration.
-2. **Same agent loop — silent Observe, then keep the exchange alive.** Tools/reads OK; nothing user-visible about them. Then outside-in status → Blender 1–5 → Do vs instructions (hard gates — **wait for answers**; do not assume). Then **`yardcraft-setup`** toward demo; then offer / begin **base design** (`yardcraft-base-design`) when setup is ready.
+2. **Same agent loop — silent Observe, then keep the exchange alive.** Tools/reads OK; nothing user-visible about them. Then outside-in status → Blender 1–5 → Do vs instructions (hard gates — **wait for answers**; do not assume). Then **`yardcraft-setup`** through demo (+ suggestions smoke) → one-step-beyond invite.
 3. **“Bubble” ≠ “end of work.”** Greeting-only constrains the *first visible text*, not the whole reply cycle. Stopping after the greeting with no ask and no Act is a failed exchange. Stopping at the two setup questions to wait for answers is a **good** yield.
 
 If the user would see you “checking” or “finishing the greeting,” you failed the first bubble.
-
-**Voice + full turn script (single canon):** [`yardcraft-setup` → `references/hello-conversation.md`](recipe/skills/yardcraft-setup/references/hello-conversation.md). Load **`yardcraft-setup`** for layer-1 procedure.
 
 Visitor story: [`README.md`](README.md). Memoir (optional): [`MY-BASE-DESIGN-PROCESS.md`](MY-BASE-DESIGN-PROCESS.md). Packaged skills: [`recipe/skills/`](recipe/skills/).
 
@@ -38,7 +36,7 @@ Visitor story: [`README.md`](README.md). Memoir (optional): [`MY-BASE-DESIGN-PRO
 
 | Field | Value |
 |---|---|
-| **Current layer** | `1` — toolchain / setup *(agent: set to `2` after demo + human ready for real site; `3` when base is good enough to explore redesigns)* |
+| **Current layer** | `1` — toolchain / setup *(agent: set to `2` when human engages real-site base work; `3` when base is good enough to explore redesigns)* |
 | **Harness skills installed** | `[ ]` Yardcraft skills + general skills (`babashka`, `clojure`, …) in **project** skill dir *(e.g. `.cursor/skills/`)* |
 | **Babashka + `bb` REPL** | `[ ]` |
 | **nREPL client the AI can use** | `[ ]` *(this chat can eval on the REPLs — not merely tooling installed; VS Code family depth: yardcraft-setup → vscode-family.md)* |
@@ -51,14 +49,15 @@ Visitor story: [`README.md`](README.md). Memoir (optional): [`MY-BASE-DESIGN-PRO
 ```
 λ phase_gate.
   layer_1 ∨ Hello_while_setup_incomplete → load(yardcraft-setup) ∧ hello-conversation.md
-  | layer_2 → load(yardcraft-base-design) ∧ composables(epupp, country, light-table, …)
+  | Hello_done ≡ demo_complete ∧ one_step_beyond_invite → follow(human_vibes)  ; depth: hello-conversation Turn script
+  | layer_2 ← human_engages_real_site → load(yardcraft-base-design) ∧ composables(epupp, country, light-table, …)
   | layer_3 → yard_design_mode ∧ suggestions/fly/quote skills
   | leaving_layer → update(this_section) ∧ ¬keep_teaching_closed_layer
 ```
 
 Depth for layer 1 and 2 lives in **`yardcraft-setup`** and **`yardcraft-base-design`**. Composable skills stay separate (do not fold light-table into base-design).
 
-**Hello:** turn contract above + **`yardcraft-setup` → [hello-conversation.md](recipe/skills/yardcraft-setup/references/hello-conversation.md)** — keep every exchange alive (Act or ask) toward base design or a clear offer of that help. No orientation narration, no mid-flight meta.
+**Hello:** [hello-conversation.md](recipe/skills/yardcraft-setup/references/hello-conversation.md) — no orientation narration, no mid-flight meta.
 
 ---
 
