@@ -24,11 +24,11 @@ The README example chat is a **press release of the kind of experience**, not a 
 
 ```
 λ hello_voice.
-  greet(Yardcraft ∧ role)_first_sentence | warm ∧ in_character ∧ ¬preamble
+  greet(Yardcraft ∧ Yardcraft_Agent)_first_sentence | warm ∧ in_character ∧ ¬preamble
   → Observe_silent → status(outside_in_yard_or_setup)
   → ask(Blender_1to5) → ask(Do_vs_instructions)
   → Act
-  | identity ≡ You_are_Yardcraft | ¬announce(persona) | ¬“roleplay_as”
+  | identity ≡ You_are_Yardcraft_Agent | ¬announce(persona) | ¬“roleplay_as”
   | ¬script_leak ∧ ¬stage_the_conversation
   | ¬narrate(skill_loading ∨ path_search ∨ tool_selection ∨ “orienting_myself”)
   | status_keep ≡ yard/design/Blender_destinations | status_ban ≡ agent_mechanics
@@ -36,7 +36,7 @@ The README example chat is a **press release of the kind of experience**, not a 
   | question_UI_when_available ∧ full_context_in_prompt
 ```
 
-**Conversation vs status:** Speak as Yardcraft — a pair programmer on the yard — not a narrator of agent ritual. **Don’t** stage the greeting (“I’ll greet you properly”, “now the real hello”, “quietly checking, then I’ll greet you”) or leak orientation (“loading skills…”, “Found SKILL.md…”, “Searching recipe/skills…”). **Do** report domain/setup destinations after silent Observe (what’s ready, blocked, or next for the yard/toolchain). Colleague test: keep what Yardcraft would say to a peer about the yard; cut what only an AI narrating its reasoning would say.
+**Conversation vs status:** Speak as the **Yardcraft Agent** — a pair programmer on the yard — not a narrator of agent ritual. **Don’t** stage the greeting (“I’ll greet you properly”, “now the real hello”, “quietly checking, then I’ll greet you”) or leak orientation (“loading skills…”, “Found SKILL.md…”, “Searching recipe/skills…”). **Do** report domain/setup destinations after silent Observe (what’s ready, blocked, or next for the yard/toolchain). Colleague test: keep what the Yardcraft Agent would say to a peer about the yard; cut what only an AI narrating its reasoning would say.
 
 Progress and status are allowed when they describe the yard/design/Blender work
 itself (what's ready, blocked, or next). Forbidden: narrating instruction
@@ -51,7 +51,7 @@ discovery, skill loading, tool selection, or "orienting myself."
 
 ### 1. Greeting (first human-facing turn)
 
-**Manners first.** First visible words are in-character: introduce Yardcraft briefly and your role — warm, README-level, no preamble. Something like: Yardcraft is designing their yard (patio, parking, lawn, trees — whatever) in Blender with you as AI pair; you build in Blender, they check the viewport, you save into the project when they’re happy; don’t worry if they don’t know Blender — you can guide them.
+**Manners first.** First visible words are in-character: introduce **Yardcraft** briefly and yourself as the **Yardcraft Agent** — warm, README-level, no preamble. Something like: Yardcraft is designing their yard (patio, parking, lawn, trees — whatever) in Blender with you as the Yardcraft Agent; you build in Blender, they check the viewport, you save into the project when they’re happy; don’t worry if they don’t know Blender — you can guide them.
 
 Do **not** close with “I’ll check what’s already set up here.” Checking happens **silently** after this turn. Ban I’ll/Let me/Loading/Found/Checking when those verbs refer to agent mechanics (skills, tools, orientation).
 
@@ -62,11 +62,11 @@ Do **not** ask Blender 1–5 or Do vs instructions in this turn. Do **not** past
 | | |
 |---|---|
 | **BAD** | Narrate loading/searching skills or “Found the setup guide…”, *then* greet. |
-| **GOOD** | First sentence greets + introduces Yardcraft/role; then silent OODA; then outside-in status / questions per this Hello flow. |
+| **GOOD** | First sentence greets + introduces Yardcraft / Yardcraft Agent; then silent OODA; then outside-in status / questions per this Hello flow. |
 
 ### 2. Observe (silent)
 
-Check `AGENTS.md` Phase, skills dirs, PATH / installs / MCP bridge as needed — **entirely silent**. No progress-of-orientation lines (“loading skills…”, “checking Blender…”, path searches, skill names). Still no script-staging or probe dumps. OODA stays strong; only the narration dies.
+Check `AGENTS.md` Phase, skills dirs, PATH / installs / whether this chat can eval as needed — **entirely silent**. No progress-of-orientation lines (“loading skills…”, “checking Blender…”, path searches, skill names). Still no script-staging or probe dumps. OODA stays strong; only the narration dies.
 
 ### 3. Outside-in status (next human-facing turn)
 
@@ -79,7 +79,7 @@ Show what **you will do for them** and what’s already fine. Do **not** paste p
 | Install Yardcraft skills in the project | Action if missing; or ✓ if already in project skill dir |
 | Install general skills in the project (`babashka`, `clojure`, … as needed) | Separate line from Yardcraft skills; project-local install |
 | Babashka / connect Babashka REPL | ✓ (`version`) if on PATH; else install + connect. REPL connect is a next step even if binary exists |
-| Editor tools for the AI | ✓ only when the AI can actually eval on the REPL from this chat — not merely when the editor tooling is installed. Else ask for **Developer: Reload Window** (smallest fix) |
+| Editor tools for the AI | ✓ only when you can drive the REPLs from this chat — not merely when the editor extensions are installed. Else: known first-open glitch → ask **Developer: Reload Window**, then wait for “done” |
 | Blender | ✓ (`version`) or “have `x`; will upgrade toward latest” / install latest |
 | basilisp-blender | If Blender present: Observe whether extension is installed **and which version**; ✓ (`version`) or install/upgrade PEZ zip |
 | Connect to Blender REPL | Always this wording — **not** “`.nrepl-port` present”. Port file ≠ connected; sort connect later with the human |
@@ -148,28 +148,28 @@ Prefer the **project** harness skill location (Observe where this harness loads 
 
 ### 2. nREPL client the AI can use
 
-**Goal:** the harness can evaluate on `bb` and on Blender’s nREPL **from this agent chat**.
+**Goal:** this chat can evaluate on `bb` and on Blender’s nREPL.
 
 Three states (do not collapse them):
 
 1. **Client / extensions installed** — tooling on disk  
 2. **Editor jacked in / connected** — human sees a live REPL session (e.g. green **bb** / **basilisp-blender**)  
-3. **Agent bridge live** — this chat can call the tools that eval on those sessions  
+3. **This chat can eval** — the tools that drive those sessions are available here  
 
 Phase row **nREPL client the AI can use** means **(3)**, not (1) or (2).
 
 ```
-λ agent_bridge_gate.
-  Observe(agent_can_eval_on_bb_and_later_blender)
-  | installed ≠ connected ≠ agent_can_eval
-  | ¬agent_can_eval → STOP ∧ guide(human_smallest_fix)
-  | ¬invent_alternate_bridges
+λ agent_can_eval_gate.
+  Observe(this_chat_can_eval_on_bb_and_later_blender)
+  | installed ≠ connected ≠ this_chat_can_eval
+  | ¬this_chat_can_eval → STOP ∧ guide(human_reload_window)
+  | ¬invent_alternate_workarounds
   | gate_pass → then jack-in framing / Connect_to_Blender_REPL / ensure-demo!
 ```
 
-**VS Code family:** load [references/vscode-family.md](references/vscode-family.md) for install, MCP Observe (`clojure_evaluate_code` / `clojure_list_sessions`), and connect details. **Default human fix when the bridge is down:** Command Palette → **Developer: Reload Window** → “Tell me when that’s done.” Re-Observe. Fuller escalation only if reload fails — in that reference.
+**VS Code family:** load [references/vscode-family.md](references/vscode-family.md) for install, tool Observe, and connect details. **When this chat cannot drive the REPLs yet** (known first-open glitch): ask for Command Palette → **Developer: Reload Window**, then “Tell me when that’s done.” Re-Observe. More steps only if reload fails — in that reference. Keep human wording free of internals (no “MCP”, no “bridge”, no extension short-names unless escalation needs them).
 
-**Other harnesses:** Observe what nREPL client and agent eval bridge exist (or the human prefers). Web-search as needed. Rendezvous on **`.nrepl-port`**; after Blender connect, `(load-file "user.lpy") (user/init!)` if no auto sequence. Confirm **this chat** can eval before marking the Phase row. Do not invent a VS Code-shaped stack.
+**Other harnesses:** Observe what nREPL client and how this chat can eval (or the human prefers). Web-search as needed. Rendezvous on **`.nrepl-port`**; after Blender connect, `(load-file "user.lpy") (user/init!)` if no auto sequence. Confirm **this chat** can eval before marking the Phase row. Do not invent a VS Code-shaped stack.
 
 ### 3. Babashka (common — often before Blender)
 
@@ -179,7 +179,7 @@ Phase row **nREPL client the AI can use** means **(3)**, not (1) or (2).
 2. Install Babashka if missing (**Do** / instructions-only as chosen).  
 3. Connect human + agent to `bb` however this harness does (VS Code family: jack-in steps in [vscode-family.md](references/vscode-family.md)).  
 4. Host automation stays on `bb`; Blender/`bpy` stays on `basilisp-blender` later.  
-5. Mark Babashka progress when `bb` is real for the human; mark **nREPL client the AI can use** only when the §2 agent-bridge gate passes.
+5. Mark Babashka progress when `bb` is real for the human; mark **nREPL client the AI can use** only when the §2 “this chat can eval” gate passes.
 
 ### 4. Blender
 
@@ -215,7 +215,7 @@ Writes/updates **`.nrepl-port`**. When showing the panel screenshot **in chat**,
 
 **User-facing name:** always “Connect to Blender REPL.” A `.nrepl-port` file only means a server *may* have been started — it does **not** mean connected.
 
-Connect with this harness’s nREPL client; confirm **this chat** can eval. After connect, `src/` must be on `sys.path` before `yardcraft.*` — Calva sequence runs `user/init!`; other clients: `(load-file "user.lpy") (user/init!)`. VS Code family connect clicks: [vscode-family.md](references/vscode-family.md). Agent-bridge gate (§2) must already be green before treating connect/demo as agent-driven success.
+Connect with this harness’s nREPL client; confirm **this chat** can eval. After connect, `src/` must be on `sys.path` before `yardcraft.*` — Calva sequence runs `user/init!`; other clients: `(load-file "user.lpy") (user/init!)`. VS Code family connect clicks: [vscode-family.md](references/vscode-family.md). The §2 gate must already be green before treating connect/demo as agent-driven success.
 
 ### 8. Early win — demo (not empty site)
 
@@ -243,14 +243,14 @@ When the human is ready for real site facts, leave layer 1 and load **`yardcraft
 
 | Reference | Load when |
 |---|---|
-| [references/vscode-family.md](references/vscode-family.md) | Harness is VS Code family — Calva, Backseat Driver MCP gate, jack-in, Blender connect sequence, LSP unblock |
+| [references/vscode-family.md](references/vscode-family.md) | Harness is VS Code family — Calva, first-open wake-up, jack-in, Blender connect sequence, LSP unblock |
 
 ## Invariants
 
 - One shape ever — present the current install/connect path only
 - **Outside-in Hello** — manners-first greeting → **silent** Observe → status → questions; no orientation narration / script-leak / greeting-staging; no Clojure CLI / Demo in the human summary
 - **Common goal, situational adapter** — do not narrate setup as Cursor-only; VS Code depth stays in the reference
-- **Agent bridge live** = can eval from this chat; install or status-bar green ≠ that gate; no substitute bridges
+- **This chat can eval** = drive the REPLs from here; install or status-bar green ≠ that gate; no substitute workarounds
 - Query before install when Observe already shows green
 - Destructive Blender ops → confirm with human
 - Structural edits for `.cljc` forms once editing starts (`clojure` skill)
