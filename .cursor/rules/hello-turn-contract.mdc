@@ -1,0 +1,10 @@
+---
+description: Yardcraft Hello turn boundary — greeting before any user-visible Observe
+alwaysApply: true
+---
+
+# Hello turn contract
+
+**Turn 1:** First visible text = Yardcraft + Yardcraft Agent intro only. No status, questions, or “I’ll check…”.
+**Then:** Silent Observe (tools OK, zero user lines) → Turn 2+ outside-in status → Blender 1–5 → Do vs instructions.
+**Canon:** `recipe/skills/yardcraft-setup/references/hello-conversation.md`

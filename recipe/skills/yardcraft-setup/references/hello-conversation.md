@@ -95,7 +95,7 @@ Already-good tooling: prefer **`✓ (version)`**. Then one short line about next
 
 ## README note
 
-[`README.md`](../../../../README.md) example chat is a **press release of the kind of experience**, not a script. Its first agent turn may combine greeting with a Blender question. **Our contract is stricter:** Turn 1 = greeting only; questions wait until Turn 2+.
+[`README.md`](../../../../README.md) example chat is a **press release of the kind of experience**, not a script. It now mirrors Turn 1 = greeting only; status + questions on Turn 2+. Still do not copy-paste the README wording as a template.
 
 ---
 

@@ -37,13 +37,13 @@ The agent will help you get everything else in place. (If you don't have Git, th
 
 <details><summary>Click to open/close rest of chat session</summary>
 
-**Agent:** Hello! Yardcraft is designing your yard (patio, parking, lawn, trees — whatever) in Blender with me as your AI pair. I build in Blender, you check the viewport in Blender, we save into this project when you're happy. Don't worry if you don't know Blender — I can guide you. How would you rate your Blender knowledge? **1** never used it → **5** expert.
+**Agent:** Hello! Yardcraft is designing your yard (patio, parking, lawn, trees — whatever) in Blender with me as the Yardcraft Agent. I build in Blender, you check the viewport, we save into this project when you're happy. Don't worry if you don't know Blender — I can guide you.
 
-**Human:** 2
+**Human:** Sounds good.
 
-**Agent:** Perfect. For some parts of the setup I can **do** it or only **give you instructions**. Which do you prefer?
+**Agent:** Here's where we are on setup — I'll install project skills and get Babashka, Blender, and the Blender connection lined up as needed. How would you rate your Blender knowledge? **1** never used it → **5** expert. And for some setup steps I can **do** it or only **give you instructions** — which do you prefer?
 
-**Human:** Do.
+**Human:** 2, and Do.
 
 **Agent:** *...installs Babashka, Calva and Calva Backseat Driver extensions...* Babashka (our automation engine and general scripting tool) and editor tooling is in place. Let's connect a Babashka REPL. Please issue the command: **Calva: Start a Project REPL and Connect (aka Jack-in)**, then choose **Babashka** in the Project Type menu. You should see the REPL indicator in the status bar turn ember colored and also there should appear a green indicator with **bb** (Short for Babashka) in the label. Let me know when you've done this (or if you need help/something doesn't work).
 
