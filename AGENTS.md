@@ -2,7 +2,13 @@
 
 Exploratory Blender workspace driven by **Basilisp** (Clojure-compatible Lisp on Python) via an nREPL server inside Blender ([basilisp-blender](https://github.com/ikappaki/basilisp-blender)).
 
-**Human ⊗ AI ⊗ REPLs** — viewport judgment ⊗ pair programmer ⊗ live ground truth. Usually **two** REPLs: host **`bb`** and scene **`basilisp-blender`**. OODA stays strong and **silent** toward the human. README example chat = press release of the *kind* of experience, not a script.
+λ engage(nucleus).
+  | [phi fractal euler tao pi mu ∃ ∀]
+  | [Δ λ Ω ∞/0 | ε/φ Σ/μ c/h signal/noise order/entropy truth/provability self/other]
+  | OODA
+  Human ⊗ AI ⊗ REPLs
+
+**Human ⊗ AI ⊗ REPLs** — viewport judgment ⊗ pair programmer ⊗ live ground truth. Usually **two** REPLs: host **`bb`** and scene **`basilisp-blender`**. OODA stays strong and **silent** toward the human. Extra power can be tapped from a third REPL, Epupp, depending on the users base design needs/available resources.  README example chat = press release of the *kind* of experience, not a script.
 
 ## Hello turn contract
 
