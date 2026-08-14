@@ -79,7 +79,7 @@ Prefer the **project** harness skill location (Observe where this harness loads 
 Three states (do not collapse them):
 
 1. **Client / extensions installed** — tooling on disk  
-2. **Editor jacked in / connected** — human has a live REPL session (status bar often green **bb**; after Blender connect the badge may stay **bb** while **`basilisp-blender`** shows in the sessions menu — see [vscode-family.md](references/vscode-family.md))  
+2. **Editor jacked in / connected** — human sees a live REPL session (e.g. green **bb** / **basilisp-blender**)  
 3. **This chat can eval** — the tools that drive those sessions are available here  
 
 Phase row **nREPL client the AI can use** means **(3)**, not (1) or (2).
@@ -160,10 +160,10 @@ Success for layer 1 is the **welcome demo** (letters, furniture, sundial, orbit 
 
 Load **`yardcraft-design-suggestions`**. On the **demo** scene (not empty `site`), verify Show/Base:
 
-1. **Ask openly** for a redesign to try — README shape: *Suggest some redesign we can test it with, please. If you suggest something simple, like move something, or add a stair, that is pretty quick.* Soft examples in the ask are fine (so they can pick one); do **not** turn it into a structured/choice question that pre-selects “Brick A-stairs” or any other canned idea. Wait for **their** answer.
-2. From that answer, session-register a suggestion with **`:suggestion/domains #{:demo}`** and a patch that implements what they asked. Demo `:demo/…` builder hooks (e.g. `:demo/a-back-stair?`, `:demo/pedestal-xy`) are **agent footing only** — use them when they fit; they must **not** appear in the N-panel until you `register-suggestion!` after the human’s ask. Do **not** use `:terrace`/`:furniture` domains on the demo.
-3. `(ui/register!)` so the enum lists **their** suggestion; ask them to select it → **Show**, then **Base**.
-4. After they confirm it works, persist EDN under `src/yardcraft/suggestions/` when they want it kept (depth in the suggestions skill). Template ships no pre-baked suggestion EDN.
+1. Ask the human for a **simple** redesign to try (README shape: e.g. stair from the brick near A + move sundial/pedestal).
+2. Session-register a suggestion with **`:suggestion/domains #{:demo}`** and a `:demo/…` patch (e.g. `:demo/a-back-stair? true`, `:demo/pedestal-xy […]`). Do **not** use `:terrace`/`:furniture` domains on the demo — those rebuild the real site.
+3. `(ui/register!)` so the enum lists it; ask them to select it → **Show**, then **Base**.
+4. After they confirm it works, persist EDN under `src/yardcraft/suggestions/` (and keep the session entry or unregister — depth in the suggestions skill).
 
 Mark progress: demo shown. Then continue.
 

@@ -27,7 +27,7 @@ Confirm with `--list-extensions`. Repo ships `.vscode/settings.json` with the **
 Three states (same as main skill) — Phase **nREPL client the AI can use** is **(3)**:
 
 1. Extensions installed  
-2. Calva jacked in / connected (status bar often green **bb**; Blender session may only show under the sessions menu — see Connect below)  
+2. Calva jacked in / connected (green **bb** / **basilisp-blender**)  
 3. This chat can call Backseat Driver eval tools (`clojure_evaluate_code` / `clojure_list_sessions`)  
 
 ```
@@ -85,7 +85,7 @@ Workspace ships `"calva.enableClojureLspOnStart": "never"` in `.vscode/settings.
 
 1. **Calva: Connect to a running REPL server in the project**  
 2. Sequence: **`basilisp-blender`** (not generic `basilisp` alone)  
-3. **Status bar:** the indicator may stay on **bb**. That is normal after a second connect. Confirm by clicking the indicator — **`basilisp-blender`** should appear in the sessions menu. Do **not** tell the human to wait for a green **`basilisp-blender`** badge, and do **not** treat “still says bb” as a failed connect.  
+3. Expect green **`basilisp-blender`**  
 4. `user/init!` via connect sequence — re-run only after Blender restart / blown `sys.path`  
 
-Tools gate must already be green before treating connect/demo as agent-driven success. Real proof of Blender connect is this chat can eval on the **`basilisp-blender`** session (and the human can open the sessions menu), not the badge color alone.
+Tools gate must already be green before treating connect/demo as agent-driven success.

@@ -130,20 +130,22 @@ Packaged skills live under `recipe/skills/` until copied into the harness (layer
 ```
 λ yardcraft_agent.
   OODA → Human ⊗ AI ⊗ REPLs
-  | REPL_explore → visible_in_Blender → ask_human_feedback → promote_when_happy
+  | REPL_explore → visible_in_Blender → agent_render_check → inspect_image → correct_obvious_mismatches → ask_human_feedback → promote_when_happy
   | partial_ensure-*! → sync-site-hierarchy!(site)
   | scene_state ≡ unknown_until_queried
   | destructive_ops → confirm_with_human
   | host_scripting → bb_REPL (¬bash/python one-offs)
   | .cljc_form_edits → structural_editing
   | connect → scene_REPL ∧ user/init!_(sequence ∨ manual)
+  | execution_success ≠ visual_correctness
 ```
 
 ### REPL → Blender check → promote
 
 1. **Make it happen in the REPL** — small helpers, session Vars, `(comment …)`, existing `ensure-*!` / `show!` paths.
-2. **Ask for feedback** — human looks in the viewport; don’t assume return values look good.
-3. **Commit to files when happy** — facts → `site-data`, builders → `site-*`, orchestration → `site`, suggestion EDN, fly specs, etc.
+2. **Inspect it yourself** — before handing off design work, use the connected scene REPL to render a temporary PNG and read the actual image. Compare visible identity, direction, adjacency, orientation, and placement against the request; correct obvious mismatches.
+3. **Ask for feedback** — human looks in the viewport after the agent self-check; screenshots complement rather than replace human judgment.
+4. **Commit to files when happy** — facts → `site-data`, builders → `site-*`, orchestration → `site`, suggestion EDN, fly specs, etc.
 
 Throwaway work: REPL or [`src/yardcraft/scratch.cljc`](src/yardcraft/scratch.cljc). Root [`scratch.lpy`](scratch.lpy) is basilisp-blender’s playground marker.
 
@@ -159,6 +161,7 @@ Throwaway work: REPL or [`src/yardcraft/scratch.cljc`](src/yardcraft/scratch.clj
 8. **Suggestions Show/Base** need a real base — not the empty demo / empty template.
 9. **Set time / loungers** on a real site need lat/lon; demo ships geo for that delight.
 10. Prefer `(.-ops bpy)` / `(.-context bpy)` over `bpy.ops/…` (clj-kondo).
+11. **Visual handoff gate:** query before rendering; for comparisons use matched camera/frame/render settings (targeted temporary views beat an uninformative orbit); save only temporary PNGs such as under `/tmp`; restore camera, render, and active design state in `finally`; inspect the images and REPL errors before handoff. Depth: **`basilisp-blender`** skill.
 
 ---
 

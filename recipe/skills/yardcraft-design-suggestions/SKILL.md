@@ -39,13 +39,7 @@ After connect: confirm `user/init!` added `src/` to `sys.path` before requiring 
 
 ## Demo Hello smoke (`:demo` domain)
 
-When verifying suggestions during **layer-1 demo** (README beat), use domain **`#{:demo}`**. Show/Base rebuilds demo overlays — not the real terrace.
-
-**Ask like the README example chat:** open question, with soft examples in the same breath (*move something, or add a stair…*) so they can choose one of those or invent their own. Do **not** use a structured/choice question that pre-picks a canned suggestion. Do **not** `register-suggestion!` (or otherwise put anything in the N-panel list) until they have answered.
-
-**`:demo/…` hooks** (e.g. `:demo/a-back-stair?`, `:demo/pedestal-xy`) are optional **builder footing** for the agent after the ask — not UI entries and not a pre-baked smoke suggestion. Only a registered suggestion from their words belongs in the dropdown.
-
-Shape (fill id/title/patch from **their** request):
+When verifying suggestions during **layer-1 demo** (README), use domain **`#{:demo}`** and patch keys under `:demo/…` only (e.g. `:demo/a-back-stair?`, `:demo/pedestal-xy`). Show/Base then rebuild demo overlays (stairs / pedestal / sundial) — not the real terrace.
 
 ```clojure
 (require '[yardcraft.site-demo :as demo])
@@ -53,23 +47,20 @@ Shape (fill id/title/patch from **their** request):
 (require '[yardcraft.site-ui :as ui])
 
 (sug/register-suggestion!
- {:suggestion/id    :their-idea          ; from their words
-  :suggestion/title "Their idea"
-  :suggestion/note  "Demo Hello smoke — session only."
+ {:suggestion/id :brick-a-stairs
+  :suggestion/title "Brick A-stairs"
+  :suggestion/note "Demo Hello smoke — A-back stair + pedestal moved."
   :suggestion/domains #{:demo}
-  :suggestion/patch {;; implement their ask; hooks only if they fit, e.g.
-                     ;; :demo/a-back-stair? true
-                     ;; :demo/pedestal-xy [x y]
-                     }})
+  :suggestion/patch {:demo/a-back-stair? true
+                     :demo/pedestal-xy [0.0 -5.5]}})
 (ui/register!)
-;; Human: N-panel → select their title → Show / Base
-(sug/show! (demo/demo-facts) :their-idea)
+;; Human: N-panel → select "Brick A-stairs (session)" → Show / Base
+;; Optional agent check:
+(sug/show! (demo/demo-facts) :brick-a-stairs)
 (sug/show-base! (demo/demo-facts))
 ```
 
-If their ask needs geometry the hooks don’t cover, extend in the REPL first, then register — same loop as real suggestions.
-
-Do **not** use `#{:terrace}` / `#{:furniture}` against the welcome demo. The template ships **no** suggestion EDN under `src/yardcraft/suggestions/` on purpose.
+Do **not** use `#{:terrace}` / `#{:furniture}` against the welcome demo — those domains rebuild survey terrace/furniture.
 
 ## Primary authoring process
 

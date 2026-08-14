@@ -58,17 +58,35 @@ Light-table / sketch overlay: load **`yardcraft-light-table`**.
 
 ```
 λ blender_agent.
-  query_scene → small_fn → eval → ask_human(Blender_viewport) → promote_files_when_happy
+  query_scene → small_fn → eval → render_check → inspect_image → ask_human(Blender_viewport) → promote_files_when_happy
   | clear/delete/overwrite → human_confirm
   | prefer(named_fns ∧ comment_blocks ∧ session_Vars) > edit_source_first
-  | REPL_return ≠ viewport_looks_good
+  | execution_success ≠ visual_correctness
 ```
 
 1. **Orient:** `(import bpy)` then list relevant objects/collections/materials.
 2. **Make it happen in the REPL:** small helpers / `(comment …)` / existing `ensure-*!` paths so the change is visible in Blender — prefer that over editing source first.
-3. **Ask for feedback:** stop and ask the human to check the Blender viewport. Do not assume the viewport looks good from REPL return values alone.
-4. **Promote to files only when the human is happy** — durable facts/builders/specs into source; until then keep the experiment in the REPL / session.
-5. **Units & coordinates:** Blender units; don’t invent real-world patio measurements — ask.
+3. **Self-check visually:** render a temporary PNG through the scene REPL, read the actual image, and correct obvious mismatches before handoff.
+4. **Ask for feedback:** stop and ask the human to check the Blender viewport. Agent screenshots complement rather than replace human judgment.
+5. **Promote to files only when the human is happy** — durable facts/builders/specs into source; until then keep the experiment in the REPL / session.
+6. **Units & coordinates:** Blender units; don’t invent real-world patio measurements — ask.
+
+### Safe visual self-check
+
+```
+λ render_check.
+  query_scene → snapshot_temporary_state → try(render_to_/tmp ∧ inspect_actual_images)
+  | finally(restore_camera ∧ restore_render ∧ restore_active_design_state)
+  | compare_same(camera ∧ frame ∧ render_settings) for(suggestion ∧ base)
+  | inspect_REPL_errors_after(side_effects)
+  | human_viewport_judgment remains_required
+```
+
+1. Query the scene and active suggestion/base state before mutation. Snapshot the scene camera, camera location/rotation/lens, render filepath/resolution/percentage/file format, frame, and active design state. Copy mutable vectors rather than retaining live references.
+2. In a `try` / `finally`, set a temporary filepath such as `/tmp/yardcraft-visual-check.png`, render with `(.render (.-render (.-ops bpy)) ** :write_still true)`, then read the PNG by its absolute filesystem path. Never save the `.blend` or replace a durable render output for this check.
+3. For comparisons, render suggestion and base from the same frame, camera transform/lens, resolution, and format; change only the design state. A temporary targeted camera aimed at the relevant geometry is often more informative than the orbit camera.
+4. Inspect what is actually visible against the spatial request: identity/label, direction, adjacency, orientation, and placement. Object existence, coordinates, successful returns, and error-free evaluation prove execution—not visual intent.
+5. Restore every snapshot in `finally`, including the prior active suggestion/base. After rendering and restoration, inspect REPL error output before reporting success or asking the human to judge the viewport.
 
 ## bpy interop cheatsheet
 
