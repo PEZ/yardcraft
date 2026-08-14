@@ -63,7 +63,7 @@ Visitor story: [`README.md`](README.md). Base-design memoir (optional): [`MY-BAS
 | **Current layer** | `1` — toolchain / setup *(agent: set to `2` after demo + human ready for real site; `3` when base is good enough to explore redesigns)* |
 | **Harness skills installed** | `[ ]` Yardcraft skills + general skills (`babashka`, `clojure`, …) in **project** skill dir *(e.g. `.cursor/skills/`)* |
 | **Babashka + `bb` REPL** | `[ ]` |
-| **nREPL client the AI can use** | `[ ]` *(VS Code family: Calva + Calva Backseat Driver — means agent MCP eval tools live, not merely extensions installed; see yardcraft-setup)* |
+| **nREPL client the AI can use** | `[ ]` *(agent can eval from this chat — not merely tooling installed; VS Code family depth: yardcraft-setup → vscode-family.md)* |
 | **Blender** | `[ ]` *(version; upgrade if needed)* |
 | **basilisp-blender** | `[ ]` *(installed version vs PEZ zip)* |
 | **Connect to Blender REPL** | `[ ]` *(.nrepl-port ≠ connected)* |
@@ -97,7 +97,7 @@ Explore yard / patio / parking options in Blender for **your** site.
 
 ## Harness and connect
 
-**Adapter:** VS Code family (Cursor, VS Code + Copilot, other forks) → **Calva** + **Calva Backseat Driver** (agent bridge = MCP eval tools in this chat — gate in **`yardcraft-setup`**); no alternate Clojure clients on VS Code. Anything else (e.g. Emacs): same goal — Observe, web-search, adapt; do not enumerate editor combos. Install workflow (skills, `bb`, Blender, PEZ zip, nREPL panel, demo, do vs instructions-only): **`yardcraft-setup`**.
+**Adapter:** same common goal on every harness (`bb` + blender nREPL + agent can eval). **VS Code family** depth (Calva + Calva Backseat Driver, MCP gate, jack-in): **`yardcraft-setup` → [references/vscode-family.md](recipe/skills/yardcraft-setup/references/vscode-family.md)**. Anything else: Observe, web-search, adapt — do not enumerate editor combos. Common install workflow: **`yardcraft-setup`**.
 
 **Connect (any layer):** VS Code family: Calva → *Connect to a running REPL server in the project* → sequence **`basilisp-blender`** (not generic `basilisp` alone). The sequence runs `(user/init!)`; re-run only after Blender restart or a blown `sys.path`. Other clients: **`.nrepl-port`**, then `(load-file "user.lpy") (user/init!)`. A `.nrepl-port` file ≠ connected. Depth: **`basilisp-blender`** skill.
 
