@@ -147,10 +147,6 @@ at the REPL (from [site.cljc](src/yardcraft/site.cljc)). In practice this is a b
 
 The quote plan is a top-down view of the design, with lengths, areas, and angles included, and materials hinted at. It's meant so that you can ask a contractor for a quote. If you're planning to do the work yourself, you can use it to source quotes and such. Probably you can ask the AI to create a calculator, even.
 
-## basilisp-render forked
-
-This project relies on [my fork of basilisp-render](https://github.com/PEZ/basilisp-blender). Because the latest release of basilisp-render bundles a version of Basilisp which has [an issue with dynamically requiring namespaces](https://github.com/basilisp-lang/basilisp/issues/1302). The workarounds are pretty clunky so I choose to bundle a version without that issue (Basilisp 0.5.1, latest at the time of this writing). I filed [a PR on basilisp-render](https://github.com/ikappaki/basilisp-blender/pull/14) with the bumping. You find a zip with the patched version here: (https://github.com/PEZ/basilisp-blender/releases/tag/v0.5.0-basilisp-0.5.1).
-
 ## Where to take it?
 
 As should be obvious, this is totally open ended. A first thing some people may want to extend with is some way to juggle different properties in the same project. Others may want to use the general process to design complete other things, like PCBs, or whatever.
@@ -188,3 +184,7 @@ As more people use this recipe we should be able to improve the skills and instr
 > **Grok**: The by far best designer of the ones I tested. Totally fails at being a setup guide. It starts: *I'll start by loading the Yardcraft hello path so the first thing you see is the real welcome, not a status dump.*, then explores for a while and continues: *Greeting first, then I'll quietly see what's already in place so the next thing you get is a clear picture and two questions.*  I am probably holding it wrong.
 >
 > I suggest you use GPT 5.2 Sol for the **Hello** guide until you have a demo design running in Blender. Then switch to Grok.
+
+## basilisp-render forked
+
+This project relies on [my fork of basilisp-render](https://github.com/PEZ/basilisp-blender). Because the latest release of basilisp-render bundles a version of Basilisp which has [an issue with dynamically requiring namespaces](https://github.com/basilisp-lang/basilisp/issues/1302). The workarounds are pretty clunky so I choose to bundle a version without that issue (Basilisp 0.5.1, latest at the time of this writing). I filed [a PR on basilisp-render](https://github.com/ikappaki/basilisp-blender/pull/14) with the bumping. You find a zip with the patched version here: (https://github.com/PEZ/basilisp-blender/releases/tag/v0.5.0-basilisp-0.5.1).
