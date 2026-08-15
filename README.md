@@ -10,7 +10,7 @@ YouTube: [Yardcraft: Redesigning my terrace w/ Calva + Blender + Basilisp + Grok
 
 ## How it works
 
-Blender is driven live by you and the AI agent using [Basilisp](https://github.com/basilisp-lang/basilisp) (Clojure on Python) over [nREPL](https://nrepl.org) in [basilisp-blender](https://github.com/ikappaki/basilisp-blender). 
+Blender is driven live by you and the AI agent using [Basilisp](https://github.com/basilisp-lang/basilisp) (Clojure on Python) over [nREPL](https://nrepl.org) in [basilisp-blender](https://github.com/ikappaki/basilisp-blender) ([my fork of it](#basilisp-render-forked)). 
 
 This recipe is provided to you as this project, and you then use your AI Agent as your guide and doer to set things up. Once you have things set up, you enter genie mode and can throw your ideas at the agent which carries them out and maintains the project for you. True **vibe designing**.
 
@@ -146,6 +146,10 @@ In theory you should be able to generate a “quote plan” from any design and 
 at the REPL (from [site.cljc](src/yardcraft/site.cljc)). In practice this is a bit quirky, but the AI can handle it so if you have the patience ask it to generate the plan for you instead. (Or ask it to fix so that quote-plans can be generated more reliably from the active suggestion.)
 
 The quote plan is a top-down view of the design, with lengths, areas, and angles included, and materials hinted at. It's meant so that you can ask a contractor for a quote. If you're planning to do the work yourself, you can use it to source quotes and such. Probably you can ask the AI to create a calculator, even.
+
+## basilisp-render forked
+
+This project relies on [my fork of basilisp-render](https://github.com/PEZ/basilisp-blender). Because the latest release of basilisp-render bundles a version of Basilisp which has [an issue with dynamically requiring namespaces](https://github.com/basilisp-lang/basilisp/issues/1302). The workarounds are pretty clunky so I choose to bundle a version without that issue (Basilisp 0.5.1, latest at the time of this writing). I filed [a PR on basilisp-render](https://github.com/ikappaki/basilisp-blender/pull/14) with the bumping. You find a zip with the patched version here: (https://github.com/PEZ/basilisp-blender/releases/tag/v0.5.0-basilisp-0.5.1).
 
 ## Where to take it?
 
