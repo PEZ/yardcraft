@@ -14,10 +14,7 @@ cursor --list-extensions
 cursor --install-extension betterthantomorrow.calva
 cursor --install-extension betterthantomorrow.calva-backseat-driver
 
-# VS Code (same extensions)
-code --list-extensions
-code --install-extension betterthantomorrow.calva
-code --install-extension betterthantomorrow.calva-backseat-driver
+# VS Code (same extensions), same commands, `code` or `code-insiders` as appropriate
 ```
 
 Confirm with `--list-extensions`. Repo ships `.vscode/settings.json` with the **`basilisp-blender`** connect sequence.
