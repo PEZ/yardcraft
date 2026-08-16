@@ -2,6 +2,7 @@
   "Welcome demo: YARDCRAFT patio letters, brick CRAFT deck, lawn furniture, sundial, orbit fly.
 
   `demo-stage-*!` for Hello dramaturgy (separate REPL evals); `(ensure-demo!)` one-shot convenience.
+  Stage order: sun, terrain, yard, brick, craft, stairs, furniture, sundial, ui, fly.
   Objects: site-demo-*, site-furniture-*, site-sundial-*, site-fly-*.
   Does not require yardcraft.site-ui at ns level (avoid cycles)."
   (:require [basilisp.string :as string]
@@ -539,83 +540,111 @@
   (require 'yardcraft.site-ui)
   ((ns-resolve 'yardcraft.site-ui 'register!)))
 
-(defn demo-stage-clear!
-  "Demo dramaturgy stage 1/6 — clear scene, reset demo facts, site-root. Own REPL eval."
+(defn- reset-demo-scene!
+  "Clear site, reset demo facts/bounds, clear railings, ensure site-root."
   []
   (site/clear-site!)
   (reset-demo-facts!)
+  (reset! demo-terrain-bounds* nil)
   (railing/clear-railings!)
-  (hierarchy/ensure-site-root! (demo-facts))
-  (viewport/redraw!)
-  {:stage :clear})
+  (hierarchy/ensure-site-root! (demo-facts)))
 
-(defn demo-stage-terrain!
-  "Demo dramaturgy stage 2/6 — lawn terrain. Own REPL eval."
-  []
-  (let [terrain (build-terrain!)]
+(defn- reveal-demo!
+  "Paint, sync hierarchy, redraw. Merge appearance into the stage result."
+  [result]
+  (let [appearance (refresh-demo-appearance! (demo-facts))]
     (viewport/redraw!)
-    {:stage :terrain :terrain terrain}))
+    (merge result appearance)))
 
-(defn demo-stage-yard!
-  "Demo dramaturgy stage 3/6 — YARD letter patios. Own REPL eval."
+(defn demo-stage-sun!
+  "Demo dramaturgy stage 1/10 — clear, world, sun at demo date/time, rendered. Own REPL eval."
   []
-  (let [yard (build-yard-patios!)]
-    (viewport/redraw!)
-    {:stage :yard :yard yard}))
-
-(defn demo-stage-craft!
-  "Demo dramaturgy stage 4/6 — brick + CRAFT letters. Own REPL eval."
-  []
-  (let [brick (build-brick!)
-        craft (build-craft-patios!)]
-    (viewport/redraw!)
-    {:stage :craft :brick brick :craft craft}))
-
-(defn demo-stage-overlays!
-  "Demo dramaturgy stage 5/6 — stairs, pedestal, sundial. Own REPL eval."
-  []
-  (let [overlays (ensure-demo-overlays! (demo-facts))]
-    (viewport/redraw!)
-    {:stage :overlays :overlays overlays}))
-
-(defn demo-stage-finish!
-  "Demo dramaturgy stage 6/6 — furniture, sun, paint, hierarchy, fly, Yardcraft panel. Own REPL eval."
-  []
+  (reset-demo-scene!)
   (let [s (demo-facts)
-        furn (furniture/ensure-terrace-furniture! s)
         world-r (sun/ensure-world! s)
         aimed (sun/aim-sun-at-clock s (:sun/time-of-day s))
         s' (:site aimed)
         _ (reset! demo-facts* s')
-        sun-r (sun/ensure-sun! s')
-        painted (paint-demo! s')
-        hierarchy (demo-hier/sync-demo-hierarchy! s')
-        fly (demo-fly/ensure-orbit-fly!)]
+        sun-r (sun/ensure-sun! s')]
     (viewport/hide-relationship-lines!)
     (viewport/show-rendered!)
-    (let [ui-r (register-ui!)
-          panel (viewport/show-n-panel! "Yardcraft")]
-      (viewport/redraw!)
-      {:stage :finish
-       :furniture furn
-       :sun sun-r
-       :world world-r
-       :aim (dissoc aimed :site)
-       :paint painted
-       :hierarchy hierarchy
-       :fly fly
-       :ui ui-r
-       :panel panel})))
+    (frame-demo!)
+    (viewport/redraw!)
+    {:stage :sun
+     :sun sun-r
+     :world world-r
+     :aim (dissoc aimed :site)}))
+
+(defn demo-stage-terrain!
+  "Demo dramaturgy stage 2/10 — lawn terrain. Own REPL eval."
+  []
+  (reveal-demo! {:stage :terrain :terrain (build-terrain!)}))
+
+(defn demo-stage-yard!
+  "Demo dramaturgy stage 3/10 — YARD letter patios. Own REPL eval."
+  []
+  (reveal-demo! {:stage :yard :yard (build-yard-patios!)}))
+
+(defn demo-stage-brick!
+  "Demo dramaturgy stage 4/10 — brick deck. Own REPL eval."
+  []
+  (reveal-demo! {:stage :brick :brick (build-brick!)}))
+
+(defn demo-stage-craft!
+  "Demo dramaturgy stage 5/10 — CRAFT letter patios. Own REPL eval."
+  []
+  (reveal-demo! {:stage :craft :craft (build-craft-patios!)}))
+
+(defn demo-stage-stairs!
+  "Demo dramaturgy stage 6/10 — stairs and railings. Own REPL eval."
+  []
+  (reveal-demo! {:stage :stairs
+                 :stairs (build-stairs-and-railings! (demo-facts))}))
+
+(defn demo-stage-furniture!
+  "Demo dramaturgy stage 7/10 — lawn furniture, loungers aimed at sun. Own REPL eval."
+  []
+  (let [s (demo-facts)
+        furn (furniture/ensure-terrace-furniture! s)]
+    (furniture/orient-loungers-to-sun! s)
+    (reveal-demo! {:stage :furniture :furniture furn})))
+
+(defn demo-stage-sundial!
+  "Demo dramaturgy stage 8/10 — pedestal and sundial. Own REPL eval."
+  []
+  (let [s (demo-facts)
+        pedestal (build-pedestal!)
+        sundial (ensure-demo-sundial! s pedestal)]
+    (reveal-demo! {:stage :sundial :pedestal pedestal :sundial sundial})))
+
+(defn demo-stage-ui!
+  "Demo dramaturgy stage 9/10 — Yardcraft N-panel. Own REPL eval."
+  []
+  (let [ui-r (register-ui!)
+        panel (viewport/show-n-panel! "Yardcraft")]
+    (viewport/redraw!)
+    {:stage :ui :ui ui-r :panel panel}))
+
+(defn demo-stage-fly!
+  "Demo dramaturgy stage 10/10 — orbit fly camera. Own REPL eval."
+  []
+  (let [fly (demo-fly/ensure-orbit-fly!)]
+    (viewport/redraw!)
+    {:stage :fly :fly fly}))
 
 (defn ensure-demo!
   "Convenience: run all demo stages in one eval (no viewport dramaturgy).
 
-  Hello/setup dramaturgy: evaluate `demo-stage-clear!` … `demo-stage-finish!`
+  Hello/setup dramaturgy: evaluate `demo-stage-sun!` … `demo-stage-fly!`
   as **separate** REPL forms so Blender can paint between them."
   []
-  (merge (demo-stage-clear!)
+  (merge (demo-stage-sun!)
          (demo-stage-terrain!)
          (demo-stage-yard!)
+         (demo-stage-brick!)
          (demo-stage-craft!)
-         (demo-stage-overlays!)
-         (demo-stage-finish!)))
+         (demo-stage-stairs!)
+         (demo-stage-furniture!)
+         (demo-stage-sundial!)
+         (demo-stage-ui!)
+         (demo-stage-fly!)))

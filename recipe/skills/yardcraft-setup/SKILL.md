@@ -159,18 +159,22 @@ Connect with this harness’s nREPL client; confirm **this chat** can eval. Afte
 ```clojure
 (require '[yardcraft.site-demo :as demo])
 ;; each line = its own eval — do not wrap in do/let or batch:
-(demo/demo-stage-clear!)     ; 1/6 clear + site-root
-(demo/demo-stage-terrain!)   ; 2/6 lawn
-(demo/demo-stage-yard!)      ; 3/6 YARD
-(demo/demo-stage-craft!)     ; 4/6 brick + CRAFT
-(demo/demo-stage-overlays!)  ; 5/6 stairs, pedestal, sundial
-(demo/demo-stage-finish!)    ; 6/6 furniture, sun, fly, Yardcraft panel
+(demo/demo-stage-sun!)        ; 1/10 world + sun (June 21 06:00) + rendered
+(demo/demo-stage-terrain!)    ; 2/10 lawn
+(demo/demo-stage-yard!)       ; 3/10 YARD
+(demo/demo-stage-brick!)      ; 4/10 brick deck
+(demo/demo-stage-craft!)      ; 5/10 CRAFT
+(demo/demo-stage-stairs!)     ; 6/10 stairs + railings
+(demo/demo-stage-furniture!)  ; 7/10 furniture
+(demo/demo-stage-sundial!)    ; 8/10 pedestal + sundial
+(demo/demo-stage-ui!)         ; 9/10 Yardcraft panel
+(demo/demo-stage-fly!)        ; 10/10 orbit fly
 ```
 
 - Do **not** call `(site/ensure-demo!)` / `(demo/ensure-demo!)` for Hello — that convenience path is atomic (no dramaturgy).
 - Do **not** reimplement stages in one mega-form.
 
-Success for layer 1 is the **welcome demo** after that staged reveal (letters, furniture, sundial, orbit fly **playing**, Yardcraft N-panel **open**). Empty `(ensure-site! …)` is for later real-base — not the Hello win.
+Success for layer 1 is the **welcome demo** after that staged reveal (sun, letters, furniture, sundial, Yardcraft N-panel **open**, orbit fly **playing**). Empty `(ensure-site! …)` is for later real-base — not the Hello win.
 
 **Ask the human what they see** in the Blender viewport (and panel). Point out Set time / lounger delight and Fly cam as demo-safe.
 
@@ -214,5 +218,5 @@ When **they** engage real-site work, leave layer 1, load **`yardcraft-base-desig
 - Query before install when Observe already shows green
 - **basilisp-blender:** Observe installed/version before download; ask quit Blender only if it is running (§5)
 - Destructive Blender ops → confirm with human
-- **Demo dramaturgy:** six separate `demo-stage-*!` REPL evals (§8); not `(ensure-demo!)`
+- **Demo dramaturgy:** ten separate `demo-stage-*!` REPL evals (§8); not `(ensure-demo!)`
 - Structural edits for `.cljc` forms once editing starts (`clojure` skill)

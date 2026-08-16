@@ -269,7 +269,7 @@
 (defn ensure-demo!
   "Convenience one-shot welcome demo (atomic — no dramaturgy).
 
-  Hello/setup: eval yardcraft.site-demo/demo-stage-clear! … demo-stage-finish!
+  Hello/setup: eval yardcraft.site-demo/demo-stage-sun! … demo-stage-fly!
   as separate REPL forms so Blender paints between stages."
   []
   (require 'yardcraft.site-demo)
