@@ -41,36 +41,7 @@ After connect: confirm `user/init!` added `src/` to `sys.path` before requiring 
   | ¬ask_human_before_self_verify
 ```
 
-**Self-verify is mandatory** — same discipline as demo builds. Do not hand the human a suggestion you have not applied and visually checked. Use **`basilisp-blender` → Safe visual self-check** (temp PNG via scene REPL, read the image, restore camera/render/active state). Check **Show** *and* **Base** (same camera/frame) so restore is proven too. Execution success ≠ visual correctness.
-
-## Demo Hello smoke (`:demo` domain)
-
-Ask like the README: open question with soft examples (*move something, or add a stair…*). From **their** answer, invent builders / fact keys in the REPL, then register a `#{:demo}` suggestion. The `:demo` domain rebuilds the welcome overlays; anything beyond the base demo is session work you author for that ask.
-
-```clojure
-(require '[yardcraft.site-demo :as demo])
-(require '[yardcraft.site-suggestions :as sug])
-(require '[yardcraft.site-ui :as ui])
-
-;; 1) Invent geometry for their ask in the REPL (builders / keys as needed)
-;; 2) Then register:
-(sug/register-suggestion!
- {:suggestion/id    :their-idea
-  :suggestion/title "Their idea"
-  :suggestion/note  "Demo Hello smoke — session only."
-  :suggestion/domains #{:demo}
-  :suggestion/patch {;; keys your session builders honor
-                     }})
-(ui/register!)
-;; Self-verify before asking the human:
-(sug/show! (demo/demo-facts) :their-idea)
-;; → basilisp-blender render_check: inspect image; fix if wrong
-(sug/show-base! (demo/demo-facts))
-;; → render_check again (same camera): Base restored?
-;; Then ask human: select their title → Show / Base
-```
-
-Do **not** use `#{:terrace}` / `#{:furniture}` against the welcome demo. Template ships no suggestion EDN on purpose.
+**Self-verify is mandatory.** Do not hand the human a suggestion you have not applied and visually checked. Use **`basilisp-blender` → Safe visual self-check** (temp PNG via scene REPL, read the image, restore camera/render/active state). Check **Show** *and* **Base** (same camera/frame) so restore is proven too. Execution success ≠ visual correctness.
 
 ## Primary authoring process
 
@@ -148,7 +119,7 @@ After session iteration is approved, files live under `src/yardcraft/suggestions
 
 **Patch-first.** Prefer EDN patches. `.cljc` with `:suggestion/apply` is future — only when a structural transform needs code.
 
-v1 domains: `:furniture`, `:terrace` (roof coupled with terrace). Unknown domain → fail loud. Lot/terrain/house → full rebuild escape hatch only.
+v1 domains: `:furniture`, `:terrace` (roof coupled with terrace), `:demo` (welcome-demo overlays via `ensure-demo-overlays!`), `:full` (escape hatch). Unknown domain → fail loud. Lot/terrain/house → full rebuild escape hatch only.
 
 **Durable suggestion EDN** = design option on disk. **`promote-plan` → `site_data`** = adopting that option as survey/base facts — different gate; do not conflate.
 
@@ -164,7 +135,7 @@ Promote never silently rewrites `site_data`. No suggestion code path writes that
 
 ## Invariants
 
-- **Self-verify before asking the human** — `show!` + render_check, then `show-base!` + render_check (`basilisp-blender` Safe visual self-check). Do not skip on demo smoke.
+- **Self-verify before asking the human** — `show!` + render_check, then `show-base!` + render_check (`basilisp-blender` Safe visual self-check).
 - **Session registry + active suggestion persist on `bpy` attrs** (`_yardcraft_session_suggestions`, `_yardcraft_active_suggestion`) — survive Basilisp ns reload. Not Vars / `session-suggestions*` / `alter-var-root`.
 - **Session registry is memory-only** — `register-suggestion!` / `unregister-suggestion!` / `clear-session-suggestions!` never write EDN; after any of those, `(ui/register!)` (or `reload!`) so the enum rebuilds.
 - **`show!` does not persist.** Session `site` Var stays file base; effective is builders-only.

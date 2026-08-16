@@ -33,7 +33,7 @@ The README example chat is a **press release of the kind of experience**, not a 
 | **`babashka`** | Host-side install, downloads, `bb` REPL work (install upstream if missing) |
 | **`clojure`** | When editing `.cljc` / Clojure forms (install upstream if missing) |
 | **`yardcraft-site-ui`** | After demo (demo registers the panel); when extending N-panel |
-| **`yardcraft-design-suggestions`** | Demo suggestions smoke (README §8b); real-base redesigns later |
+| **`yardcraft-design-suggestions`** | Suggestions system (register / Show / Base); layer-1 demo smoke uses it (§8b) |
 
 ## Layer-1 OODA
 
@@ -176,10 +176,10 @@ Success for layer 1 is the **welcome demo** after that staged reveal (letters, f
 
 ### 8b. Demo suggestions smoke (README beat — before handoff)
 
-Load **`yardcraft-design-suggestions`** (and follow its self-verify rules). On the **demo** scene (not empty `site`):
+Load **`yardcraft-design-suggestions`** for the general register / Show / Base / self-verify loop. On the **welcome demo** scene (not empty `site`):
 
 1. Ask openly for a redesign (README soft examples OK: *move something, or add a stair…*) — wait for **their** answer.
-2. Invent geometry for that ask **in the REPL**. Session-register **`:suggestion/domains #{:demo}`**. Do **not** use `:terrace`/`:furniture` on the demo.
+2. Invent geometry for that ask **in the REPL**. Session-register with **`:suggestion/domains #{:demo}`** (rebuilds welcome overlays — not `:terrace`/`:furniture`, which rebuild the real site).
 3. `(ui/register!)` → agent **`show!` + render_check**, then **`show-base!` + render_check** (fix if wrong) → only then ask them to select → **Show** / **Base**.
 4. Persist EDN under `src/yardcraft/suggestions/` when they want it kept.
 
