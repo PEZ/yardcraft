@@ -45,29 +45,29 @@ After connect: confirm `user/init!` added `src/` to `sys.path` before requiring 
 
 ## Demo Hello smoke (`:demo` domain)
 
-Ask like the README: open question with soft examples (*move something, or add a stair…*). Invent id/title/patch from **their** answer. Do **not** pre-register or “Recommend” a canned Brick A-stairs.
-
-Use domain **`#{:demo}`** only. Hooks like `:demo/a-back-stair?` / `:demo/pedestal-xy` are optional footing after the ask — not a UI entry until you register.
+Ask like the README: open question with soft examples (*move something, or add a stair…*). From **their** answer, invent builders / fact keys in the REPL, then register a `#{:demo}` suggestion. The `:demo` domain rebuilds the welcome overlays; anything beyond the base demo is session work you author for that ask.
 
 ```clojure
 (require '[yardcraft.site-demo :as demo])
 (require '[yardcraft.site-suggestions :as sug])
 (require '[yardcraft.site-ui :as ui])
 
+;; 1) Invent geometry for their ask in the REPL (builders / keys as needed)
+;; 2) Then register:
 (sug/register-suggestion!
  {:suggestion/id    :their-idea
   :suggestion/title "Their idea"
   :suggestion/note  "Demo Hello smoke — session only."
   :suggestion/domains #{:demo}
-  :suggestion/patch {;; from their ask
+  :suggestion/patch {;; keys your session builders honor
                      }})
 (ui/register!)
-;; Agent MUST self-verify before asking the human:
+;; Self-verify before asking the human:
 (sug/show! (demo/demo-facts) :their-idea)
 ;; → basilisp-blender render_check: inspect image; fix if wrong
 (sug/show-base! (demo/demo-facts))
 ;; → render_check again (same camera): Base restored?
-;; Only then ask human: select their title → Show / Base
+;; Then ask human: select their title → Show / Base
 ```
 
 Do **not** use `#{:terrace}` / `#{:furniture}` against the welcome demo. Template ships no suggestion EDN on purpose.
@@ -76,7 +76,7 @@ Do **not** use `#{:terrace}` / `#{:furniture}` against the welcome demo. Templat
 
 1. **Create in the REPL** — suggestion map (same shape as EDN) → `(sug/register-suggestion! …)` (session registry; no disk write).
 2. **Add to the UI** — `(ui/register!)` or `(ui/reload!)` so EnumProperty items rebuild (baked at PropertyGroup class build).
-3. **Self-verify** — `(sug/show! …)` then render_check; `(sug/show-base! …)` then render_check. Fix obvious mismatches (wrong letter, wrong side, pedestal nowhere near the stair, Base not restoring) before involving the human.
+3. **Self-verify** — `(sug/show! …)` then render_check; `(sug/show-base! …)` then render_check. Fix obvious mismatches before involving the human.
 4. **Iterate with the human** — they **select** in the dropdown (staged only), then click **Show** / **Base**. Selecting alone does not apply.
 5. **Commit to files only when approved** — write `src/yardcraft/suggestions/<snake_id>.edn`; keep any builder + default facts keys the patch needs. Optionally `(sug/promote-plan :id)` **only** if adopting into survey base (`site_data`) — that is separate from durable suggestion EDN.
 

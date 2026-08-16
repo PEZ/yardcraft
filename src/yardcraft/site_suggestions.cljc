@@ -331,16 +331,13 @@
     (set-active! {:id id :domains domains-B})
     {:id id :domains domains-B :union U}))
 
-(defn- demo-base-facts [base]
-  (-> base
-      (assoc :demo/a-back-stair? false)
-      (dissoc :demo/pedestal-xy)))
-
 (defn show-base!
   "Teardown active domains and rebuild them from pure base; clear active state."
   [base]
   (if-let [{:keys [domains]} (active-state)]
-    (let [base' (if (demo-active?) (demo-base-facts base) base)
+    (let [base' (if (demo-active?)
+                  ((ns-resolve 'yardcraft.site-demo 'fresh-demo-facts))
+                  base)
           U (switch-domains! base' domains #{} base')]
       (if (demo-active?)
         (do (adopt-demo-facts! base')

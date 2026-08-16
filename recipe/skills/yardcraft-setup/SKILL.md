@@ -178,8 +178,8 @@ Success for layer 1 is the **welcome demo** after that staged reveal (letters, f
 
 Load **`yardcraft-design-suggestions`** (and follow its self-verify rules). On the **demo** scene (not empty `site`):
 
-1. Ask openly for a redesign (take inspiration from the README, i.e. mention some ideas and then ask **openly**) — wait for **their** answer; do not Recommend a canned Brick A-stairs.
-2. Session-register **`:suggestion/domains #{:demo}`** implementing what they asked. Do **not** use `:terrace`/`:furniture` on the demo.
+1. Ask openly for a redesign (README soft examples OK: *move something, or add a stair…*) — wait for **their** answer.
+2. Invent geometry for that ask **in the REPL**. Session-register **`:suggestion/domains #{:demo}`**. Do **not** use `:terrace`/`:furniture` on the demo.
 3. `(ui/register!)` → agent **`show!` + render_check**, then **`show-base!` + render_check** (fix if wrong) → only then ask them to select → **Show** / **Base**.
 4. Persist EDN under `src/yardcraft/suggestions/` when they want it kept.
 
