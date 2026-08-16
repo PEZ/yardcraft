@@ -175,13 +175,13 @@ As more people use this recipe we should be able to improve the skills and instr
 > The guided setup (as described in the [Example chat](#example-chat)) takes a somewhat strong model. And for the help with reifying your design ideas in Blender, it also takes a competent model. It's a bit surprising how different the models handle it. On a scale 1 -> 10, if I grade them from some quick testing using Cursor.
 > | Model | Setup guidance | Get the setup done | Design help | Comment |
 > | - | - | - | - | - |
-> | *Grok 4.6 (and 4.5)* | 1 | - | 9  | WTF
+> | *Grok 4.6 (and 4.5)* | 5 | 10 | 9  | Narrates itself during setup
 > | *GPT 5.2 Sol* | 9 | 9 | 5 | Almost human tone of voice
 > | *Sonnet 5* | 4 | 8 | 5 | Decent, but a bit unreliable
 > | *GLM 5.2* | 4 | 8 | 5  | Works and thinks a lot before greeting
 > | *Kimi K3* | 2 | - | - | DNF
 > 
-> **Grok**: The by far best designer of the ones I tested. Totally fails at being a setup guide. It starts: *I'll start by loading the Yardcraft hello path so the first thing you see is the real welcome, not a status dump.*, then explores for a while and continues: *Greeting first, then I'll quietly see what's already in place so the next thing you get is a clear picture and two questions.*  I am probably holding it wrong.
+> **Grok**: The by far best designer of the ones I tested. Fails at being a setup guide, even if it gets the setup done. It starts: *I'll start by loading the Yardcraft hello path so the first thing you see is the real welcome, not a status dump.*, then explores for a while and continues: *Greeting first, then I'll quietly see what's already in place so the next thing you get is a clear picture and two questions.*  I am probably holding it wrong.
 >
 > I suggest you use GPT 5.2 Sol for the **Hello** guide until you have a demo design running in Blender. Then switch to Grok.
 
