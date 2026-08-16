@@ -66,8 +66,8 @@ Light-table / sketch overlay: load **`yardcraft-light-table`**.
 
 1. **Orient:** `(import bpy)` then list relevant objects/collections/materials.
 2. **Make it happen in the REPL:** small helpers / `(comment …)` / existing `ensure-*!` paths so the change is visible in Blender — prefer that over editing source first.
-3. **Self-check visually:** render a temporary PNG through the scene REPL, read the actual image, and correct obvious mismatches before handoff.
-4. **Ask for feedback:** stop and ask the human to check the Blender viewport. Agent screenshots complement rather than replace human judgment.
+3. **Self-check visually:** render a temporary PNG through the scene REPL, read the actual image, **show that PNG in chat**, and correct obvious mismatches before handoff.
+4. **Ask for feedback:** stop and ask the human to check the Blender viewport. Show the inspection image(s) in that same bubble. They complement rather than replace human judgment.
 5. **Promote to files only when the human is happy** — durable facts/builders/specs into source; until then keep the experiment in the REPL / session.
 6. **Units & coordinates:** Blender units; don’t invent real-world patio measurements — ask.
 
@@ -76,6 +76,7 @@ Light-table / sketch overlay: load **`yardcraft-light-table`**.
 ```
 λ render_check.
   query_scene → snapshot_temporary_state → try(render_to_/tmp ∧ inspect_actual_images)
+  | show_pngs_in_chat(absolute_path) before(human_handoff)
   | finally(restore_camera ∧ restore_render ∧ restore_active_design_state)
   | compare_same(camera ∧ frame ∧ render_settings) for(suggestion ∧ base)
   | inspect_REPL_errors_after(side_effects)
@@ -86,7 +87,8 @@ Light-table / sketch overlay: load **`yardcraft-light-table`**.
 2. In a `try` / `finally`, set a temporary filepath such as `/tmp/yardcraft-visual-check.png`, render with `(.render (.-render (.-ops bpy)) ** :write_still true)`, then read the PNG by its absolute filesystem path. Never save the `.blend` or replace a durable render output for this check.
 3. For comparisons, render suggestion and base from the same frame, camera transform/lens, resolution, and format; change only the design state. A temporary targeted camera aimed at the relevant geometry is often more informative than the orbit camera.
 4. Inspect what is actually visible against the spatial request: identity/label, direction, adjacency, orientation, and placement. Object existence, coordinates, successful returns, and error-free evaluation prove execution—not visual intent.
-5. Restore every snapshot in `finally`, including the prior active suggestion/base. After rendering and restoration, inspect REPL error output before reporting success or asking the human to judge the viewport.
+5. Restore every snapshot in `finally`, including the prior active suggestion/base. After rendering and restoration, inspect REPL error output.
+6. **Show every inspection PNG in the visitor chat** (absolute path) in the same message as the viewport ask — including both Show and Base when you compared them. Do not hand off with only a prose summary of the render. Chat-image path rule: **`yardcraft-setup`** → [hello-conversation.md](../yardcraft-setup/references/hello-conversation.md) **Chat images**. The human still judges the Blender viewport.
 
 ## bpy interop cheatsheet
 

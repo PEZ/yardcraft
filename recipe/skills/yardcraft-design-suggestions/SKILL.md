@@ -32,8 +32,8 @@ After connect: confirm `user/init!` added `src/` to `sys.path` before requiring 
 ```
 λ suggestion_authoring.
   REPL_register_map → ui/register!
-  → show! → render_check(inspect_image) → fix_if_wrong
-  → show-base! → render_check(inspect_image) → fix_if_wrong
+  → show! → render_check(inspect_image) → show_png_in_chat → fix_if_wrong
+  → show-base! → render_check(inspect_image) → show_png_in_chat → fix_if_wrong
   → human(N-panel Show/Base) → iterate_until_approve
   | then_commit(EDN ∧ builder_support_if_needed)
   | promote_plan → site_data only_when_adopting_as_base
@@ -41,13 +41,13 @@ After connect: confirm `user/init!` added `src/` to `sys.path` before requiring 
   | ¬ask_human_before_self_verify
 ```
 
-**Self-verify is mandatory.** Do not hand the human a suggestion you have not applied and visually checked. Use **`basilisp-blender` → Safe visual self-check** (temp PNG via scene REPL, read the image, restore camera/render/active state). Check **Show** *and* **Base** (same camera/frame) so restore is proven too. Execution success ≠ visual correctness.
+**Self-verify is mandatory.** Do not hand the human a suggestion you have not applied and visually checked. Use **`basilisp-blender` → Safe visual self-check** (temp PNG via scene REPL, read the image, restore camera/render/active state, **show the PNGs in chat**). Check **Show** *and* **Base** (same camera/frame) so restore is proven too — both images go in the handoff bubble. Execution success ≠ visual correctness.
 
 ## Primary authoring process
 
 1. **Create in the REPL** — suggestion map (same shape as EDN) → `(sug/register-suggestion! …)` (session registry; no disk write).
 2. **Add to the UI** — `(ui/register!)` or `(ui/reload!)` so EnumProperty items rebuild (baked at PropertyGroup class build).
-3. **Self-verify** — `(sug/show! …)` then render_check; `(sug/show-base! …)` then render_check. Fix obvious mismatches before involving the human.
+3. **Self-verify** — `(sug/show! …)` then render_check; `(sug/show-base! …)` then render_check. Fix obvious mismatches. Show both PNGs in chat, then ask the human.
 4. **Iterate with the human** — they **select** in the dropdown (staged only), then click **Show** / **Base**. Selecting alone does not apply.
 5. **Commit to files only when approved** — write `src/yardcraft/suggestions/<snake_id>.edn`; keep any builder + default facts keys the patch needs. Optionally `(sug/promote-plan :id)` **only** if adopting into survey base (`site_data`) — that is separate from durable suggestion EDN.
 

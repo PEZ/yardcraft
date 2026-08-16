@@ -142,8 +142,8 @@ Packaged skills live under `recipe/skills/` until copied into the harness (layer
 ### REPL → Blender check → promote
 
 1. **Make it happen in the REPL** — small helpers, session Vars, `(comment …)`, existing `ensure-*!` / `show!` paths.
-2. **Inspect it yourself** — before handing off design work, use the connected scene REPL to render a temporary PNG and read the actual image. Compare visible identity, direction, adjacency, orientation, and placement against the request; correct obvious mismatches.
-3. **Ask for feedback** — human looks in the viewport after the agent self-check; screenshots complement rather than replace human judgment.
+2. **Inspect it yourself** — before handing off design work, use the connected scene REPL to render a temporary PNG, read the actual image, and **show that PNG in chat**. Compare visible identity, direction, adjacency, orientation, and placement against the request; correct obvious mismatches.
+3. **Ask for feedback** — human looks in the viewport after the agent self-check. Put the inspection image(s) in that same bubble; they complement rather than replace human judgment.
 4. **Commit to files when happy** — facts → `site-data`, builders → `site-*`, orchestration → `site`, suggestion EDN, fly specs, etc.
 
 Throwaway work: REPL or [`src/yardcraft/scratch.cljc`](src/yardcraft/scratch.cljc). Root [`scratch.lpy`](scratch.lpy) is basilisp-blender’s playground marker.
@@ -160,7 +160,7 @@ Throwaway work: REPL or [`src/yardcraft/scratch.cljc`](src/yardcraft/scratch.clj
 8. **Suggestions Show/Base** need a real base — not the empty demo / empty template.
 9. **Set time / loungers** on a real site need lat/lon; demo ships geo for that delight.
 10. Prefer `(.-ops bpy)` / `(.-context bpy)` over `bpy.ops/…` (clj-kondo).
-11. **Visual handoff gate:** query before rendering; for comparisons use matched camera/frame/render settings (targeted temporary views beat an uninformative orbit); save only temporary PNGs such as under `/tmp`; restore camera, render, and active design state in `finally`; inspect the images and REPL errors before handoff. Depth: **`basilisp-blender`** skill.
+11. **Visual handoff gate:** query before rendering; for comparisons use matched camera/frame/render settings (targeted temporary views beat an uninformative orbit); save only temporary PNGs such as under `/tmp`; restore camera, render, and active design state in `finally`; inspect the images and REPL errors; **show those PNGs in the handoff chat**. Depth: **`basilisp-blender`** skill.
 
 ---
 

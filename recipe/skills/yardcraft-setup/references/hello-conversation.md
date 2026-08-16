@@ -113,7 +113,9 @@ This ask **is** involving the human — wait for answers; do not assume Do or sk
 | **BAD** | Narrate loading/searching skills or “Found the setup guide…”, *then* greet. |
 | **BAD** | Greeting + Blender 1–5 in the same first bubble (README example shape — too early). |
 | **BAD** | “Welcome to Yardcraft… live through the REPLs.” (thin + jargon). |
+| **BAD** | Ask them to start the Basilisp nREPL server without showing the panel screenshot. |
 | **GOOD** | First bubble = warm Yardcraft + Yardcraft Agent intro → same loop silent Observe → status + Blender 1–5 + Do vs instructions (**wait**) → on answers Act through setup/demo → one-step-beyond invite. |
+| **GOOD** | START SERVER ask in **plain chat**, same message as the panel screenshot (absolute path). |
 
 ---
 
@@ -125,4 +127,8 @@ This ask **is** involving the human — wait for answers; do not assume Do or sk
 
 ## Chat images
 
-When showing a screenshot **in chat** (e.g. nREPL panel), use an **absolute filesystem path** so it renders. Relative links often break. File: `recipe/readme/images/basilisp-blender-nrepl-panel.png` under the repo root.
+Use an **absolute filesystem path** so the image renders in chat. Relative links often break.
+
+**nREPL panel (setup):** when you ask the human to open Output Properties and **START SERVER**, that same plain-chat message **must include** the panel screenshot — `recipe/readme/images/basilisp-blender-nrepl-panel.png` as an absolute path under the repo root. Clicks without the picture fail this beat.
+
+**Design inspection:** every PNG you use for a visual self-check before a viewport handoff goes in the chat (same bubble as the ask). The human sees what you looked at. Procedure: **`basilisp-blender`** Safe visual self-check.

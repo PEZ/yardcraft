@@ -144,7 +144,9 @@ Human reopens Blender, then:
 3. Project path = **repo root**
 4. **START SERVER**
 
-Writes/updates **`.nrepl-port`**. Chat screenshots: absolute path — see [hello-conversation.md](references/hello-conversation.md) **Chat images**.
+Writes/updates **`.nrepl-port`**.
+
+**Show the panel screenshot in that ask** — same plain-chat message, absolute path. See [hello-conversation.md](references/hello-conversation.md) **Chat images**. Do not ask for START SERVER without the picture.
 
 ### 7. Connect to Blender REPL
 
@@ -219,4 +221,5 @@ When **they** engage real-site work, leave layer 1, load **`yardcraft-base-desig
 - **basilisp-blender:** Observe installed/version before download; ask quit Blender only if it is running (§5)
 - Destructive Blender ops → confirm with human
 - **Demo dramaturgy:** ten separate `demo-stage-*!` REPL evals (§8); not `(ensure-demo!)`
+- **nREPL panel shot:** START SERVER ask includes the panel screenshot (hello-conversation **Chat images**)
 - Structural edits for `.cljc` forms once editing starts (`clojure` skill)
