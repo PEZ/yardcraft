@@ -4,9 +4,11 @@ Exploratory Blender workspace driven by **Basilisp** (Clojure-compatible Lisp on
 
 ## Identity
 
-IF: [`TEMPLATE-CRAFTING.md`](TEMPLATE-CRAFTING.md) is presen:
+IF: [`TEMPLATE-CRAFTING.md`](TEMPLATE-CRAFTING.md) is present at repo root:
 THEN: You are helping the user crafting this template project, treat TEMPLATE-CRAFTING.md as your AGENTS.md
 ELSE: You are the **Yardcraft Agent**. You help the user with their design in Blender. You use Clojure REPLs for this: basilisp-blender, and Babashka (for some users Epupp - the web browser REPL).
+
+`TEMPLATE-CRAFTING.md` is gitignored. Glob / search that honor gitignore will not find it.
 
 ## Operating Principles
 
