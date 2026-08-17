@@ -186,7 +186,7 @@ Load **`yardcraft-design-suggestions`** for the general register / Show / Base /
 
 1. Ask openly for a redesign (README soft examples OK: *move something, or add a stair…*) — wait for **their** answer.
 2. Invent geometry for that ask **in the REPL**. Session-register with **`:suggestion/domains #{:demo}`** (rebuilds welcome overlays — not `:terrace`/`:furniture`, which rebuild the real site).
-3. `(ui/register!)` → agent **`show!` + render_check**, then **`show-base!` + render_check** (fix if wrong) → only then ask them to select → **Show** / **Base**.
+3. `(ui/register!)` → agent **`show!` + `(scene/render-check!)`**, then **`show-base!` + `(scene/render-check!)`** (fix if wrong) → only then ask them to select → **Show** / **Base**.
 4. Persist EDN under `src/yardcraft/suggestions/` when they want it kept.
 
 Mark progress: demo shown. Then continue.

@@ -2,22 +2,16 @@
 
 ## Scene queries (orient first)
 
-Prefer `(.-objects (.-data bpy))` over `bpy.data/objects` — same runtime behavior, lint-clean under clj-kondo (see skill cheatsheet).
-
 ```clojure
-(import bpy)
+(require '[yardcraft.scene :as scene])
 
-;; object names
-(map #(.-name %) (.-objects (.-data bpy)))
-
-;; active object
-(when-let [obj (.-object (.-context bpy))]
-  {:name (.-name obj)
-   :location (vec (.-location obj))
-   :type (.-type obj)})
+(scene/census)
+(scene/object-info "site-root")
 ```
 
-Adjust to the data you need; prefer returning maps from helper fns for REPL inspection.
+Each record is `{:name :type :parent :location :rotation :scale :hide-viewport? :hide-render? :children}`. `:location` is world XYZ.
+
+For a one-off walk, prefer `(.-objects (.-data bpy))` over `bpy.data/objects` — lint-clean under clj-kondo (see skill cheatsheet).
 
 ## Operators and kwargs
 

@@ -17,7 +17,7 @@ Explore alternate patio/parking/furniture designs. **Author in the REPL/session 
 Load before using this skill:
 
 1. **`basilisp`** — dialect / Python interop
-2. **`basilisp-blender`** — nREPL-in-Blender, `bpy`, Yardcraft session bootstrap (**Safe visual self-check** / `render_check` lives here)
+2. **`basilisp-blender`** — nREPL-in-Blender, `bpy`, Yardcraft session bootstrap (**Safe visual self-check** / `yardcraft.scene/render-check!` lives here)
 3. **`clojure`** — shared Clojure conventions (structural edits, REPL-first)
 
 After connect: confirm `user/init!` added `src/` to `sys.path` before requiring `yardcraft.*`. Tooling: `src/yardcraft/site_suggestions.cljc` (`yardcraft.site-suggestions`, alias `sug`); facts in `yardcraft.site-data`; orchestration in `yardcraft.site`. Panel: load **`yardcraft-site-ui`** when touching N-panel source.
@@ -32,8 +32,8 @@ After connect: confirm `user/init!` added `src/` to `sys.path` before requiring 
 ```
 λ suggestion_authoring.
   REPL_register_map → ui/register!
-  → show! → render_check(inspect_image) → show_png_in_chat → fix_if_wrong
-  → show-base! → render_check(inspect_image) → show_png_in_chat → fix_if_wrong
+  → show! → scene/render-check! → show_png_in_chat → fix_if_wrong
+  → show-base! → scene/render-check! → show_png_in_chat → fix_if_wrong
   → human(N-panel Show/Base) → iterate_until_approve
   | then_commit(EDN ∧ builder_support_if_needed)
   | promote_plan → site_data only_when_adopting_as_base
@@ -41,13 +41,13 @@ After connect: confirm `user/init!` added `src/` to `sys.path` before requiring 
   | ¬ask_human_before_self_verify
 ```
 
-**Self-verify is mandatory.** Do not hand the human a suggestion you have not applied and visually checked. Use **`basilisp-blender` → Safe visual self-check** (temp PNG via scene REPL, read the image, restore camera/render/active state, **show the PNGs in chat**). Check **Show** *and* **Base** (same camera/frame) so restore is proven too — both images go in the handoff bubble. Execution success ≠ visual correctness.
+**Self-verify is mandatory.** Do not hand the human a suggestion you have not applied and visually checked. `(yardcraft.scene/render-check!)` after `show!` and again after `show-base!` (two paths, same camera/frame). **Show both PNGs in chat.** Restore the prior suggestion/base after. Execution success ≠ visual correctness. Depth: **`basilisp-blender` → Safe visual self-check**.
 
 ## Primary authoring process
 
 1. **Create in the REPL** — suggestion map (same shape as EDN) → `(sug/register-suggestion! …)` (session registry; no disk write).
 2. **Add to the UI** — `(ui/register!)` or `(ui/reload!)` so EnumProperty items rebuild (baked at PropertyGroup class build).
-3. **Self-verify** — `(sug/show! …)` then render_check; `(sug/show-base! …)` then render_check. Fix obvious mismatches. Show both PNGs in chat, then ask the human.
+3. **Self-verify** — `(sug/show! …)` then `(scene/render-check! show-path)`; `(sug/show-base! …)` then `(scene/render-check! base-path)`. Fix obvious mismatches. Show both PNGs in chat, then ask the human.
 4. **Iterate with the human** — they **select** in the dropdown (staged only), then click **Show** / **Base**. Selecting alone does not apply.
 5. **Commit to files only when approved** — write `src/yardcraft/suggestions/<snake_id>.edn`; keep any builder + default facts keys the patch needs. Optionally `(sug/promote-plan :id)` **only** if adopting into survey base (`site_data`) — that is separate from durable suggestion EDN.
 
@@ -59,6 +59,7 @@ Builder support for new patch keys may be required before Show works; experiment
 (require 'yardcraft.site-suggestions :reload)
 (require '[yardcraft.site-suggestions :as sug])
 (require '[yardcraft.site-ui :as ui])
+(require '[yardcraft.scene :as scene])
 
 (sug/register-suggestion!
  {:suggestion/id :my-idea
@@ -69,9 +70,9 @@ Builder support for new patch keys may be required before Show works; experiment
 (ui/register!)
 
 (sug/show! site :my-idea)
-;; render_check + inspect image — fix if wrong
+(scene/render-check! "/tmp/yardcraft-visual-check-show.png")
 (sug/show-base! site)
-;; render_check again — Base OK?
+(scene/render-check! "/tmp/yardcraft-visual-check-base.png")
 ;; Then ask human: N-panel → Show / Base
 
 ;; After human approval — durable EDN:
@@ -135,7 +136,7 @@ Promote never silently rewrites `site_data`. No suggestion code path writes that
 
 ## Invariants
 
-- **Self-verify before asking the human** — `show!` + render_check, then `show-base!` + render_check (`basilisp-blender` Safe visual self-check).
+- **Self-verify before asking the human** — `show!` + `(scene/render-check!)`, then `show-base!` + `(scene/render-check!)` (`basilisp-blender` Safe visual self-check).
 - **Session registry + active suggestion persist on `bpy` attrs** (`_yardcraft_session_suggestions`, `_yardcraft_active_suggestion`) — survive Basilisp ns reload. Not Vars / `session-suggestions*` / `alter-var-root`.
 - **Session registry is memory-only** — `register-suggestion!` / `unregister-suggestion!` / `clear-session-suggestions!` never write EDN; after any of those, `(ui/register!)` (or `reload!`) so the enum rebuilds.
 - **`show!` does not persist.** Session `site` Var stays file base; effective is builders-only.

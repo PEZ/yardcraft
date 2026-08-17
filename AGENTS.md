@@ -142,7 +142,7 @@ Packaged skills live under `recipe/skills/` until copied into the harness (layer
 ```
 λ yardcraft_agent.
   OODA → Human ⊗ AI ⊗ REPLs
-  | REPL_explore → visible_in_Blender → agent_render_check → inspect_image → correct_obvious_mismatches → ask_human_feedback → promote_when_happy
+  | REPL_explore → scene/census → visible_in_Blender → scene/render-check! → inspect_image → correct_obvious_mismatches → ask_human_feedback → promote_when_happy
   | partial_ensure-*! → sync-site-hierarchy!(site)
   | scene_state ≡ unknown_until_queried
   | destructive_ops → confirm_with_human
@@ -155,7 +155,7 @@ Packaged skills live under `recipe/skills/` until copied into the harness (layer
 ### REPL → Blender check → promote
 
 1. **Make it happen in the REPL** — small helpers, session Vars, `(comment …)`, existing `ensure-*!` / `show!` paths.
-2. **Inspect it yourself** — before handing off design work, use the connected scene REPL to render a temporary PNG, read the actual image, and **show that PNG in chat**. Compare visible identity, direction, adjacency, orientation, and placement against the request; correct obvious mismatches.
+2. **Inspect it yourself** — `(yardcraft.scene/census)` (or `object-info`) then `(yardcraft.scene/render-check!)`. Read the PNG at `:path` and **show it in chat**. Compare visible identity, direction, adjacency, orientation, and placement against the request; correct obvious mismatches.
 3. **Ask for feedback** — human looks in the viewport after the agent self-check. Put the inspection image(s) in that same bubble; they complement rather than replace human judgment.
 4. **Commit to files when happy** — facts → `site-data`, builders → `site-*`, orchestration → `site`, suggestion EDN, fly specs, etc.
 
@@ -165,7 +165,7 @@ Throwaway work: REPL or [`src/yardcraft/scratch.cljc`](src/yardcraft/scratch.clj
 
 1. **Voice:** [hello-conversation.md](recipe/skills/yardcraft-setup/references/hello-conversation.md) — always, not only at Hello.
 2. Drive Blender via the scene REPL when connected; host work via **`bb`**.
-3. **Query before mutate.**
+3. **Query before mutate** — `(yardcraft.scene/census)` / `object-info`.
 4. **Keep experiments small.**
 5. After partial rebuilds: `(yardcraft.site/sync-site-hierarchy! site)` (then paint if needed).
 6. Site objects use `site-` prefix. `clear-site!` clears the scene but **spares `draft-*`**.
@@ -173,7 +173,7 @@ Throwaway work: REPL or [`src/yardcraft/scratch.cljc`](src/yardcraft/scratch.clj
 8. **Suggestions Show/Base** need a real base — not the empty demo / empty template.
 9. **Set time / loungers** on a real site need lat/lon; demo ships geo for that delight.
 10. Prefer `(.-ops bpy)` / `(.-context bpy)` over `bpy.ops/…` (clj-kondo).
-11. **Visual handoff gate:** query before rendering; for comparisons use matched camera/frame/render settings (targeted temporary views beat an uninformative orbit); save only temporary PNGs such as under `/tmp`; restore camera, render, and active design state in `finally`; inspect the images and REPL errors; **show those PNGs in the handoff chat**. Depth: **`basilisp-blender`** skill.
+11. **Visual handoff gate:** `(yardcraft.scene/render-check!)` (second path for Show vs Base). Read `:path`, inspect REPL errors, **show the PNG(s) in the handoff chat**. Restore suggestion/base yourself after a compare. Targeted views beat an uninformative orbit. Depth: **`basilisp-blender`** skill.
 
 ---
 
@@ -202,6 +202,7 @@ The design structure in Blender should be easy to browse in clear in a clear hie
 
 | Ns / file | Role |
 |---|---|
+| `yardcraft.scene` | Observe (`census`, `object-info`, `render-check!`) |
 | `yardcraft.site` | Orchestration (`ensure-site!`, `ensure-demo!`, sun, sync) |
 | `yardcraft.site-demo` | Welcome demo scene |
 | `yardcraft.site-data` | Facts map `site` |
