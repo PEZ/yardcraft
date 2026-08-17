@@ -34,7 +34,7 @@ Agent-relevant highlights:
 - Non-dynamic Vars may be direct-linked → `alter-var-root` may not be visible unless `^:redef` or dynamic
 - Regex = Python `re`; characters = single-char strings; `#py` for native Python collections
 - No `locking` / `monitor-*`; has `await` / `yield`; `def` ignores `^:const`
-- ns: `:refer-basilisp` ↔ `:refer-clojure`; no prefix lists on import/require; missing `clojure.*` auto-aliases `basilisp.*`
+- ns: `:refer-basilisp` ↔ `:refer-clojure`; no prefix lists on import/require; missing `clojure.*` auto-aliases `basilisp.*` **on `require`**, not on a bare `clojure.string/includes?`
 - Core libs under `basilisp.*`; Clojure libs support planned; sorted maps/sets/array maps not implemented
 - `python/` builtins namespace; `new` is a compatibility macro; no `Classname/new`
 - JIT form-at-a-time compilation (Clojure-like, not CLJS whole-program)
@@ -61,7 +61,7 @@ Agent-relevant highlights:
 | nREPL + Calva “basilisp” connect | Basilisp runtime |
 | `bpy` / Blender | Likely also **basilisp-blender** — load that skill too |
 
-`clojure.` requires auto-alias to matching `basilisp.` libs when the Clojure-named ns is absent.
+`require` of a missing `clojure.*` lib auto-aliases the matching `basilisp.*` ns. A bare `clojure.string/includes?` (no prior `require`) fails at analyze.
 
 ## Invariants
 
@@ -119,6 +119,7 @@ Minimal editor-oriented roots (e.g. Blender project dirs) may be flatter: `basil
 Probed on **Blender ≥ 5.2.0 LTS** / Basilisp nREPL (Calva `basilisp-blender`) / **Python 3.13**.
 
 - **`(require '[ns :as alias] :reload)` does not bind `:as`** — use two-step `(require 'ns :reload)` then `(require '[ns :as alias])`. Existing aliases can look fine after the combined form (false negative); probe with a fresh alias name.
+- **Bare `clojure.string/includes?` fails at analyze** (`unable to resolve symbol`) until that ns is required. Auto-alias `clojure.*` → `basilisp.*` is on `require`, not first mention. `(require '[clojure.string :as string])` then `string/includes?` (or `'[basilisp.string :as string]`). After require, the qualified `clojure.string/includes?` also resolves.
 - **Dotted method symbols** rejected at analyze: `(sys/path.insert 0 "…")` → `symbol names may not contain the '.' operator`. Use `(.insert (.-path sys) 0 "…")`.
 - **File-defined Vars reinitialize on `(require 'ns :reload)`** — `alter-var-root` mutations lost. Interned-only Vars (not in source) can keep mutated roots; assume **file defs reset**.
 - **Private Vars:** `other-ns/private-sym` fails at analyze (`cannot resolve private Var`).
@@ -135,7 +136,7 @@ Load only what the task needs:
 | [references/python-interop.md](references/python-interop.md) | Calling Python modules, classes, kwargs, `#py`, iterators |
 | [references/differences-from-clojure.md](references/differences-from-clojure.md) | Fuller digest of official Differences from Clojure |
 | [references/projects-and-tooling.md](references/projects-and-tooling.md) | Bootstrapping, CLI, testing, packaging |
-| [references/verified-quirks.md](references/verified-quirks.md) | Reload/Var roots, `:as`+`:reload`, private Vars, dotted-method analyze rejects |
+| [references/verified-quirks.md](references/verified-quirks.md) | Reload/Var roots, `:as`+`:reload`, private Vars, dotted-method analyze rejects, bare `clojure.string/…` |
 
 ## See also
 

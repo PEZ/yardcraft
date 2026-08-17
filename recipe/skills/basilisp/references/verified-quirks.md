@@ -4,6 +4,27 @@ Environment where probes ran: **Blender ≥ 5.2.0 LTS**, Basilisp nREPL via basi
 
 These are REPL-verified facts. Unreproduced folklore (including claims still lingering in `AGENTS.md`) is not authoritative — this skill + probes win.
 
+## Bare `clojure.string/…` — require first
+
+`(clojure.string/includes? "ab" "a")` with no prior `require` fails at analyze:
+
+```text
+unable to resolve symbol 'clojure.string/includes?' in this context
+```
+
+Basilisp auto-aliases a missing `clojure.*` lib to `basilisp.*` **when that ns is required**, not when a fully-qualified symbol is first mentioned. (Clojure JVM often auto-loads FQ lib names; do not expect that here.)
+
+```clojure
+(require '[clojure.string :as string])
+(string/includes? "ab" "a")
+;; after require, this also resolves:
+(clojure.string/includes? "ab" "a")
+```
+
+`(require '[basilisp.string :as string])` is the same port. Same rule for other `clojure.*` / `basilisp.*` lib Vars (`clojure.set`, …).
+
+Reproduced on Blender ≥ 5.2 / basilisp-blender / Python 3.13.
+
 ## Dotted method symbols — analyze reject
 
 `(sys/path.insert 0 "…")` fails at analyze:

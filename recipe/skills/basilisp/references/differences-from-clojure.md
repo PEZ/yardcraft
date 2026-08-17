@@ -39,7 +39,7 @@ Agent digest of agent-relevant deltas — not a full copy. Prefer the official p
 
 - `:refer-basilisp` and `:refer-clojure` both work
 - No prefix lists on import/require selectors
-- Missing `clojure.*` lib may auto-map to `basilisp.*` under the `clojure.*` alias
+- Missing `clojure.*` lib auto-maps to `basilisp.*` **on `require`** (the `clojure.*` name becomes an alias). A bare `clojure.string/includes?` without that require fails at analyze.
 - Each ns corresponds to a Python module (rarely needs attention)
 
 ## Core / libs
