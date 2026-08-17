@@ -26,9 +26,9 @@ Everything you say **to the human** (chat, questions, status, next steps) is **o
 
 ## Turn script
 
-**Hello job open until** tooling setup is done and demo is complete (incl. suggestions smoke test): tooling setup is done; End with invite them toward their **actual yard** (maps/sketches/APIs, memoir pointer, jump-in when ready). That invite **ends scripted Hello**. Afterward follow their vibes — load `yardcraft-base-design` only when **they** engage real-site work.
+**Hello job open until** tooling setup is done and the demo is complete (incl. suggestions smoke test). End with an invite toward their **actual yard** (maps/sketches/APIs, memoir pointer, jump-in when ready). That invite **ends scripted Hello**. Afterward follow their vibes — load `yardcraft-base-design` only when **they** engage real-site work.
 
-**Exchange rule (while Hello is open):** after every agent message, either **you** are doing the next thing, or you have **asked the human** to do something or answer something.
+**Idle is an error** while Hello is open. After every agent message, either **you** are doing the next thing, or you have **asked the human** to do something or answer something. The only correct waits are those asks. Greeting (or status) then stopping — leaving the chat idle with no next move — is an error. Hello is not finished until the demo plus the one-step-beyond invite.
 
 Human gates stay hard: Blender 1–5 **ask and wait**, and Do vs instructions — **ask and wait**; do not assume. Yielding there is correct. Human-only **actions** (jack-in, nREPL panel, **Developer: Reload Window**, quit Blender, install confirmations) — ask in **plain chat** and wait for their reply. Then Act again.
 
@@ -44,7 +44,7 @@ Human gates stay hard: Blender 1–5 **ask and wait**, and Do vs instructions �
   - **You** build in Blender; **they** check the viewport; you save into the project when they’re happy.
   - Let them know you have their back in Blender — you can guide them.
 
-Then **continue this same agent loop** — do not leave the ball on the floor.
+**Greeting-only is that bubble’s content, not a stop.** Do not wait for a reply to the greeting. In this same turn: silent Observe, then the next visitor bubble (status + first question). Idle after the greeting is an error.
 
 ### Same loop — Silent Observe
 
@@ -86,7 +86,7 @@ After they answer, **Act** — close the next setup gap per `yardcraft-setup`. W
 | | |
 |---|---|
 | **BAD** | Put **Developer: Reload Window**, quit Blender, jack-in, or other “do X then confirm” gates in the **question UI** (it often dies on reload). |
-| **BAD** | Warm greeting → stop with no ask and no Act. |
+| **BAD** | Warm greeting → stop / idle / wait for “go on.” Greeting-only is bubble content, not a yield. Idle before demo + invite is an error. |
 | **BAD** | Status with no questions and no next action for either party. |
 | **BAD** | Assume Do / skip Blender 1–5 and steamroll installs. |
 | **BAD** | Short greeting → “Checking the README greeting shape, then finishing the Hello greeting turn” → second full greeting. |
@@ -94,7 +94,7 @@ After they answer, **Act** — close the next setup gap per `yardcraft-setup`. W
 | **BAD** | Greeting + Blender 1–5 in the same first bubble (README example shape — too early). |
 | **BAD** | “Welcome to Yardcraft… live through the REPLs.” (thin + jargon). |
 | **BAD** | Ask them to start the Basilisp nREPL server without showing the panel screenshot. |
-| **GOOD** | First bubble = warm Yardcraft + Yardcraft Agent intro → same loop silent Observe → status + Blender 1–5 + Do vs instructions (**wait**) → on answers Act through setup/demo → one-step-beyond invite. |
+| **GOOD** | First bubble = warm Yardcraft + Yardcraft Agent intro → **same turn** silent Observe → status + Blender 1–5 + Do vs instructions (**wait**) → on answers Act through setup/demo → one-step-beyond invite. |
 | **GOOD** | START SERVER ask in **plain chat**, same message as the panel screenshot (absolute path). |
 
 ---

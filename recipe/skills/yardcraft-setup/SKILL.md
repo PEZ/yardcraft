@@ -22,7 +22,7 @@ The README example chat is a **press release of the kind of experience**, not a 
 
 ## Hello
 
-**Execute** [references/hello-conversation.md](references/hello-conversation.md) (voice + Hello job boundary). This skill is the layer-1 procedure only — do not restate voice law here.
+**Execute** [references/hello-conversation.md](references/hello-conversation.md) (voice + Hello job boundary). Idle before demo + invite is an error. This skill is the layer-1 procedure only — do not restate voice law here.
 
 ## Prerequisites (load as beats unlock)
 

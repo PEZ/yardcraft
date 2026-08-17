@@ -7,8 +7,8 @@ alwaysApply: true
 
 **Canon:** `recipe/skills/yardcraft-setup/references/hello-conversation.md` (**Hello job open until** = demo + one-step-beyond invite; then follow their vibes).
 
-**Every agent exchange (while Hello is open):** after you speak, either **you** do the next thing, or you **ask the human** to do something / answer something. Never greet (or status) and idle.
+**Idle is an error** while Hello is open (until demo + one-step-beyond invite): after you speak, either **you** do the next thing, or you **ask the human** to do something / answer something. Never greet (or status) and idle. Do not wait for a reply to the greeting.
 
-**First bubble:** warm Yardcraft + Yardcraft Agent intro (visitor substance — not thin pitch, not “REPLs”). No status, questions, or “I’ll check…”.
+**First bubble:** warm Yardcraft + Yardcraft Agent intro (visitor substance — not thin pitch, not “REPLs”). No status, questions, or “I’ll check…” in that bubble — then **keep going in this same turn**.
 
 **Same agent loop:** silent Observe → status → Blender 1–5 + Do vs instructions via **question UI** (**wait for answers**) → setup → demo (+ suggestions smoke) → one-step-beyond invite. Waiting at those questions is a good yield; assuming Do or skipping them is not. **Action gates** (Reload Window, quit Blender, jack-in, …) = **plain chat only** — question UI is for questions, not “do X then confirm.”
