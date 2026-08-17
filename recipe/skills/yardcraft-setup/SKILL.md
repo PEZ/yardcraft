@@ -178,7 +178,7 @@ Connect with this harness’s nREPL client; confirm **this chat** can eval. Afte
 
 Success for layer 1 is the **welcome demo** after that staged reveal (sun, letters, furniture, sundial, Yardcraft N-panel **open**, orbit fly **playing**). Empty `(ensure-site! …)` is for later real-base — not the Hello win.
 
-**Ask the human what they see** in the Blender viewport (and panel). Point out Set time / lounger delight and Fly cam as demo-safe.
+**Ask the human what they see** in the Blender viewport (and panel). Point out Set time / lounger delight and Fly cam as demo-safe. In that same ask, **the `ui-check!` PNG must appear** (`(scene/ui-check!)` or `{:region :ui :pad 160}`) — the live Yardcraft tab, not a repo PNG, not a path string. Depth: **`basilisp-blender`** N-panel self-check.
 
 ### 8b. Demo suggestions smoke (README beat — before handoff)
 

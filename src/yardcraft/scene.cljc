@@ -1,10 +1,12 @@
 (ns yardcraft.scene
-  "Observe the Blender scene: census, object-info, render-check!.
+  "Observe the Blender scene: census, object-info, render-check!, ui-check!.
 
   Query before mutate. render-check! writes a temporary PNG and restores
   camera plus render settings. Optional :look-at (object name or world xyz)
-  aims a temporary camera. Show that PNG in chat before viewport handoff."
-  (:import bpy math mathutils
+  aims a temporary camera. ui-check! crops the VIEW_3D N-panel (UI region);
+  optional :pad grows the crop toward the viewport. Show those PNGs in chat
+  before viewport or panel handoff."
+  (:import bpy math mathutils imbuf
            [os.path :as path]
            tempfile))
 
@@ -218,10 +220,133 @@
        (assoc aim :path png-path :ok? false)
        (run-check! png-path aim distance)))))
 
+(defn- context-window
+  []
+  (or (.-window (.-context bpy))
+      (first (.-windows (.-window-manager (.-context bpy))))))
+
+(defn- first-view3d-area
+  [window]
+  (when window
+    (first (filter #(= (.-type %) "VIEW_3D")
+                   (.-areas (.-screen window))))))
+
+(defn- first-region
+  [area region-type]
+  (when area
+    (first (filter #(= (.-type %) region-type)
+                   (.-regions area)))))
+
+(defn- visible-ui-region
+  [area]
+  (when-let [ui (first-region area "UI")]
+    (when (and (> (.-width ui) 1)
+               (> (.-height ui) 1))
+      ui)))
+
+(defn- region-bounds
+  [region]
+  {:min-x (int (.-x region))
+   :min-y (int (.-y region))
+   :max-x (int (+ (.-x region) (.-width region)))
+   :max-y (int (+ (.-y region) (.-height region)))
+   :alignment (.-alignment region)})
+
+(defn- pad-ui-bounds
+  [{:keys [min-x min-y max-x max-y alignment]} pad]
+  (let [p (int (or pad 0))]
+    (cond
+      (<= p 0) {:min-x min-x :min-y min-y :max-x max-x :max-y max-y}
+      (= alignment "LEFT") {:min-x min-x
+                            :min-y min-y
+                            :max-x (+ max-x p)
+                            :max-y max-y}
+      :else {:min-x (max 0 (- min-x p))
+             :min-y min-y
+             :max-x max-x
+             :max-y max-y})))
+
+(defn- bounds->region-tuple
+  [{:keys [min-x min-y max-x max-y]}]
+  (python/tuple [(python/tuple [min-x min-y])
+                 (python/tuple [max-x max-y])]))
+
+(defn- copy-imbuf-pixels!
+  [image pixels]
+  (let [cm (.with_buffer image ** :write true)
+        buf (.__enter__ cm)]
+    (try
+      (.__setitem__ (.cast buf "B") (python/slice nil) (.cast pixels "B"))
+      (finally
+        (.__exit__ cm nil nil nil)))))
+
+(defn- write-window-png!
+  [window bounds png-path]
+  (let [pixels (.screenshot window ** :region (bounds->region-tuple bounds))
+        h (aget (.-shape pixels) 0)
+        w (aget (.-shape pixels) 1)
+        image (imbuf/new #py [w h])]
+    (set! (.-file_type image) "PNG")
+    (copy-imbuf-pixels! image pixels)
+    (imbuf/write image ** :filepath png-path)
+    {:width w :height h}))
+
+(defn- default-ui-check-path
+  []
+  (path/join (tempfile/gettempdir) "yardcraft-ui-check.png"))
+
+(defn- resolve-ui-region
+  [region]
+  (cond
+    (nil? region) :ui
+    (= region :ui) :ui
+    :else {:error :bad-region :region region}))
+
+(defn- run-ui-check!
+  [png-path pad]
+  (let [window (context-window)
+        area (first-view3d-area window)
+        ui (visible-ui-region area)]
+    (cond
+      (not window) {:path png-path :ok? false :error :no-window}
+      (not area) {:path png-path :ok? false :error :no-view3d}
+      (not ui) {:path png-path :ok? false :error :no-ui-region}
+      :else
+      (try
+        (let [bounds (pad-ui-bounds (region-bounds ui) pad)
+              size (write-window-png! window bounds png-path)]
+          {:path png-path
+           :ok? true
+           :region :ui
+           :pad (int (or pad 0))
+           :category (when (hasattr ui "active_panel_category")
+                       (.-active_panel_category ui))
+           :width (:width size)
+           :height (:height size)})
+        (catch python/Exception e
+          {:path png-path :ok? false :error (str e)})))))
+
+(defn ui-check!
+  "Screenshot the VIEW_3D N-panel (UI region) to a temporary PNG.
+  Optional opts {:region :ui :pad n} grow the crop toward the viewport.
+  Returns {:path :ok?} or {:path :ok? false :error ...}."
+  ([]
+   (ui-check! (default-ui-check-path) nil))
+  ([png-path]
+   (ui-check! png-path nil))
+  ([png-path {:keys [region pad]}]
+   (let [target (resolve-ui-region region)]
+     (if (:error target)
+       (assoc target :path png-path :ok? false)
+       (run-ui-check! png-path pad)))))
+
 (comment
   (census)
   (object-info "site-root")
   (render-check!)
   (render-check! (path/join (tempfile/gettempdir) "yardcraft-visual-check-show.png"))
   (render-check! (path/join (tempfile/gettempdir) "yardcraft-visual-check-look.png")
-                 {:look-at "site-sundial-face"}))
+                 {:look-at "site-sundial-face"})
+  (ui-check!)
+  (ui-check! (path/join (tempfile/gettempdir) "yardcraft-ui-check.png")
+             {:region :ui :pad 160}))

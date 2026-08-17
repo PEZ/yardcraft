@@ -10,11 +10,17 @@
 (scene/render-check!)
 (scene/render-check! "/tmp/yardcraft-visual-check-sundial.png"
                      {:look-at "site-sundial-face"})
+(scene/ui-check!)
+(scene/ui-check! "/tmp/yardcraft-ui-check.png" {:region :ui :pad 160})
 ```
 
 Each census record is `{:name :type :parent :location :rotation :scale :hide-viewport? :hide-render? :children}`. `:location` is world XYZ.
 
 Bare `render-check!` is the current scene camera (orbit/fly frame). `{:look-at name}` or `{:look-at [x y z] :distance 8}` frames that part from the same viewing side, then restores the fly/scene camera. Do not add a camera yourself.
+
+`ui-check!` crops the VIEW_3D N-panel. Bare is tight; `{:region :ui :pad 160}` grows into the viewport. Not a whole-window shot.
+
+After either check: **put the PNG in the chat** (absolute `:path`). Citing the path is not the handoff.
 
 For a one-off walk, prefer `(.-objects (.-data bpy))` over `bpy.data/objects` — lint-clean under clj-kondo (see skill cheatsheet).
 

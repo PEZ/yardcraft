@@ -66,8 +66,8 @@ Light-table / sketch overlay: load **`yardcraft-light-table`**.
 
 1. **Orient:** `(require '[yardcraft.scene :as scene])` then `(scene/census)` / `(scene/object-info n)`.
 2. **Make it happen in the REPL:** small helpers / `(comment …)` / existing `ensure-*!` paths so the change is visible in Blender — prefer that over editing source first.
-3. **Self-check visually:** `(scene/render-check!)` for the current fly/orbit frame; `(scene/render-check! path {:look-at \"site-…\"})` for a named part. Read `:path`, **show that PNG in chat**, and correct obvious mismatches before handoff. Do not add a camera or move `site-fly-camera`.
-4. **Ask for feedback:** stop and ask the human to check the Blender viewport. Show the inspection image(s) in that same bubble. They complement rather than replace human judgment.
+3. **Self-check visually:** `(scene/render-check!)` for the current fly/orbit frame; `(scene/render-check! path {:look-at \"site-…\"})` for a named part; `(scene/ui-check!)` for the N-panel. Put each PNG **in the chat** (absolute `:path` so it renders). A path string is not the handoff. Correct obvious mismatches before asking. Do not add a camera or move `site-fly-camera`.
+4. **Ask for feedback:** stop and ask the human to check the Blender viewport (and panel). The inspection image(s) go in that same bubble. They complement rather than replace human judgment.
 5. **Promote to files only when the human is happy** — durable facts/builders/specs into source; until then keep the experiment in the REPL / session.
 6. **Units & coordinates:** Blender units; don’t invent real-world patio measurements — ask.
 
@@ -78,7 +78,7 @@ Light-table / sketch overlay: load **`yardcraft-light-table`**.
   scene/census ∨ scene/object-info → scene/render-check! → inspect_actual_png
   | part_of_scene → {:look-at name-or-xyz}  ; current fly/orbit frame → bare render-check!
   | ¬DIY_camera ¬move(site-fly-camera)
-  | show_pngs_in_chat(:path) before(human_handoff)
+  | png_appears_in_chat(:path) before(human_handoff)  ; ¬path_string_only ¬prose_only
   | render-check! restores(camera ∧ render_settings)
   | compare: two paths, same look-at, only design state changes; restore suggestion/base after
   | inspect_REPL_errors_after(side_effects)
@@ -90,7 +90,7 @@ Light-table / sketch overlay: load **`yardcraft-light-table`**.
 3. **A named part** (sundial, stair, a furniture group): `(scene/render-check! path {:look-at \"site-sundial-face\"})` or `{:look-at [x y z] :distance 8}`. Perch stays on the current camera’s line to the target; a temp camera does the still; the fly/scene camera is restored. Do not `camera-add` or relocate `site-fly-camera`.
 4. For Show vs Base, keep the same `:look-at` (or the same bare call); change only the design state; two paths; restore the prior suggestion/base after.
 5. Inspect what is actually visible against the spatial request: identity/label, direction, adjacency, orientation, and placement. Object existence, coordinates, successful returns, and error-free evaluation prove execution—not visual intent. Check `:ok?` / `:error`.
-6. **Show every inspection PNG in the visitor chat** (absolute `:path`) in the same message as the viewport ask — including both Show and Base when you compared them. Do not hand off with only a prose summary of the render. Chat-image path rule: **`yardcraft-setup`** → [hello-conversation.md](../yardcraft-setup/references/hello-conversation.md) **Chat images**. The human still judges the Blender viewport.
+6. **The PNG must appear in the visitor chat** (absolute `:path`, same bubble as the ask) — including both Show and Base when you compared them. Do not hand off with a path string or a prose summary of the render. Same rule for `ui-check!`. How: **`yardcraft-setup`** → [hello-conversation.md](../yardcraft-setup/references/hello-conversation.md) **Chat images**. The human still judges the Blender viewport.
 
 ```clojure
 (require '[yardcraft.scene :as scene])
@@ -98,7 +98,25 @@ Light-table / sketch overlay: load **`yardcraft-light-table`**.
 (scene/object-info "site-sundial-face")
 (scene/render-check! "/tmp/yardcraft-visual-check-sundial.png"
                      {:look-at "site-sundial-face"})
-;; => {:ok? true :path \"…\" :look-at […]} — show :path in chat; fly keeps flying
+;; => {:ok? true :path \"…\" :look-at […]} — put that PNG in chat; fly keeps flying
+```
+
+### N-panel self-check
+
+```
+λ ui_check.
+  register! ∨ demo-stage-ui! → scene/ui-check! → inspect_png → ask_human(panel)
+  | tight → (scene/ui-check!) ; Hello look-over-here → {:region :ui :pad 160}
+  | ¬whole_window ¬DIY_screenshot
+  | png_appears_in_chat(:path) before(panel_handoff)  ; ¬path_string_only
+```
+
+Sidebar must already be open (`demo-stage-ui!` / `viewport/show-n-panel!`). Failures: `:no-window`, `:no-view3d`, `:no-ui-region`, `:bad-region`.
+
+```clojure
+(scene/ui-check!)
+(scene/ui-check! "/tmp/yardcraft-ui-check.png" {:region :ui :pad 160})
+;; => {:ok? true :path \"…\" :category \"Yardcraft\"} — put that PNG in chat
 ```
 
 ## bpy interop cheatsheet
@@ -153,7 +171,7 @@ Depth + explicit non-claims (`:reload-all` RecursionError not invariant): [refer
 |---|---|
 | [references/nrepl-and-setup.md](references/nrepl-and-setup.md) | Install, panel, manual `server_start`, logging |
 | [references/upgrade-basilisp.md](references/upgrade-basilisp.md) | Extension zip / Basilisp version — PEZ pre-upstream zip bundles ≥ 0.5.1 (#1302) |
-| [references/bpy-patterns.md](references/bpy-patterns.md) | Materials, ops, `scene/census` + aimed `render-check!`, torus example notes |
+| [references/bpy-patterns.md](references/bpy-patterns.md) | Materials, ops, `scene/census` + aimed `render-check!` + `ui-check!`, torus example notes |
 | [references/api.md](references/api.md) | `nrepl-server-start`, `class-make*` |
 | [references/verified-quirks.md](references/verified-quirks.md) | bpy session attrs, scene.yardcraft identity, EnumProperty bake, sys.modules nil tombstone |
 

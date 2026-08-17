@@ -107,8 +107,10 @@ After they answer, **Act** — close the next setup gap per `yardcraft-setup`. W
 
 ## Chat images
 
-Use an **absolute filesystem path** so the image renders in chat. Relative links often break.
+The human must **see the picture** in the chat — not a path, not a caption of what you rendered. Use an **absolute filesystem path** so the image renders. Relative links often break. A `:path` string or a prose summary of the still is not the handoff.
 
 **nREPL panel (setup):** when you ask the human to open Output Properties and **START SERVER**, that same plain-chat message **must include** the panel screenshot — `recipe/readme/images/basilisp-blender-nrepl-panel.png` as an absolute path under the repo root. Clicks without the picture fail this beat.
 
-**Design inspection:** every image you use for a visual self-check before a viewport handoff goes in the chat (same bubble as the ask). The human sees what you looked at. Procedure: **`basilisp-blender`** Safe visual self-check — `(scene/render-check!)` for the fly/orbit frame, `{:look-at \"site-…\"}` for a named part.
+**Design inspection:** every `render-check!` PNG goes in the chat (same bubble as the viewport ask). Procedure: **`basilisp-blender`** Safe visual self-check — `(scene/render-check!)` for the fly/orbit frame, `{:look-at \"site-…\"}` for a named part.
+
+**Yardcraft N-panel:** every `ui-check!` PNG goes in the chat when you ask them to try Set time / Fly cam (Hello) or to check a panel change. Tight `(scene/ui-check!)` or `{:region :ui :pad 160}`. Depth: **`basilisp-blender`** N-panel self-check.

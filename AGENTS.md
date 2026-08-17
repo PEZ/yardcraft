@@ -155,7 +155,7 @@ Packaged skills live under `recipe/skills/` until copied into the harness (layer
 ### REPL → Blender check → promote
 
 1. **Make it happen in the REPL** — small helpers, session Vars, `(comment …)`, existing `ensure-*!` / `show!` paths.
-2. **Inspect it yourself** — `(yardcraft.scene/census)` (or `object-info`) then `(yardcraft.scene/render-check!)`. For a named part: `(render-check! path {:look-at \"site-sundial-face\"})` — do not DIY a camera. Read `:path` and **show it in chat**. Compare visible identity, direction, adjacency, orientation, and placement; correct obvious mismatches.
+2. **Inspect it yourself** — `(yardcraft.scene/census)` (or `object-info`) then `(yardcraft.scene/render-check!)`. For a named part: `(render-check! path {:look-at \"site-sundial-face\"})` — do not DIY a camera. For the Yardcraft N-panel: `(yardcraft.scene/ui-check!)` or `{:region :ui :pad 160}`. **Put each PNG in the chat** (absolute `:path` so it renders — a path string is not the handoff). Compare visible identity, direction, adjacency, orientation, and placement; correct obvious mismatches.
 3. **Ask for feedback** — human looks in the viewport after the agent self-check. Put the inspection image(s) in that same bubble; they complement rather than replace human judgment.
 4. **Commit to files when happy** — facts → `site-data`, builders → `site-*`, orchestration → `site`, suggestion EDN, fly specs, etc.
 
@@ -173,7 +173,7 @@ Throwaway work: REPL or [`src/yardcraft/scratch.cljc`](src/yardcraft/scratch.clj
 8. **Suggestions Show/Base** need a real base — not the empty demo / empty template.
 9. **Set time / loungers** on a real site need lat/lon; demo ships geo for that delight.
 10. Prefer `(.-ops bpy)` / `(.-context bpy)` over `bpy.ops/…` (clj-kondo).
-11. **Visual handoff gate:** `(yardcraft.scene/render-check!)` for the fly/orbit frame; `{:look-at \"site-…\"}` or `{:look-at [x y z]}` for a part (temp cam, fly restored). Second path for Show vs Base, same look-at. Read `:path`, **show the PNG(s) in the handoff chat**. Depth: **`basilisp-blender`** skill.
+11. **Visual handoff gate:** `(yardcraft.scene/render-check!)` for the fly/orbit frame; `{:look-at \"site-…\"}` or `{:look-at [x y z]}` for a part (temp cam, fly restored). Second path for Show vs Base, same look-at. N-panel: `(yardcraft.scene/ui-check!)` (tight) or `{:region :ui :pad 160}`. **The PNG(s) must appear in the handoff chat** — not a path, not a caption. Depth: **`basilisp-blender`** skill.
 
 ---
 
@@ -202,7 +202,7 @@ The design structure in Blender should be easy to browse in clear in a clear hie
 
 | Ns / file | Role |
 |---|---|
-| `yardcraft.scene` | Observe (`census`, `object-info`, `render-check!`) |
+| `yardcraft.scene` | Observe (`census`, `object-info`, `render-check!`, `ui-check!`) |
 | `yardcraft.site` | Orchestration (`ensure-site!`, `ensure-demo!`, sun, sync) |
 | `yardcraft.site-demo` | Welcome demo scene |
 | `yardcraft.site-data` | Facts map `site` |

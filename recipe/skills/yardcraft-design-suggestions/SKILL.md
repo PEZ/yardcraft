@@ -41,7 +41,7 @@ After connect: confirm `user/init!` added `src/` to `sys.path` before requiring 
   | ¬ask_human_before_self_verify
 ```
 
-**Self-verify is mandatory.** Do not hand the human a suggestion you have not applied and visually checked. After `show!` and again after `show-base!`, `(scene/render-check! path {:look-at \"site-…\"})` on the part that changed (two paths, same `:look-at`). **Show both PNGs in chat.** Restore the prior suggestion/base after. Do not DIY a camera. Depth: **`basilisp-blender` → Safe visual self-check**.
+**Self-verify is mandatory.** Do not hand the human a suggestion you have not applied and visually checked. After `show!` and again after `show-base!`, `(scene/render-check! path {:look-at \"site-…\"})` on the part that changed (two paths, same `:look-at`). **Both PNGs must appear in chat** (not path strings). Restore the prior suggestion/base after. Do not DIY a camera. Depth: **`basilisp-blender` → Safe visual self-check**.
 
 ## Primary authoring process
 

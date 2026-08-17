@@ -33,9 +33,11 @@ Tooling: `src/yardcraft/site_ui.cljc` (`yardcraft.site-ui`, alias `ui`).
 
 ```
 λ site_ui_loop.
-  REPL_register! → exercise_control → ask_human(panel ∧ viewport) → promote_source_when_happy
+  REPL_register! → scene/ui-check! → inspect_png → ask_human(panel ∧ viewport) → promote_source_when_happy
   | ¬done ≡ file_edit_only
 ```
+
+Self-check the panel with `(yardcraft.scene/ui-check!)` (tight N-panel) or `{:region :ui :pad 160}` (panel plus a sliver of the view). **Put the PNG in the chat** (absolute `:path` — a path string is not the handoff). Depth: **`basilisp-blender`** N-panel self-check.
 
 Find the UI: **3D Viewport → N (sidebar) → tab Yardcraft**.
 
@@ -94,8 +96,8 @@ Also: `(ui/unregister!)`, `(ui/reload!)` (unregister → reload ns → register)
 2. For props: update callback stays thin; heavy work behind **Set time** or a discrete enum change.
 3. Register new classes in `register!` `classes` vector; unregister reverse order.
 4. Seed under `suppress-updates?*`.
-5. REPL-verify: register twice (idempotent) + exercise the control in the panel.
-6. **Ask the human** to try the control in the Yardcraft N-panel and check the viewport — treat UI source as done only when they are happy.
+5. REPL-verify: register twice (idempotent) + `(scene/ui-check!)` + exercise the control in the panel.
+6. **Ask the human** to try the control in the Yardcraft N-panel and check the viewport — show the `ui-check!` PNG in that ask; treat UI source as done only when they are happy.
 7. **Out of scope for panel:** `ensure-site!`, quote-plan, sketch, `promote-plan`, `set-base!`.
 
 ## Gotchas
