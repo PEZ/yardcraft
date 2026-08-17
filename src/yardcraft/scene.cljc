@@ -4,7 +4,8 @@
   Query before mutate. render-check! writes a temporary PNG and restores
   camera plus render settings. Optional :look-at (object name or world xyz)
   aims a temporary camera. ui-check! crops the VIEW_3D N-panel (UI region);
-  optional :pad grows the crop toward the viewport. Show those PNGs in chat
+  optional :pad grows the crop toward the viewport; auto-trim drops empty
+  sidebar below the N-panel controls. Show those PNGs in chat
   before viewport or panel handoff."
   (:import bpy math mathutils imbuf
            [os.path :as path]
@@ -302,8 +303,60 @@
     (= region :ui) :ui
     :else {:error :bad-region :region region}))
 
+(def ^:private ui-content-cut-src
+  "def cut(pixels, x0, x1, empty_max=20, run=16, edge=8):
+    import numpy as np
+    a = np.asarray(pixels)
+    h = a.shape[0]
+    rgb = a[:, x0:x1, :3].astype(np.int16)
+    bg = np.median(rgb[edge:edge+40], axis=(0, 1))
+    hits = (np.abs(rgb - bg).sum(axis=2) > 28).sum(axis=1)
+    empty = 0
+    cut_y = edge
+    for y in range(h - 1, edge - 1, -1):
+        if int(hits[y]) < empty_max:
+            empty += 1
+            if empty >= run:
+                cut_y = y + run
+                break
+        else:
+            empty = 0
+    return int(h - cut_y)
+")
+
+(defn- ui-content-cut-fn
+  []
+  (let [g (python/dict)]
+    ((.-exec (python/__import__ "builtins")) ui-content-cut-src g)
+    (.get g "cut")))
+
+(defn- screenshot-pixels
+  [window bounds]
+  (.screenshot window ** :region (bounds->region-tuple bounds)))
+
+(defn- auto-trim-height
+  [pixels x0 x1 trim-pad]
+  (let [top-h ((ui-content-cut-fn) pixels x0 x1)
+        h (aget (.-shape pixels) 0)]
+    (min h (+ top-h (int (or trim-pad 24))))))
+
+(defn- apply-top-crop
+  [bounds crop-h]
+  (assoc bounds :min-y (max (:min-y bounds)
+                            (- (:max-y bounds) (int crop-h)))))
+
+(defn- trimmed-ui-bounds
+  [window padded ui-bounds {:keys [trim trim-pad height]}]
+  (cond
+    height (apply-top-crop padded height)
+    (false? trim) padded
+    :else
+    (let [pixels (screenshot-pixels window ui-bounds)
+          ui-w (- (:max-x ui-bounds) (:min-x ui-bounds))]
+      (apply-top-crop padded (auto-trim-height pixels 0 ui-w trim-pad)))))
+
 (defn- run-ui-check!
-  [png-path pad]
+  [png-path {:keys [pad] :as opts}]
   (let [window (context-window)
         area (first-view3d-area window)
         ui (visible-ui-region area)]
@@ -313,7 +366,9 @@
       (not ui) {:path png-path :ok? false :error :no-ui-region}
       :else
       (try
-        (let [bounds (pad-ui-bounds (region-bounds ui) pad)
+        (let [ui-bounds (region-bounds ui)
+              padded (pad-ui-bounds ui-bounds pad)
+              bounds (trimmed-ui-bounds window padded ui-bounds opts)
               size (write-window-png! window bounds png-path)]
           {:path png-path
            :ok? true
@@ -328,17 +383,18 @@
 
 (defn ui-check!
   "Screenshot the VIEW_3D N-panel (UI region) to a temporary PNG.
-  Optional opts {:region :ui :pad n} grow the crop toward the viewport.
-  Returns {:path :ok?} or {:path :ok? false :error ...}."
+  Optional opts {:region :ui :pad n :trim-pad n :height n :trim false}.
+  Default trims empty sidebar below the tabs/controls. :pad grows toward
+  the viewport. :height forces a top crop. Returns {:path :ok?}."
   ([]
    (ui-check! (default-ui-check-path) nil))
   ([png-path]
    (ui-check! png-path nil))
-  ([png-path {:keys [region pad]}]
+  ([png-path {:keys [region] :as opts}]
    (let [target (resolve-ui-region region)]
      (if (:error target)
        (assoc target :path png-path :ok? false)
-       (run-ui-check! png-path pad)))))
+       (run-ui-check! png-path opts)))))
 
 (comment
   (census)
@@ -349,4 +405,6 @@
                  {:look-at "site-sundial-face"})
   (ui-check!)
   (ui-check! (path/join (tempfile/gettempdir) "yardcraft-ui-check.png")
-             {:region :ui :pad 160}))
+             {:region :ui :pad 160})
+  (ui-check! (path/join (tempfile/gettempdir) "yardcraft-ui-check-full.png")
+             {:region :ui :trim false}))

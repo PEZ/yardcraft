@@ -107,11 +107,12 @@ Light-table / sketch overlay: load **`yardcraft-light-table`**.
 λ ui_check.
   register! ∨ demo-stage-ui! → scene/ui-check! → inspect_png → ask_human(panel)
   | tight → (scene/ui-check!) ; Hello look-over-here → {:region :ui :pad 160}
+  | auto_trim empty below tabs ; :trim-pad n / :height n / :trim false
   | ¬whole_window ¬DIY_screenshot
   | png_appears_in_chat(:path) before(panel_handoff)  ; ¬path_string_only
 ```
 
-Sidebar must already be open (`demo-stage-ui!` / `viewport/show-n-panel!`). Failures: `:no-window`, `:no-view3d`, `:no-ui-region`, `:bad-region`.
+Sidebar must already be open (`demo-stage-ui!` / `viewport/show-n-panel!`). Default crop follows the live tabs/controls (grows when you add UI). `:trim-pad` (default 24) keeps a sliver below; `:height` forces a top crop; `:trim false` is the full sidebar. Failures: `:no-window`, `:no-view3d`, `:no-ui-region`, `:bad-region`.
 
 ```clojure
 (scene/ui-check!)

@@ -18,7 +18,7 @@ Each census record is `{:name :type :parent :location :rotation :scale :hide-vie
 
 Bare `render-check!` is the current scene camera (orbit/fly frame). `{:look-at name}` or `{:look-at [x y z] :distance 8}` frames that part from the same viewing side, then restores the fly/scene camera. Do not add a camera yourself.
 
-`ui-check!` crops the VIEW_3D N-panel. Bare is tight; `{:region :ui :pad 160}` grows into the viewport. Not a whole-window shot.
+`ui-check!` crops the VIEW_3D N-panel. Bare is tight; `{:region :ui :pad 160}` grows into the viewport. Empty sidebar below the tabs is trimmed automatically (`:trim-pad`, `:height`, `:trim false`). Not a whole-window shot.
 
 After either check: **put the PNG in the chat** (absolute `:path`). Citing the path is not the handoff.
 
