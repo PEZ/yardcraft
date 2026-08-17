@@ -111,4 +111,4 @@ Use an **absolute filesystem path** so the image renders in chat. Relative links
 
 **nREPL panel (setup):** when you ask the human to open Output Properties and **START SERVER**, that same plain-chat message **must include** the panel screenshot — `recipe/readme/images/basilisp-blender-nrepl-panel.png` as an absolute path under the repo root. Clicks without the picture fail this beat.
 
-**Design inspection:** every image you use for a visual self-check before a viewport handoff goes in the chat (same bubble as the ask). The human sees what you looked at. Procedure: **`basilisp-blender`** Safe visual self-check.
+**Design inspection:** every image you use for a visual self-check before a viewport handoff goes in the chat (same bubble as the ask). The human sees what you looked at. Procedure: **`basilisp-blender`** Safe visual self-check — `(scene/render-check!)` for the fly/orbit frame, `{:look-at \"site-…\"}` for a named part.

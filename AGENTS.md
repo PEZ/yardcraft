@@ -155,7 +155,7 @@ Packaged skills live under `recipe/skills/` until copied into the harness (layer
 ### REPL → Blender check → promote
 
 1. **Make it happen in the REPL** — small helpers, session Vars, `(comment …)`, existing `ensure-*!` / `show!` paths.
-2. **Inspect it yourself** — `(yardcraft.scene/census)` (or `object-info`) then `(yardcraft.scene/render-check!)`. Read the PNG at `:path` and **show it in chat**. Compare visible identity, direction, adjacency, orientation, and placement against the request; correct obvious mismatches.
+2. **Inspect it yourself** — `(yardcraft.scene/census)` (or `object-info`) then `(yardcraft.scene/render-check!)`. For a named part: `(render-check! path {:look-at \"site-sundial-face\"})` — do not DIY a camera. Read `:path` and **show it in chat**. Compare visible identity, direction, adjacency, orientation, and placement; correct obvious mismatches.
 3. **Ask for feedback** — human looks in the viewport after the agent self-check. Put the inspection image(s) in that same bubble; they complement rather than replace human judgment.
 4. **Commit to files when happy** — facts → `site-data`, builders → `site-*`, orchestration → `site`, suggestion EDN, fly specs, etc.
 
@@ -173,7 +173,7 @@ Throwaway work: REPL or [`src/yardcraft/scratch.cljc`](src/yardcraft/scratch.clj
 8. **Suggestions Show/Base** need a real base — not the empty demo / empty template.
 9. **Set time / loungers** on a real site need lat/lon; demo ships geo for that delight.
 10. Prefer `(.-ops bpy)` / `(.-context bpy)` over `bpy.ops/…` (clj-kondo).
-11. **Visual handoff gate:** `(yardcraft.scene/render-check!)` (second path for Show vs Base). Read `:path`, inspect REPL errors, **show the PNG(s) in the handoff chat**. Restore suggestion/base yourself after a compare. Targeted views beat an uninformative orbit. Depth: **`basilisp-blender`** skill.
+11. **Visual handoff gate:** `(yardcraft.scene/render-check!)` for the fly/orbit frame; `{:look-at \"site-…\"}` or `{:look-at [x y z]}` for a part (temp cam, fly restored). Second path for Show vs Base, same look-at. Read `:path`, **show the PNG(s) in the handoff chat**. Depth: **`basilisp-blender`** skill.
 
 ---
 

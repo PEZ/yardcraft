@@ -41,13 +41,13 @@ After connect: confirm `user/init!` added `src/` to `sys.path` before requiring 
   | ¬ask_human_before_self_verify
 ```
 
-**Self-verify is mandatory.** Do not hand the human a suggestion you have not applied and visually checked. `(yardcraft.scene/render-check!)` after `show!` and again after `show-base!` (two paths, same camera/frame). **Show both PNGs in chat.** Restore the prior suggestion/base after. Execution success ≠ visual correctness. Depth: **`basilisp-blender` → Safe visual self-check**.
+**Self-verify is mandatory.** Do not hand the human a suggestion you have not applied and visually checked. After `show!` and again after `show-base!`, `(scene/render-check! path {:look-at \"site-…\"})` on the part that changed (two paths, same `:look-at`). **Show both PNGs in chat.** Restore the prior suggestion/base after. Do not DIY a camera. Depth: **`basilisp-blender` → Safe visual self-check**.
 
 ## Primary authoring process
 
 1. **Create in the REPL** — suggestion map (same shape as EDN) → `(sug/register-suggestion! …)` (session registry; no disk write).
 2. **Add to the UI** — `(ui/register!)` or `(ui/reload!)` so EnumProperty items rebuild (baked at PropertyGroup class build).
-3. **Self-verify** — `(sug/show! …)` then `(scene/render-check! show-path)`; `(sug/show-base! …)` then `(scene/render-check! base-path)`. Fix obvious mismatches. Show both PNGs in chat, then ask the human.
+3. **Self-verify** — `(sug/show! …)` then `(scene/render-check! show-path {:look-at \"site-…\"})`; `(sug/show-base! …)` then the same `:look-at` on `base-path`. Fix obvious mismatches. Show both PNGs in chat, then ask the human.
 4. **Iterate with the human** — they **select** in the dropdown (staged only), then click **Show** / **Base**. Selecting alone does not apply.
 5. **Commit to files only when approved** — write `src/yardcraft/suggestions/<snake_id>.edn`; keep any builder + default facts keys the patch needs. Optionally `(sug/promote-plan :id)` **only** if adopting into survey base (`site_data`) — that is separate from durable suggestion EDN.
 
@@ -70,9 +70,12 @@ Builder support for new patch keys may be required before Show works; experiment
 (ui/register!)
 
 (sug/show! site :my-idea)
-(scene/render-check! "/tmp/yardcraft-visual-check-show.png")
+(scene/census)
+(scene/render-check! "/tmp/yardcraft-visual-check-show.png"
+                     {:look-at "site-…"})
 (sug/show-base! site)
-(scene/render-check! "/tmp/yardcraft-visual-check-base.png")
+(scene/render-check! "/tmp/yardcraft-visual-check-base.png"
+                     {:look-at "site-…"})
 ;; Then ask human: N-panel → Show / Base
 
 ;; After human approval — durable EDN:
@@ -136,7 +139,7 @@ Promote never silently rewrites `site_data`. No suggestion code path writes that
 
 ## Invariants
 
-- **Self-verify before asking the human** — `show!` + `(scene/render-check!)`, then `show-base!` + `(scene/render-check!)` (`basilisp-blender` Safe visual self-check).
+- **Self-verify before asking the human** — `show!` + `(scene/render-check! path {:look-at \"site-…\"})`, then `show-base!` with the same `:look-at` (`basilisp-blender` Safe visual self-check).
 - **Session registry + active suggestion persist on `bpy` attrs** (`_yardcraft_session_suggestions`, `_yardcraft_active_suggestion`) — survive Basilisp ns reload. Not Vars / `session-suggestions*` / `alter-var-root`.
 - **Session registry is memory-only** — `register-suggestion!` / `unregister-suggestion!` / `clear-session-suggestions!` never write EDN; after any of those, `(ui/register!)` (or `reload!`) so the enum rebuilds.
 - **`show!` does not persist.** Session `site` Var stays file base; effective is builders-only.
